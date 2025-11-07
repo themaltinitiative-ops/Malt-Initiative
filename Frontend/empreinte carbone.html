@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mon site carbone</title>
-  <!-- Ton CSS intégré -->
   <style>
   body {
     font-family: 'Inter', sans-serif;
@@ -76,34 +75,23 @@
     margin-top: 12px;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   }
+
   .carbon-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 6px;
-  color: #0f1724;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #0f1724;
   }
+
   .seg {
     height: 100%;
     display: inline-block;
     transition: width 0.3s ease;
   }
 
-  /* Barres carbone */
-  .seg.agri {
-    background: #15803d;
-  }
-
-  /* vert sapin foncé */
-  .seg.transp {
-    background: #d9f99d;
-  }
-
-  /* vert clair */
-  .seg.malt {
-    background: #fde68a;
-  }
-
-  /* jaune ocre */
+  .seg.agri { background: #15803d; }
+  .seg.transp { background: #d9f99d; }
+  .seg.malt { background: #fde68a; }
 
   .numbers {
     display: flex;
@@ -121,90 +109,105 @@
     font-size: 14px;
   }
 
-  .stat.agri {
-    background: #15803d;
-    color: #fff;
-    border-color: #064e3b;
-  }
+  .stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
+  .stat.transp { background: #d9f99d; border-color: #15803d; }
+  .stat.malt { background: #fde68a; border-color: #b45309; }
+  .stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
 
-  /* vert foncé pastel */
-  .stat.transp {
-    background: #d9f99d;
-    border-color: #15803d;
-  }
+  .stat strong { display: block; font-size: 20px; margin-top: 4px; }
 
-  .stat.malt {
-    background: #fde68a;
-    border-color: #b45309;
-  }
-
-  .stat.total {
-    background: #fff;
-    border-color: #e2e8f0;
-    color: #0f1724;
-  }
-
-  .stat strong {
-    display: block;
-    font-size: 20px;
-    margin-top: 4px;
-  }
-
-  #lotsDispo {
-    font-size: 13px;
-    color: #475569;
-    margin-top: 6px;
-  }
-
-  #message {
-    font-size: 14px;
-    margin-top: 6px;
-    color: #475569;
-    min-height: 20px;
-  }
-</style>
+  #lotsDispo { font-size: 13px; color: #475569; margin-top: 6px; }
+  #message { font-size: 14px; margin-top: 6px; color: #475569; min-height: 20px; }
+  </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>Mon tableau de carbone</h2>
+    <h2>Empreinte carbone — Recherche par numéro de lot</h2>
 
     <div class="controls">
-      <input type="text" placeholder="Entrez une étape">
-      <button class="btn">Ajouter</button>
+      <input id="lotInput" type="text" placeholder="Numéro de lot (ex : MALT-2025-001)" />
+      <button id="searchBtn" class="btn">Rechercher</button>
     </div>
 
-    <div class="carbon-rule">
-      <div class="seg agri" style="width: 40%;"></div>
-      <div class="seg transp" style="width: 30%;"></div>
-      <div class="seg malt" style="width: 30%;"></div>
-    </div>
+    <div id="lotsDispo"></div>
+    <div id="message"></div>
+
+    <div class="carbon-title">Empreinte carbone du malt en kg CO₂ / kg de malt</div>
+    <div class="carbon-rule" id="carbonRule"></div>
 
     <div class="numbers">
-      <div class="stat agri">Agriculture <strong>40</strong></div>
-      <div class="stat transp">Transport <strong>30</strong></div>
-      <div class="stat malt">Malt <strong>30</strong></div>
-      <div class="stat total">Total <strong>100</strong></div>
+      <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong><span> kg CO₂ / kg de malt</span></div>
+      <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong><span> kg CO₂ / kg de malt</span></div>
+      <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong><span> kg CO₂ / kg de malt</span></div>
+      <div class="stat total"><small>Total</small><strong id="valTotal">—</strong><span> kg CO₂ / kg de malt</span></div>
     </div>
-
-    <div id="message">Message d’information</div>
   </div>
 
-  <!-- JS pour interaction -->
-  <script>
-    const btn = document.querySelector('.btn');
-    const input = document.querySelector('input');
-    const message = document.getElementById('message');
+<script>
+const databaseCSV = `
+lot_id,agriculture,transport,malterie
+MALT-2025-001,120.5,45.3,30.2
+MALT-2025-002,150,50,40
+MALT-2025-003,110.2,42.8,25.4
+`;
 
-    btn.addEventListener('click', () => {
-      if(input.value.trim() === '') {
-        message.textContent = 'Veuillez entrer une étape.';
-      } else {
-        message.textContent = `Étape ajoutée : ${input.value}`;
-        input.value = '';
-      }
-    });
-  </script>
+function parseCSV(csv) {
+  const [header, ...lines] = csv.trim().split(/\r?\n/);
+  const headers = header.split(',').map(h => h.trim());
+  return lines.map(line => {
+    const values = line.split(',').map(v => v.trim());
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = values[i]);
+    return obj;
+  });
+}
+
+const database = parseCSV(databaseCSV);
+const rule = document.getElementById('carbonRule');
+const message = document.getElementById('message');
+document.getElementById('lotsDispo').innerHTML = 
+  "Lots disponibles : <strong>" + database.map(r => r.lot_id).join(" | ") + "</strong>";
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const input = document.getElementById('lotInput').value;
+  const lot = input.replace(/\s+/g, '').toUpperCase();
+  const found = database.find(row => row.lot_id.toUpperCase().replace(/\s+/g,'')===lot);
+
+  if(!found){
+    message.textContent = "❌ Aucun lot trouvé pour : " + lot;
+    rule.innerHTML = "";
+    ['valAgri','valTransp','valMalt','valTotal'].forEach(id=>document.getElementById(id).textContent='—');
+    return;
+  }
+
+  message.textContent = "✅ Résultats pour le lot : " + found.lot_id;
+
+  const sums = {
+    agriculture: parseFloat(found.agriculture)||0,
+    transport: parseFloat(found.transport)||0,
+    malterie: parseFloat(found.malterie)||0
+  };
+  const total = sums.agriculture + sums.transport + sums.malterie;
+
+  rule.innerHTML = '';
+  const makeSeg = (cls,val) => {
+    const pct = val/total*100;
+    const div = document.createElement('div');
+    div.className = 'seg ' + cls;
+    div.style.width = pct + '%';
+    rule.appendChild(div);
+  };
+  makeSeg('agri',sums.agriculture);
+  makeSeg('transp',sums.transport);
+  makeSeg('malt',sums.malterie);
+
+  document.getElementById('valAgri').textContent = sums.agriculture.toFixed(1);
+  document.getElementById('valTransp').textContent = sums.transport.toFixed(1);
+  document.getElementById('valMalt').textContent = sums.malterie.toFixed(1);
+  document.getElementById('valTotal').textContent = total.toFixed(1);
+});
+</script>
 
 </body>
 </html>
