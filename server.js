@@ -1,70 +1,95 @@
-// server.js
 import express from "express";
-import cors from "cors";
-import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
-const PORT = 3000;
 
-// Middleware
-app.use(cors());
+// Pour retrouver __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware pour JSON
 app.use(express.json());
-app.use(express.static("frontend")); // sert les fichiers HTML/CSS/JS
 
-// Chemin du fichier JSON pour stocker la blockchain
-const DATA_DIR = path.join(".", "data");
-const DATA_PATH = path.join(DATA_DIR, "blocks.json");
+// Servir le dossier frontend comme statique
+app.use(express.static(path.join(__dirname, "frontend")));
 
-// Crée le dossier et le fichier JSON si non existants
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(DATA_PATH)) fs.writeFileSync(DATA_PATH, JSON.stringify([]));
-
-// --- Routes ---
-
-// Retourne tous les blocs
-app.get("/blocks", (req, res) => {
-  try {
-    const blocks = JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
-    res.json(blocks);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Impossible de lire les blocs" });
+// --- Blockchain simplifiée en mémoire ---
+function simpleHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
   }
-});
+  return hash.toString(16);
+}
 
-// Ajouter un nouveau bloc
+class Block {
+  constructor(index, etape, description, previousHash = "") {
+    this.index = index;
+    this.timestamp = new Date().toLocaleString();
+    this.etape = etape;
+    this.description = description;
+    this.previousHash = previousHash;
+    this.hash = this.calculateHash();
+  }
+  calculateHash() {
+    return simpleHash(
+      this.index + this.previousHash + this.timestamp + this.etape + this.description
+    );
+  }
+}
+
+class Blockchain {
+  constructor() {
+    this.chain = [this.createGenesisBlock()];
+  }
+  createGenesisBlock() {
+    return new Block(0, "Début du processus", "Lancement de la production de la bière", "0");
+  }
+  getLatestBlock() {
+    return this.chain[this.chain.length - 1];
+  }
+  addBlock(block) {
+    block.previousHash = this.getLatestBlock().hash;
+    block.hash = block.calculateHash();
+    this.chain.push(block);
+  }
+}
+
+const beerChain = new Blockchain();
+
+// --- Routes API ---
+
+// Ajouter un bloc
 app.post("/add", (req, res) => {
-  try {
-    const { etape, description } = req.body;
-    if (!etape || !description) return res.status(400).json({ error: "Données manquantes" });
-
-    const blocks = JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
-
-    const previousHash = blocks.length ? blocks[blocks.length - 1].hash : "0";
-    const index = blocks.length ? blocks[blocks.length - 1].index + 1 : 0;
-    const timestamp = new Date().toLocaleString();
-
-    // Hash simplifié
-    const hash = (index + previousHash + timestamp + etape + description)
-                   .split("")
-                   .reduce((a,b)=>((a<<5)-a+b.charCodeAt(0))|0,0)
-                   .toString(16);
-
-    const newBlock = { index, etape, description, timestamp, hash, previousHash };
-
-    blocks.push(newBlock);
-    fs.writeFileSync(DATA_PATH, JSON.stringify(blocks, null, 2));
-
-    res.json(newBlock);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Impossible d'ajouter le bloc" });
+  const { etape, description } = req.body;
+  if (!etape || !description) {
+    return res.status(400).json({ error: "Veuillez fournir l'étape et la description" });
   }
+  const newBlock = new Block(beerChain.chain.length, etape, description);
+  beerChain.addBlock(newBlock);
+  res.json(newBlock);
 });
 
-// Lancement du serveur
+// Récupérer tous les blocs
+app.get("/blocks", (req, res) => {
+  res.json(beerChain.chain);
+});
+
+// --- Route racine : afficher login/home ---
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "login.html"));
+});
+
+// Pour toutes les autres routes HTML de ton frontend
+app.get("/:page", (req, res) => {
+  const page = req.params.page;
+  res.sendFile(path.join(__dirname, "frontend", page));
+});
+
+// --- Lancer le serveur ---
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
