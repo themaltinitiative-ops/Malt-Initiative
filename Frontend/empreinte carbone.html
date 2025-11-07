@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon site carbone</title>
+  <!-- Ton CSS intégré -->
+  <style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    margin: 0;
+    padding: 24px;
+    color: #0f1724;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  input[type=text] {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 200px;
+    font-size: 14px;
+    transition: border 0.2s;
+  }
+
+  input[type=text]:focus {
+    border-color: #166534;
+    outline: none;
+  }
+
+  .btn {
+    background: #0f1724;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-size: 14px;
+  }
+
+  .btn:hover {
+    background: #1e293b;
+    transform: translateY(-1px);
+  }
+
+  .carbon-rule {
+    height: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  .carbon-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #0f1724;
+  }
+  .seg {
+    height: 100%;
+    display: inline-block;
+    transition: width 0.3s ease;
+  }
+
+  /* Barres carbone */
+  .seg.agri {
+    background: #15803d;
+  }
+
+  /* vert sapin foncé */
+  .seg.transp {
+    background: #d9f99d;
+  }
+
+  /* vert clair */
+  .seg.malt {
+    background: #fde68a;
+  }
+
+  /* jaune ocre */
+
+  .numbers {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    min-width: 140px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    font-size: 14px;
+  }
+
+  .stat.agri {
+    background: #15803d;
+    color: #fff;
+    border-color: #064e3b;
+  }
+
+  /* vert foncé pastel */
+  .stat.transp {
+    background: #d9f99d;
+    border-color: #15803d;
+  }
+
+  .stat.malt {
+    background: #fde68a;
+    border-color: #b45309;
+  }
+
+  .stat.total {
+    background: #fff;
+    border-color: #e2e8f0;
+    color: #0f1724;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: 20px;
+    margin-top: 4px;
+  }
+
+  #lotsDispo {
+    font-size: 13px;
+    color: #475569;
+    margin-top: 6px;
+  }
+
+  #message {
+    font-size: 14px;
+    margin-top: 6px;
+    color: #475569;
+    min-height: 20px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Mon tableau de carbone</h2>
+
+    <div class="controls">
+      <input type="text" placeholder="Entrez une étape">
+      <button class="btn">Ajouter</button>
+    </div>
+
+    <div class="carbon-rule">
+      <div class="seg agri" style="width: 40%;"></div>
+      <div class="seg transp" style="width: 30%;"></div>
+      <div class="seg malt" style="width: 30%;"></div>
+    </div>
+
+    <div class="numbers">
+      <div class="stat agri">Agriculture <strong>40</strong></div>
+      <div class="stat transp">Transport <strong>30</strong></div>
+      <div class="stat malt">Malt <strong>30</strong></div>
+      <div class="stat total">Total <strong>100</strong></div>
+    </div>
+
+    <div id="message">Message d’information</div>
+  </div>
+
+  <!-- JS pour interaction -->
+  <script>
+    const btn = document.querySelector('.btn');
+    const input = document.querySelector('input');
+    const message = document.getElementById('message');
+
+    btn.addEventListener('click', () => {
+      if(input.value.trim() === '') {
+        message.textContent = 'Veuillez entrer une étape.';
+      } else {
+        message.textContent = `Étape ajoutée : ${input.value}`;
+        input.value = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
