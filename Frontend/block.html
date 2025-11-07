@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Détails du Bloc</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1 onclick="goHome()">De l'Amont Agricole à l'Aval Brassicole 🍻</h1>
+  <button id="logoutBtn" onclick="logout()">Déconnexion</button>
+</header>
+<main class="container">
+  <h2>Détails du Bloc</h2>
+  <p><strong>Index :</strong> <span id="index"></span></p>
+  <p><strong>Étape :</strong> <span id="etape"></span></p>
+  <p><strong>Description :</strong> <span id="description"></span></p>
+  <p><strong>Timestamp :</strong> <span id="timestamp"></span></p>
+  <p><strong>Hash :</strong> <span id="hash"></span></p>
+  <p><strong>Hash précédent :</strong> <span id="previousHash"></span></p>
+  <button onclick="window.location.href='blockchain.html'">Retour à la Blockchain</button>
+</main>
+<script src="js/script.js"></script>
+<script>
+checkLogin();
+const params = new URLSearchParams(window.location.search);
+const index = params.get("index");
+if(!index){ alert("Aucun bloc sélectionné !"); window.location.href="blockchain.html"; }
+
+async function loadBlock(){
+  try{
+    const res = await fetch("http://localhost:3000/blocks");
+    const blocks = await res.json();
+    const block = blocks.find(b => b.index == index);
+    if(!block) throw new Error("Bloc introuvable");
+
+    document.getElementById("index").textContent = block.index;
+    document.getElementById("etape").textContent = block.etape;
+    document.getElementById("description").textContent = block.description;
+    document.getElementById("timestamp").textContent = block.timestamp;
+    document.getElementById("hash").textContent = block.hash;
+    document.getElementById("previousHash").textContent = block.previousHash;
+  } catch(err){ console.error(err); alert("Erreur chargement bloc"); window.location.href="blockchain.html"; }
+}
+loadBlock();
+</script>
+</body>
+</html>

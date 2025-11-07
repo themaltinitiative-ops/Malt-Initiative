@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De l'Amont Agricole à l'Aval Brassicole 🍻</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1 onclick="goHome()">De l'Amont Agricole à l'Aval Brassicole 🍻</h1>
+  <button id="logoutBtn" onclick="logout()">Déconnexion</button>
+</header>
+<main class="container">
+  <h2>Ajouter une étape du processus</h2>
+  <div class="formulaire">
+    <input type="text" id="etape" placeholder="Nom de l'étape">
+    <textarea id="description" placeholder="Description de l'étape..."></textarea>
+    <button id="addBlockBtn">Ajouter à la blockchain</button>
+  </div>
+  <h2>Blockchain</h2>
+  <div class="blockchain"></div>
+</main>
+<footer>
+  © 2025 - Blockchain Brassicole par <b>Toi 🍺</b>
+</footer>
+<script src="js/script.js"></script>
+<script src="js/blockchain.js"></script>
+</body>
+</html>
