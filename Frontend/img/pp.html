@@ -2,131 +2,36 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Malt Initiative</title>
-
 <style>
-    /* BODY */
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #fff7ef;
-        font-family: Arial, sans-serif;
-        text-align: left; /* commence à gauche */
-    }
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff7ef;
+    font-family: Arial, sans-serif;
+}
 
-    /* CONTENEUR PRINCIPAL */
-    .container {
-        display: inline-block;  /* largeur = contenu */
-        text-align: left;       /* contenu aligné à gauche */
-    }
+/* Le conteneur s'ajuste à la largeur de la bannière */
+.container {
+    display: inline-block;
+    text-align: left;
+}
 
-    /* HEADER & FOOTER IMAGES */
-    .header-images img,
-    .footer-images img {
-        display: block;
-        width: 100%;       /* prend toute la largeur du conteneur */
-        height: auto;      /* garde les proportions */
-    }
-
-    /* SLOGAN */
-    .slogan {
-        margin-top: 20px;
-        font-size: 22px;
-        color: #333;
-        padding: 0 10px; /* un peu de marge intérieure */
-    }
-
-    /* FORMULAIRE */
-    .form-container {
-        margin-top: 20px;
-        padding: 0 10px;
-    }
-
-    .form-container label {
-        font-weight: bold;
-        color: #6a3a15;
-        font-family: "Courier New", monospace;
-    }
-
-    .form-container input {
-        padding: 8px;
-        border-radius: 5px;
-        border: 1px solid #c9a791;
-        margin-top: 10px;
-        font-size: 14px;
-        width: 100%; /* prend toute la largeur du conteneur */
-        box-sizing: border-box;
-    }
-
-    .age-label {
-        margin-top: 20px;
-        font-size: 15px;
-        color: #333;
-    }
-
-    .buttons {
-        margin-top: 10px;
-    }
-
-    button {
-        padding: 8px 18px;
-        border: none;
-        border-radius: 4px;
-        margin: 5px 0;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 15px;
-    }
-
-    .btn-oui {
-        background-color: #f7a77a;
-    }
-
-    .btn-non {
-        background-color: #f5c6a1;
-    }
-
-    h3 {
-        margin-top: 40px;
-        font-weight: bold;
-        padding: 0 10px;
-    }
-
+/* Bannière : largeur réelle, pas d'étirement */
+.header-images img {
+    display: block;
+    height: auto; /* garde les proportions */
+}
 </style>
 </head>
 <body>
-    <div class="container">
-
-        <!-- HEADER IMAGE -->
-        <div class="header-images">
-            <img src="banniere.png" alt="Bannière 1">
-        </div>
-
-        <!-- SLOGAN -->
-        <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
-
-        <!-- FORMULAIRE -->
-        <form class="form-container">
-            <label>Numéro de Lot :</label><br>
-            <input type="text" placeholder="Entrez le numéro"><br>
-
-            <p class="age-label">Êtes-vous majeur(e) ?</p>
-
-            <div class="buttons">
-                <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
-                <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
-            </div>
-        </form>
-
-        <h3>Projet - The Malt Initiative</h3>
-
-        <!-- FOOTER IMAGES -->
-        <div class="footer-images">
-            <img src="logo1.png" alt="Logo 1">
-            <img src="themaltinitiative.png" alt="Logo 2">
-        </div>
-
+<div class="container">
+    <div class="header-images">
+        <img src="banniere.png" alt="Bannière 1">
     </div>
+
+    <!-- Le reste du contenu suit la largeur de l'image -->
+    <p>Voici un exemple de texte qui suit exactement la largeur de la bannière.</p>
+</div>
 </body>
 </html>
