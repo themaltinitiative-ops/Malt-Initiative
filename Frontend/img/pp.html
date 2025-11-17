@@ -6,25 +6,32 @@
     <title>The Malt Initiative</title>
 
     <style>
+        /* BODY */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #fff7ef;
-            text-align: center;
-            margin: 0;
+            display: inline-block;  /* la largeur s'adapte au contenu */
+            margin: 0 auto;         /* centrer horizontalement */
             padding: 0;
+            background-color: #fff7ef;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
 
+        /* HEADER & FOOTER IMAGES */
         .header-images img, .footer-images img {
             max-height: 120px;
-            margin: 10px;
+            width: auto;           /* largeur automatique pour garder les proportions */
+            display: block;
+            margin: 10px auto;     /* centre les images */
         }
 
+        /* SLOGAN */
         .slogan {
             margin-top: 30px;
             font-size: 22px;
             color: #333;
         }
 
+        /* FORMULAIRE */
         .form-container {
             margin-top: 30px;
         }
@@ -41,6 +48,7 @@
             border: 1px solid #c9a791;
             margin-top: 10px;
             font-size: 14px;
+            width: 200px;
         }
 
         .age-label {
@@ -71,10 +79,6 @@
             background-color: #f5c6a1;
         }
 
-        .footer-images {
-            margin-top: 40px;
-        }
-
         h3 {
             margin-top: 40px;
             font-weight: bold;
@@ -83,11 +87,12 @@
 </head>
 <body>
 
-    <!-- SECTION HEADER IMAGES -->
+    <!-- HEADER IMAGE -->
     <div class="header-images">
         <img src="banniere.png" alt="Bannière 1">
     </div>
 
+    <!-- SLOGAN -->
     <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
 
     <!-- FORMULAIRE -->
@@ -107,9 +112,10 @@
 
     <!-- FOOTER IMAGES -->
     <div class="footer-images">
-        <img src="img/footer1.png" alt="Logo 1">
-        <img src="img/footer2.png" alt="Logo 2">
+        <img src="logo1.png" alt="Logo 1">
+        <img src="logo2.png" alt="Logo 2">
     </div>
 
 </body>
 </html>
+
