@@ -2,8 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Malt Initiative</title>
 <style>
+/* BODY */
 body {
     margin: 0;
     padding: 0;
@@ -11,27 +13,123 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Le conteneur s'ajuste à la largeur de la bannière */
+/* CONTENEUR PRINCIPAL : largeur = largeur de la bannière */
 .container {
-    display: inline-block;
-    text-align: left;
+    display: inline-block;  /* largeur = contenu */
+    text-align: center;     /* tout le texte centré par rapport à l'image */
 }
 
-/* Bannière : largeur réelle, pas d'étirement */
+/* HEADER IMAGE */
 .header-images img {
     display: block;
-    height: auto; /* garde les proportions */
+    height: auto;  /* garde les proportions */
+    max-height: none; /* pour prendre sa taille réelle */
+}
+
+/* SLOGAN */
+.slogan {
+    margin-top: 20px;
+    font-size: 36px; /* plus gros */
+    color: #333;
+}
+
+/* FORMULAIRE */
+.form-container {
+    margin-top: 30px;
+}
+
+.form-container label {
+    font-weight: bold;
+    color: #6a3a15;
+    font-family: "Courier New", monospace;
+    font-size: 24px; /* plus gros */
+}
+
+.form-container input {
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #c9a791;
+    margin-top: 10px;
+    font-size: 20px; /* plus gros */
+    width: 80%; /* occupe 80% de la largeur de l'image */
+    box-sizing: border-box;
+}
+
+.age-label {
+    margin-top: 20px;
+    font-size: 24px; /* plus gros */
+    color: #333;
+}
+
+.buttons {
+    margin-top: 15px;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    margin: 10px 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px; /* plus gros */
+}
+
+.btn-oui {
+    background-color: #f7a77a;
+}
+
+.btn-non {
+    background-color: #f5c6a1;
+}
+
+h3 {
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 32px; /* plus gros */
+}
+
+/* FOOTER IMAGES */
+.footer-images img {
+    display: block;
+    height: auto;
+    max-height: none;
+    margin: 20px auto; /* espace entre les logos */
 }
 </style>
 </head>
 <body>
 <div class="container">
+
+    <!-- HEADER IMAGE -->
     <div class="header-images">
         <img src="banniere.png" alt="Bannière 1">
     </div>
 
-    <!-- Le reste du contenu suit la largeur de l'image -->
-    <p>Voici un exemple de texte qui suit exactement la largeur de la bannière.</p>
+    <!-- SLOGAN -->
+    <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
+
+    <!-- FORMULAIRE -->
+    <form class="form-container">
+        <label>Numéro de Lot :</label><br>
+        <input type="text" placeholder="Entrez le numéro"><br>
+
+        <p class="age-label">Êtes-vous majeur(e) ?</p>
+
+        <div class="buttons">
+            <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
+            <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
+        </div>
+    </form>
+
+    <h3>Projet - The Malt Initiative</h3>
+
+    <!-- FOOTER IMAGES -->
+    <div class="footer-images">
+        <img src="logo1.png" alt="Logo 1">
+        <img src="themaltinitiative.png" alt="Logo 2">
+    </div>
+
 </div>
 </body>
 </html>
