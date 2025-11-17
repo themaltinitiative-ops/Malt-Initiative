@@ -8,20 +8,27 @@
     <style>
         /* BODY */
         body {
-            display: inline-block;  /* la largeur s'adapte au contenu */
-            margin: 0 auto;         /* centrer horizontalement */
+            margin: 0;
             padding: 0;
             background-color: #fff7ef;
             font-family: Arial, sans-serif;
             text-align: center;
         }
 
+        /* CONTENEUR PRINCIPAL */
+        .container {
+            width: max-content;  /* largeur s'adapte au contenu (ici la bannière) */
+            margin: 0 auto;      /* centre horizontalement */
+            text-align: center;
+        }
+
         /* HEADER & FOOTER IMAGES */
-        .header-images img, .footer-images img {
-            max-height: 120px;
-            width: auto;           /* largeur automatique pour garder les proportions */
+        .header-images img,
+        .footer-images img {
+            max-height: 120px;  /* limite la hauteur */
+            width: auto;        /* garde les proportions */
             display: block;
-            margin: 10px auto;     /* centre les images */
+            margin: 10px auto;  /* centre chaque image */
         }
 
         /* SLOGAN */
@@ -86,36 +93,37 @@
     </style>
 </head>
 <body>
+    <div class="container">
 
-    <!-- HEADER IMAGE -->
-    <div class="header-images">
-        <img src="banniere.png" alt="Bannière 1">
-    </div>
-
-    <!-- SLOGAN -->
-    <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
-
-    <!-- FORMULAIRE -->
-    <form class="form-container">
-        <label>Numéro de Lot :</label><br>
-        <input type="text" placeholder="Entrez le numéro"><br>
-
-        <p class="age-label">Êtes-vous majeur(e) ?</p>
-
-        <div class="buttons">
-            <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
-            <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
+        <!-- HEADER IMAGE -->
+        <div class="header-images">
+            <img src="banniere.png" alt="Bannière 1">
         </div>
-    </form>
 
-    <h3>Projet - The Malt Initiative</h3>
+        <!-- SLOGAN -->
+        <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
 
-<!-- FOOTER IMAGES -->
-<div class="footer-images">
-    <img src="logo1.png" alt="Logo 1">
-    <img src="themaltinitiative.png" alt="Logo 2">
-</div>
+        <!-- FORMULAIRE -->
+        <form class="form-container">
+            <label>Numéro de Lot :</label><br>
+            <input type="text" placeholder="Entrez le numéro"><br>
 
+            <p class="age-label">Êtes-vous majeur(e) ?</p>
+
+            <div class="buttons">
+                <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
+                <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
+            </div>
+        </form>
+
+        <h3>Projet - The Malt Initiative</h3>
+
+        <!-- FOOTER IMAGES -->
+        <div class="footer-images">
+            <img src="logo1.png" alt="Logo 1">
+            <img src="themaltinitiative.png" alt="Logo 2">
+        </div>
+
+    </div>
 </body>
 </html>
-
