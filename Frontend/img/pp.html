@@ -1,95 +1,99 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Malt Initiative</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Malt Initiative</title>
 
-    <style>
-        /* BODY */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #fff7ef;
-            font-family: Arial, sans-serif;
-            text-align: left; /* commence à gauche */
-        }
+<style>
+    /* BODY */
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #fff7ef;
+        font-family: Arial, sans-serif;
+        text-align: left; /* commence à gauche */
+    }
 
-        /* CONTENEUR PRINCIPAL */
-        .container {
-            width: fit-content; /* largeur = largeur du contenu (bannière) */
-            text-align: left;   /* le contenu suit la largeur du conteneur */
-        }
+    /* CONTENEUR PRINCIPAL */
+    .container {
+        display: inline-block;  /* largeur = contenu */
+        text-align: left;       /* contenu aligné à gauche */
+    }
 
-        /* HEADER & FOOTER IMAGES */
-        .header-images img,
-        .footer-images img {
-            max-height: 120px;
-            width: auto;       /* garde les proportions */
-            display: block;
-            margin: 0;         /* plus de centrage automatique */
-        }
+    /* HEADER & FOOTER IMAGES */
+    .header-images img,
+    .footer-images img {
+        display: block;
+        width: 100%;       /* prend toute la largeur du conteneur */
+        height: auto;      /* garde les proportions */
+    }
 
-        /* SLOGAN */
-        .slogan {
-            margin-top: 30px;
-            font-size: 22px;
-            color: #333;
-        }
+    /* SLOGAN */
+    .slogan {
+        margin-top: 20px;
+        font-size: 22px;
+        color: #333;
+        padding: 0 10px; /* un peu de marge intérieure */
+    }
 
-        /* FORMULAIRE */
-        .form-container {
-            margin-top: 30px;
-        }
+    /* FORMULAIRE */
+    .form-container {
+        margin-top: 20px;
+        padding: 0 10px;
+    }
 
-        .form-container label {
-            font-weight: bold;
-            color: #6a3a15;
-            font-family: "Courier New", monospace;
-        }
+    .form-container label {
+        font-weight: bold;
+        color: #6a3a15;
+        font-family: "Courier New", monospace;
+    }
 
-        .form-container input {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #c9a791;
-            margin-top: 10px;
-            font-size: 14px;
-            width: 200px;
-        }
+    .form-container input {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #c9a791;
+        margin-top: 10px;
+        font-size: 14px;
+        width: 100%; /* prend toute la largeur du conteneur */
+        box-sizing: border-box;
+    }
 
-        .age-label {
-            margin-top: 20px;
-            font-size: 15px;
-            color: #333;
-        }
+    .age-label {
+        margin-top: 20px;
+        font-size: 15px;
+        color: #333;
+    }
 
-        .buttons {
-            margin-top: 10px;
-        }
+    .buttons {
+        margin-top: 10px;
+    }
 
-        button {
-            padding: 8px 18px;
-            border: none;
-            border-radius: 4px;
-            margin: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-        }
+    button {
+        padding: 8px 18px;
+        border: none;
+        border-radius: 4px;
+        margin: 5px 0;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 15px;
+    }
 
-        .btn-oui {
-            background-color: #f7a77a;
-        }
+    .btn-oui {
+        background-color: #f7a77a;
+    }
 
-        .btn-non {
-            background-color: #f5c6a1;
-        }
+    .btn-non {
+        background-color: #f5c6a1;
+    }
 
-        h3 {
-            margin-top: 40px;
-            font-weight: bold;
-        }
-    </style>
+    h3 {
+        margin-top: 40px;
+        font-weight: bold;
+        padding: 0 10px;
+    }
+
+</style>
 </head>
 <body>
     <div class="container">
