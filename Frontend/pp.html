@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Malt Initiative</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff7ef;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-images img, .footer-images img {
+            max-height: 120px;
+            margin: 10px;
+        }
+
+        .slogan {
+            margin-top: 30px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .form-container {
+            margin-top: 30px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            color: #6a3a15;
+            font-family: "Courier New", monospace;
+        }
+
+        .form-container input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #c9a791;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .age-label {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 4px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .btn-oui {
+            background-color: #f7a77a;
+        }
+
+        .btn-non {
+            background-color: #f5c6a1;
+        }
+
+        .footer-images {
+            margin-top: 40px;
+        }
+
+        h3 {
+            margin-top: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION HEADER IMAGES -->
+    <div class="header-images">
+        <img src="img/header1.png" alt="Bannière 1">
+        <img src="img/header2.png" alt="Bannière 2">
+        <img src="img/header3.png" alt="Bannière 3">
+    </div>
+
+    <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
+
+    <!-- FORMULAIRE -->
+    <form class="form-container">
+        <label>Numéro de Lot :</label><br>
+        <input type="text" placeholder="Entrez le numéro"><br>
+
+        <p class="age-label">Êtes-vous majeur(e) ?</p>
+
+        <div class="buttons">
+            <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
+            <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
+        </div>
+    </form>
+
+    <h3>Projet - The Malt Initiative</h3>
+
+    <!-- FOOTER IMAGES -->
+    <div class="footer-images">
+        <img src="img/footer1.png" alt="Logo 1">
+        <img src="img/footer2.png" alt="Logo 2">
+        <img src="img/footer3.png" alt="Logo 3">
+    </div>
+
+</body>
+</html>
