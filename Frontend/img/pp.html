@@ -12,23 +12,22 @@
             padding: 0;
             background-color: #fff7ef;
             font-family: Arial, sans-serif;
-            text-align: center;
+            text-align: left; /* commence à gauche */
         }
 
         /* CONTENEUR PRINCIPAL */
         .container {
-            width: max-content;  /* largeur s'adapte au contenu (ici la bannière) */
-            margin: 0 auto;      /* centre horizontalement */
-            text-align: center;
+            width: fit-content; /* largeur = largeur du contenu (bannière) */
+            text-align: left;   /* le contenu suit la largeur du conteneur */
         }
 
         /* HEADER & FOOTER IMAGES */
         .header-images img,
         .footer-images img {
-            max-height: 120px;  /* limite la hauteur */
-            width: auto;        /* garde les proportions */
+            max-height: 120px;
+            width: auto;       /* garde les proportions */
             display: block;
-            margin: 10px auto;  /* centre chaque image */
+            margin: 0;         /* plus de centrage automatique */
         }
 
         /* SLOGAN */
