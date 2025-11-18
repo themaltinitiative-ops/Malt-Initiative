@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Malt Initiative</title>
     <style>
-        /* Reset & fond */
         body {
             margin: 0;
             padding: 0;
             background-color: #fff7ef;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-
-        /* Conteneur principal centré */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -24,23 +21,17 @@
             text-align: center;
             flex: 1;
         }
-
-        /* Bannière plein largeur */
         .header-images img {
             width: 100%;
             height: auto;
             display: block;
         }
-
-        /* Slogan */
         .slogan {
             margin: 30px auto;
             font-size: 38px;
             font-weight: bold;
             color: #333;
         }
-
-        /* Formulaire */
         .form-container {
             margin: 40px auto;
             max-width: 90%;
@@ -77,15 +68,11 @@
         }
         .btn-oui { background-color: #f7a77a; }
         .btn-non { background-color: #f5c6a1; }
-
-        /* Titre "Projet" */
         h3 {
             margin: 50px 0 20px;
             font-size: 32px;
             font-weight: bold;
         }
-
-        /* Footer : logos gauche / droite */
         .footer-logos {
             margin: 50px 5% 30px;
             display: flex;
@@ -111,9 +98,7 @@
     </style>
 </head>
 <body>
-
     <div class="container">
-
         <!-- Bannière -->
         <div class="header-images">
             <img src="banniere.png" alt="Bannière The Malt Initiative">
@@ -123,26 +108,23 @@
         <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
 
         <!-- Formulaire -->
-        <div class="form-container">
+        <form class="form-container">
             <label>Numéro de Lot :</label><br>
             <input type="text" placeholder="Entrez le numéro"><br>
-
             <p class="age-label">Êtes-vous majeur(e) ?</p>
             <div class="buttons">
                 <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
                 <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
             </div>
-        </div>
+        </form>
 
         <h3>Projet - The Malt Initiative</h3>
 
-     <!-- Logos en bas (gauche / droite) -->
+        <!-- Logos côte à côte (gauche/droite) -->
         <div class="footer-logos">
-            <img src="Logo1.png" alt="Logo1">
-            <img src="Logo2.png" alt="Logo2">
+            <img src="logo1.png" alt="Logo partenaire">
+            <img src="themaltinitiative.png" alt="The Malt Initiative">
         </div>
-
     </div>
-
 </body>
 </html>
