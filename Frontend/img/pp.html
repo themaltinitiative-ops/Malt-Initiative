@@ -13,17 +13,19 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* CONTENEUR PRINCIPAL : largeur = largeur de la bannière */
+/* conteneur prend toute la largeur de l'écran */
 .container {
-    display: inline-block;  /* largeur = contenu */
-    text-align: center;     /* tout le texte centré par rapport à l'image */
+    display: block;    /* au lieu de inline-block */
+    width: 100%;
+    text-align: center;
 }
 
-/* HEADER IMAGE */
+/* image en plein largeur */
 .header-images img {
-    width: 100%;     /* prend toute la largeur disponible */
-    height: auto;    /* conserve les proportions */
-    display: block;  
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
 }
 
 /* SLOGAN */
