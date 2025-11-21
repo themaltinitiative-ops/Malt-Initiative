@@ -116,26 +116,38 @@
             }
         }
             /* Images latérales animées */
-        .side-image {
-            position: fixed;
-            top: 0;
-            width: 120px;
-            height: 100%;
-            object-fit: contain;
-            animation: float 4s ease-in-out infinite alternate;
-            z-index: 2;
-        }
-        .side-left {
-            left: 0;
-        }
-        .side-right {
-            right: 0;
-        }
-        @keyframes float {
-            from { transform: translateY(0); }
-            to { transform: translateY(20px); }
-        }
-    </style>
+.side-image {
+position: fixed;
+top: 30%;
+width: 150px;
+height: auto;
+object-fit: contain;
+z-index: 2;
+}
+}
+.side-left {
+left: 80px;
+animation: clinkLeft 2s ease-in-out infinite;
+}
+.side-right {
+right: 80px;
+animation: clinkRight 2s ease-in-out infinite;
+}
+@keyframes clinkLeft {
+0% { transform: rotate(0deg) translateX(0); }
+50% { transform: rotate(8deg) translateX(25px); }
+100% { transform: rotate(0deg) translateX(0); }
+}
+
+
+@keyframes clinkRight {
+0% { transform: rotate(0deg) translateX(0); }
+50% { transform: rotate(-8deg) translateX(-25px); }
+100% { transform: rotate(0deg) translateX(0); }
+}
+to { transform: translateY(20px); }
+}
+</style>
 </head>
 <body>
     <!-- Images latérales animées -->
