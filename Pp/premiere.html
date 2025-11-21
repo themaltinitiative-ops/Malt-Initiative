@@ -29,7 +29,7 @@
         /* --- CHOPES ANIMÉES --- */
         .side-image {
             position: absolute;
-            top: 200px; /* place les chopes dans la grande zone vide */
+            top: 300px; /* place les chopes dans la grande zone vide */
             width: 160px;
             height: auto;
             z-index: 10;
@@ -38,21 +38,21 @@
 
         /* Chopes centrées autour du milieu visuel */
         .side-left {
-            left: calc(50% - 350px); /* augmente pour les éloigner */
+            left: calc(50% - 450px); /* augmente pour les éloigner */
             transform: scaleX(-1);    /* miroir = face à face */
             animation: clinkLeft 1.5s ease-in-out infinite;
         }
 
         .side-right {
-            right: calc(50% - 350px);
+            right: calc(50% - 450px);
             animation: clinkRight 1.5s ease-in-out infinite;
         }
 
         @keyframes clinkLeft {
             0%   { transform: scaleX(-1) rotate(0deg) translateX(0); }
-            40%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(-5px); }
-            50%  { transform: scaleX(-1) rotate(15deg) translateX(60px) translateY(-8px); }
-            60%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(-5px); }
+            40%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(5px); }
+            50%  { transform: scaleX(-1) rotate(15deg) translateX(60px) translateY(8px); }
+            60%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(5px); }
             100% { transform: scaleX(-1) rotate(0deg) translateX(0); }
         }
 
