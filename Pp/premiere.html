@@ -147,6 +147,7 @@
                 <div class="footer-text">
                     <strong>Malterie Occitane</strong><br>
                     malterieoccitane.fr
+                    1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
                 </div>
             </div>
 
@@ -160,5 +161,23 @@
             </div>
         </div>
     </div>
+    <script>
+        function accederLot(majeur) {
+            const lot = document.querySelector('input[type="text"]').value.trim();
+
+            if (!majeur) {
+                alert("L'accès est refusé. L'abus d'alcool est dangereux pour la santé, à consommer avec modération.");
+                return;
+            }
+
+            if (lot === "") {
+                alert("Veuillez entrer un numéro de lot.");
+                return;
+            }
+
+            // Redirection vers une page correspondant au numéro de lot
+            window.location.href = `${lot}.html`;
+        }
+    </script>
 </body>
 </html>
