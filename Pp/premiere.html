@@ -116,46 +116,74 @@
             }
         }
            
-        /* --- CHOPES QUI TRINQUENT --- */
-        .side-image {
-            position: absolute;
-            top: 400px; /* ajuste pour les placer dans une zone vide */
-            width: 160px;
-            height: auto;
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        .side-left {
-           left: calc(50% - 350px);
-           animation: clinkLeft 1.4s ease-in-out infinite;
-           transform: scaleX(-1); /* ← Retourner l'image horizontalement */
-}
+    
+  /* --- NOUVELLE STRUCTURE : wrappers pour les chopes --- */
+  .side-wrapper {
+    position: absolute;
+    top: 350px; /* ajuste cette valeur pour monter/descendre les chopes */
+    width: 160px;   /* largeur du conteneur (et de l'image) */
+    height: auto;
+    z-index: 10;
+    pointer-events: none; /* les images n'interfèrent pas avec les clics */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-        .side-right {
-            right: calc(50% - 350px);
-            animation: clinkRight 1.4s ease-in-out infinite;
-        }
+  /* position horizontale relative au centre */
+  .side-left { left: calc(50% - 260px); animation: clinkLeft 1.4s ease-in-out infinite; }
+  .side-right { right: calc(50% - 260px); animation: clinkRight 1.4s ease-in-out infinite; }
 
-        @keyframes clinkLeft {
-            0%   { transform: rotate(0deg) translateX(0); }
-            40%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
-            50%  { transform: rotate(15deg) translateX(55px) translateY(-8px); }
-            60%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
-            100% { transform: rotate(0deg) translateX(0); }
-        }
+  /* l'image à l'intérieur : prend toute la largeur du wrapper */
+  .side-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    will-change: transform;
+  }
 
-        @keyframes clinkRight {
-            0%   { transform: rotate(0deg) translateX(0); }
-            40%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
-            50%  { transform: rotate(-15deg) translateX(-55px) translateY(-8px); }
-            60%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
-            100% { transform: rotate(0deg) translateX(0); }
-        }
+  /* Retourner l'image de gauche horizontalement (uniquement l'image) */
+  .side-left img { transform: scaleX(-1); }
 
-    </style>
+  /* Animations appliquées au wrapper (ne touchent pas au scaleX de l'image) */
+  @keyframes clinkLeft {
+    0%   { transform: rotate(0deg) translateX(0) translateY(0); }
+    40%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
+    50%  { transform: rotate(15deg) translateX(55px) translateY(-8px); } /* point de choc */
+    60%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
+    100% { transform: rotate(0deg) translateX(0) translateY(0); }
+  }
+
+  @keyframes clinkRight {
+    0%   { transform: rotate(0deg) translateX(0) translateY(0); }
+    40%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+    50%  { transform: rotate(-15deg) translateX(-55px) translateY(-8px); } /* point de choc */
+    60%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+    100% { transform: rotate(0deg) translateX(0) translateY(0); }
+  }
+
+  /* Responsive : si l'écran est petit, réduire les chopes et recentrer */
+  @media (max-width:900px) {
+    .side-wrapper { width: 120px; top: 300px; }
+    .side-left { left: calc(50% - 200px); }
+    .side-right { right: calc(50% - 200px); }
+  }
+  @media (max-width:520px) {
+    .side-wrapper { display: none; } /* cacher sur très petit écran pour ne pas gêner */
+  }
+
+</style>
 </head>
+<body>
 
+  <!-- WRAPPERS DES CHOPES (animation sur le wrapper, image retournée à l'intérieur) -->
+  <div class="side-wrapper side-left">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Décor gauche">
+  </div>
+
+  <div class="side-wrapper side-right">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Décor droit">
+  </div>
 <body>
     <!-- Images latérales animées -->
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
