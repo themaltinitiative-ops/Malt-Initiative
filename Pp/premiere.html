@@ -115,9 +115,32 @@
                 text-align: center;
             }
         }
+            /* Images latérales animées */
+        .side-image {
+            position: fixed;
+            top: 0;
+            width: 120px;
+            height: 100%;
+            object-fit: contain;
+            animation: float 4s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+        .side-left {
+            left: 0;
+        }
+        .side-right {
+            right: 0;
+        }
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(20px); }
+        }
     </style>
 </head>
 <body>
+    <!-- Images latérales animées -->
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-right" alt="Décor droit">
     <div class="container">
         <!-- Bannière -->
         <div class="header-images">
