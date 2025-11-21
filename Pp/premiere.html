@@ -37,31 +37,32 @@
         }
 
         /* Chopes centrées autour du milieu visuel */
-        .side-left {
-            left: calc(50% - 450px); /* augmente pour les éloigner */
-            transform: scaleX(-1);    /* miroir = face à face */
-            animation: clinkLeft 1.5s ease-in-out infinite;
-        }
-
-        .side-right {
-            right: calc(50% - 450px);
-            animation: clinkRight 1.5s ease-in-out infinite;
-        }
-        
-         @keyframes clinkLeft {
-            0%   { transform: scaleX(-1) rotate(0deg) translateX(0); }
-           40%  { transform: scaleX(-1) rotate(-10deg) translateX(-30px) translateY(-3px); }
-           50%  { transform: scaleX(-1) rotate(-15deg) translateX(-50px) translateY(-5px); }
-           60%  { transform: scaleX(-1) rotate(-10deg) translateX(-30px) translateY(-3px); }
-          100% { transform: scaleX(-1) rotate(0deg) translateX(0); }
+       .side-left {
+    left: calc(50% - 300px);
+    transform-origin: bottom center;
+    animation: clinkLeft 1.5s linear infinite;
 }
 
-         @keyframes clinkRight {
-            0%   { transform: rotate(0deg) translateX(0); }
-           40%  { transform: rotate(-10deg) translateX(-30px) translateY(-3px); }
-           50%  { transform: rotate(-15deg) translateX(-50px) translateY(-5px); }
-           60%  { transform: rotate(-10deg) translateX(-30px) translateY(-3px); }
-          100% { transform: rotate(0deg) translateX(0); }
+.side-right {
+    right: calc(50% - 300px);
+    transform-origin: bottom center;
+    animation: clinkRight 1.5s linear infinite;
+}
+
+@keyframes clinkLeft {
+    0%   { transform: scaleX(-1) rotate(0deg); }
+    25%  { transform: scaleX(-1) rotate(-10deg); }
+    50%  { transform: scaleX(-1) rotate(-12deg); }
+    75%  { transform: scaleX(-1) rotate(-10deg); }
+    100% { transform: scaleX(-1) rotate(0deg); }
+}
+
+@keyframes clinkRight {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-10deg); }
+    50%  { transform: rotate(-12deg); }
+    75%  { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
 }
         /* --- RESTE DU STYLE D'ORIGINE --- */
 
