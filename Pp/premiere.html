@@ -115,40 +115,46 @@
                 text-align: center;
             }
         }
-            /* Images latérales animées */
-.side-image {
-position: fixed;
-top: 30%;
-width: 150px;
-height: auto;
-object-fit: contain;
-z-index: 2;
-}
-}
-.side-left {
-left: 80px;
-animation: clinkLeft 2s ease-in-out infinite;
-}
-.side-right {
-right: 80px;
-animation: clinkRight 2s ease-in-out infinite;
-}
-@keyframes clinkLeft {
-0% { transform: rotate(0deg) translateX(0); }
-50% { transform: rotate(8deg) translateX(25px); }
-100% { transform: rotate(0deg) translateX(0); }
-}
+           
+        /* --- CHOPES QUI TRINQUENT --- */
+        .side-image {
+            position: absolute;
+            top: 350px; /* ajuste pour les placer dans une zone vide */
+            width: 160px;
+            height: auto;
+            z-index: 10;
+            pointer-events: none;
+        }
 
+        .side-left {
+            left: calc(50% - 260px);
+            animation: clinkLeft 1.4s ease-in-out infinite;
+        }
 
-@keyframes clinkRight {
-0% { transform: rotate(0deg) translateX(0); }
-50% { transform: rotate(-8deg) translateX(-25px); }
-100% { transform: rotate(0deg) translateX(0); }
-}
-to { transform: translateY(20px); }
-}
-</style>
+        .side-right {
+            right: calc(50% - 260px);
+            animation: clinkRight 1.4s ease-in-out infinite;
+        }
+
+        @keyframes clinkLeft {
+            0%   { transform: rotate(0deg) translateX(0); }
+            40%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
+            50%  { transform: rotate(15deg) translateX(55px) translateY(-8px); }
+            60%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
+            100% { transform: rotate(0deg) translateX(0); }
+        }
+
+        @keyframes clinkRight {
+            0%   { transform: rotate(0deg) translateX(0); }
+            40%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+            50%  { transform: rotate(-15deg) translateX(-55px) translateY(-8px); }
+            60%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+            100% { transform: rotate(0deg) translateX(0); }
+        }
+
+    </style>
 </head>
+
 <body>
     <!-- Images latérales animées -->
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
