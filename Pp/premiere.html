@@ -119,7 +119,7 @@
         /* --- CHOPES QUI TRINQUENT --- */
         .side-image {
             position: absolute;
-            top: 350px; /* ajuste pour les placer dans une zone vide */
+            top: 400px; /* ajuste pour les placer dans une zone vide */
             width: 160px;
             height: auto;
             z-index: 10;
@@ -127,9 +127,10 @@
         }
 
         .side-left {
-            left: calc(50% - 260px);
-            animation: clinkLeft 1.4s ease-in-out infinite;
-        }
+    left: calc(50% - 260px);
+    animation: clinkLeft 1.4s ease-in-out infinite;
+    transform: scaleX(-1); /* ← Retourner l'image horizontalement */
+}
 
         .side-right {
             right: calc(50% - 260px);
