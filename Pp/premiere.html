@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Malt Initiative</title>
+
     <style>
         body {
             margin: 0;
@@ -13,35 +14,83 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
+
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
             flex: 1;
+            position: relative;
         }
+
+        /* --- CHOPES ANIMÉES --- */
+        .side-image {
+            position: absolute;
+            top: 200px; /* place les chopes dans la grande zone vide */
+            width: 160px;
+            height: auto;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Chopes centrées autour du milieu visuel */
+        .side-left {
+            left: calc(50% - 350px); /* augmente pour les éloigner */
+            transform: scaleX(-1);    /* miroir = face à face */
+            animation: clinkLeft 1.5s ease-in-out infinite;
+        }
+
+        .side-right {
+            right: calc(50% - 350px);
+            animation: clinkRight 1.5s ease-in-out infinite;
+        }
+
+        @keyframes clinkLeft {
+            0%   { transform: scaleX(-1) rotate(0deg) translateX(0); }
+            40%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(-5px); }
+            50%  { transform: scaleX(-1) rotate(15deg) translateX(60px) translateY(-8px); }
+            60%  { transform: scaleX(-1) rotate(10deg) translateX(40px) translateY(-5px); }
+            100% { transform: scaleX(-1) rotate(0deg) translateX(0); }
+        }
+
+        @keyframes clinkRight {
+            0%   { transform: rotate(0deg) translateX(0); }
+            40%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+            50%  { transform: rotate(-15deg) translateX(-60px) translateY(-8px); }
+            60%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
+            100% { transform: rotate(0deg) translateX(0); }
+        }
+
+        /* --- RESTE DU STYLE D'ORIGINE --- */
+
         .header-images img {
             width: 100%;
             height: auto;
             display: block;
         }
+
         .slogan {
             margin: 30px auto;
             font-size: 38px;
             font-weight: bold;
             color: #333;
         }
+
         .form-container {
             margin: 40px auto;
             max-width: 90%;
         }
+
         .form-container label {
             font-weight: bold;
             color: #6a3a15;
             font-family: "Courier New", monospace;
             font-size: 26px;
         }
+
         .form-container input {
             padding: 14px;
             margin: 12px 0;
@@ -52,11 +101,13 @@
             font-size: 20px;
             box-sizing: border-box;
         }
+
         .age-label {
             margin: 30px 0 15px;
             font-size: 24px;
             color: #333;
         }
+
         .buttons button {
             padding: 14px 30px;
             margin: 0 10px;
@@ -66,14 +117,16 @@
             font-size: 20px;
             cursor: pointer;
         }
+
         .btn-oui { background-color: #f7a77a; }
         .btn-non { background-color: #f5c6a1; }
+
         h3 {
             margin: 50px 0 20px;
             font-size: 32px;
             font-weight: bold;
         }
-        /* Nouveau footer */
+
         .footer-infos {
             margin: 50px 5% 50px;
             display: flex;
@@ -82,113 +135,62 @@
             flex-wrap: wrap;
             gap: 40px;
         }
+
         .footer-block {
             display: flex;
             align-items: center;
             gap: 20px;
             width: 45%;
         }
+
         .footer-block img {
             max-width: 120px;
             height: auto;
         }
+
         .footer-text {
             font-size: 18px;
             color: #333;
             line-height: 1.4;
             text-align: left;
         }
+
         @media (max-width: 640px) {
+            .side-image {
+                width: 120px;
+                top: 160px;
+            }
+
+            .side-left {
+                left: calc(50% - 200px);
+            }
+
+            .side-right {
+                right: calc(50% - 200px);
+            }
+
             .footer-infos {
                 flex-direction: column;
             }
+
             .footer-block {
                 width: 100%;
                 justify-content: center;
                 text-align: center;
                 flex-direction: column;
             }
-            .footer-block img {
-                max-width: 150px;
-            }
-            .footer-text {
-                text-align: center;
-            }
         }
-           
-    
-  /* --- NOUVELLE STRUCTURE : wrappers pour les chopes --- */
-  .side-wrapper {
-    position: absolute;
-    top: 350px; /* ajuste cette valeur pour monter/descendre les chopes */
-    width: 160px;   /* largeur du conteneur (et de l'image) */
-    height: auto;
-    z-index: 10;
-    pointer-events: none; /* les images n'interfèrent pas avec les clics */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* position horizontale relative au centre */
-  .side-left { left: calc(50% - 260px); animation: clinkLeft 1.4s ease-in-out infinite; }
-  .side-right { right: calc(50% - 260px); animation: clinkRight 1.4s ease-in-out infinite; }
-
-  /* l'image à l'intérieur : prend toute la largeur du wrapper */
-  .side-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    will-change: transform;
-  }
-
-  /* Retourner l'image de gauche horizontalement (uniquement l'image) */
-  .side-left img { transform: scaleX(-1); }
-
-  /* Animations appliquées au wrapper (ne touchent pas au scaleX de l'image) */
-  @keyframes clinkLeft {
-    0%   { transform: rotate(0deg) translateX(0) translateY(0); }
-    40%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
-    50%  { transform: rotate(15deg) translateX(55px) translateY(-8px); } /* point de choc */
-    60%  { transform: rotate(10deg) translateX(40px) translateY(-5px); }
-    100% { transform: rotate(0deg) translateX(0) translateY(0); }
-  }
-
-  @keyframes clinkRight {
-    0%   { transform: rotate(0deg) translateX(0) translateY(0); }
-    40%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
-    50%  { transform: rotate(-15deg) translateX(-55px) translateY(-8px); } /* point de choc */
-    60%  { transform: rotate(-10deg) translateX(-40px) translateY(-5px); }
-    100% { transform: rotate(0deg) translateX(0) translateY(0); }
-  }
-
-  /* Responsive : si l'écran est petit, réduire les chopes et recentrer */
-  @media (max-width:900px) {
-    .side-wrapper { width: 120px; top: 300px; }
-    .side-left { left: calc(50% - 200px); }
-    .side-right { right: calc(50% - 200px); }
-  }
-  @media (max-width:520px) {
-    .side-wrapper { display: none; } /* cacher sur très petit écran pour ne pas gêner */
-  }
-
-</style>
+    </style>
 </head>
+
 <body>
 
-  <!-- WRAPPERS DES CHOPES (animation sur le wrapper, image retournée à l'intérieur) -->
-  <div class="side-wrapper side-left">
-    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Décor gauche">
-  </div>
-
-  <div class="side-wrapper side-right">
-    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Décor droit">
-  </div>
-<body>
-    <!-- Images latérales animées -->
+    <!-- CHOPES ANIMÉES -->
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-right" alt="Décor droit">
+
     <div class="container">
+
         <!-- Bannière -->
         <div class="header-images">
             <img src="banniere.png" alt="Bannière The Malt Initiative">
@@ -202,6 +204,7 @@
             <label>Numéro de Lot :</label><br>
             <input type="text" placeholder="Entrez le numéro"><br>
             <p class="age-label">Êtes-vous majeur(e) ?</p>
+
             <div class="buttons">
                 <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
                 <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
@@ -210,7 +213,7 @@
 
         <h3>Projet - The Malt Initiative</h3>
 
-        <!-- Nouveau footer basé sur l'image fournie -->
+        <!-- Footer -->
         <div class="footer-infos">
             <div class="footer-block">
                 <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
@@ -231,23 +234,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function accederLot(majeur) {
-            const lot = document.querySelector('input[type="text"]').value.trim();
 
-            if (!majeur) {
-                alert("L'accès est refusé. L'abus d'alcool est dangereux pour la santé, à consommer avec modération.");
-                return;
-            }
-
-            if (lot === "") {
-                alert("Veuillez entrer un numéro de lot.");
-                return;
-            }
-
-            // Redirection vers une page correspondant au numéro de lot
-            window.location.href = `${lot}.html`;
-        }
-    </script>
 </body>
 </html>
