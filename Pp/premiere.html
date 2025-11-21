@@ -73,26 +73,46 @@
             font-size: 32px;
             font-weight: bold;
         }
-        .footer-logos {
-            margin: 50px 5% 30px;
+        /* Nouveau footer */
+        .footer-infos {
+            margin: 50px 5% 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 40px;
         }
-        .footer-logos img {
-            max-width: 280px;
+        .footer-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             width: 45%;
+        }
+        .footer-block img {
+            max-width: 120px;
             height: auto;
         }
+        .footer-text {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.4;
+            text-align: left;
+        }
         @media (max-width: 640px) {
-            .footer-logos {
+            .footer-infos {
                 flex-direction: column;
             }
-            .footer-logos img {
-                width: 80%;
-                max-width: 300px;
+            .footer-block {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+                flex-direction: column;
+            }
+            .footer-block img {
+                max-width: 150px;
+            }
+            .footer-text {
+                text-align: center;
             }
         }
     </style>
@@ -120,10 +140,24 @@
 
         <h3>Projet - The Malt Initiative</h3>
 
-        <!-- Logos côte à côte (gauche/droite) -->
-        <div class="footer-logos">
-            <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Logo partenaire">
-            <img src="themaltinitiative.png" alt="The Malt Initiative">
+        <!-- Nouveau footer basé sur l'image fournie -->
+        <div class="footer-infos">
+            <div class="footer-block">
+                <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
+                <div class="footer-text">
+                    <strong>Malterie Occitane</strong><br>
+                    malterieoccitane.fr
+                </div>
+            </div>
+
+            <div class="footer-block">
+                <img src="themaltinitiative.png" alt="The Malt Initiative">
+                <div class="footer-text">
+                    <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
+                    Projet Ingénieur Agronome de l’AgroToulouse<br>
+                    Mail : themaltinitiativegw@gmail.com
+                </div>
+            </div>
         </div>
     </div>
 </body>
