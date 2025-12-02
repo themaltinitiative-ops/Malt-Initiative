@@ -85,7 +85,8 @@ body{
 .card-section{margin-bottom:28px}
 .card{
   position:relative;
-  border-radius:10px;
+  border-radius:10px; 
+  width: 300px;
   height:260px;
   background-size:cover;
   background-position:center;
