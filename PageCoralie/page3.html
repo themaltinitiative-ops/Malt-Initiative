@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maltage - La Malterie Occitane</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f3ef;
+      color: #222;
+    }
+
+    /* Section bannière */
+    .banner {
+      position: relative;
+      width: 90%;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .banner h1 {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 2rem;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    /* Section présentation */
+    .presentation {
+      width: 90%;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .presentation h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .presentation img {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Étapes du maltage */
+    .process {
+      margin-top: 50px;
+    }
+
+    .section {
+      position: relative;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+    }
+
+    .section img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    .section:hover img {
+      opacity: 0.6;
+    }
+
+    .section-title {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      z-index: 2;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .content {
+      display: none;
+      background: #fff;
+      color: #333;
+      padding: 20px;
+      border-top: 2px solid #ddd;
+      animation: slideDown 0.4s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .active + .content {
+      display: block;
+    }
+
+    /* FOOTER STYLE EXACT COMME LA PHOTO */
+    .footer-custom {
+      background-color: #f9f3ef;
+      padding: 50px 0;
+      margin-top: 60px;
+    }
+
+    .footer-container {
+      width: 90%;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      width: 160px;
+      height: auto;
+    }
+
+    .footer-text {
+      text-align: center;
+      max-width: 500px;
+      line-height: 1.5;
+    }
+
+    .footer-text h2 {
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+
+    .footer-text p {
+      margin: 5px 0;
+      font-size: 1.1rem;
+    }
+
+    .footer-text a {
+      color: #bf433e;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    @media (max-width: 800px) {
+      .footer-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .footer-logo {
+        width: 140px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Bannière Maltage -->
+  <div class="banner">
+    <img src="PageCoralie/malt.jpeg" alt="Maltage">
+    <h1>Maltage</h1>
+  </div>
+
+  <!-- Présentation de la malterie -->
+  <section class="presentation">
+    <h2>La Malterie Occitane :</h2>
+    <img src="PageCoralie/content (2).png" alt="Bienvenue à la malterie occitane">
+    <img src="PageCoralie/content (3).png" alt="Valeurs de la malterie occitane">
+  </section>
+
+  <!-- Étapes du maltage -->
+  <section class="process">
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="PageCoralie/imagechamporge.jpg" alt="Arrivée du lot">
+      <div class="section-title">Arrivée du lot à la malterie</div>
+    </div>
+    <div class="content"><p>Réception des lots d’orge, vérification de la qualité et stockage.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="https://images.unsplash.com/photo-1602524800422-3a563bdfb3cc" alt="Trempage">
+      <div class="section-title">Trempage</div>
+    </div>
+    <div class="content"><p>Le grain est humidifié pour initier la germination.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="PageCoralie/germination.jpeg" alt="Germination">
+      <div class="section-title">Germination</div>
+    </div>
+    <div class="content"><p>Les enzymes transforment l’amidon en sucres fermentescibles.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="PageCoralie/touraillage.jpeg" alt="Touraillage">
+      <div class="section-title">Touraillage</div>
+    </div>
+    <div class="content"><p>Séchage du malt vert pour stopper la germination et développer les arômes.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="PageCoralie/dégerminage.jpeg" alt="Dégermination">
+      <div class="section-title">Dégermination</div>
+    </div>
+    <div class="content"><p>Les radicelles sont retirées pour obtenir le malt fini.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="PageCoralie/malt.jpeg" alt="Analyse produit fini">
+      <div class="section-title">Analyse produit fini</div>
+    </div>
+    <div class="content"><p>Contrôle : couleur, humidité, pouvoir enzymatique.</p></div>
+
+    <div class="section" onclick="toggleSection(this)">
+      <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a" alt="Transport">
+      <div class="section-title">Transport aux brasseries</div>
+    </div>
+    <div class="content"><p>Le malt est conditionné et livré aux brasseries.</p></div>
+
+  </section>
+
+  <!-- FOOTER EXACTEMENT COMME LA PHOTO -->
+  <footer class="footer-custom">
+    <div class="footer-container">
+
+      <img src="images/logo-malterie-occitane.png" class="footer-logo" alt="Logo Malterie Occitane">
+
+      <div class="footer-text">
+        <h2>The Malt Initiative</h2>
+        <p><strong>La Malterie Occitane :</strong></p>
+        <p>1273 Avenue des Terres Noires<br>81370 St Sulpice la Pointe</p>
+        <p>Mail : <a href="mailto:contact@malterieoccitane.fr">contact@malterieoccitane.fr</a></p>
+      </div>
+
+      <img src="images/logo-malt-initiative.png" class="footer
 
