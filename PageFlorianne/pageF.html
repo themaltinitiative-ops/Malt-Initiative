@@ -3,38 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cartes Bannières</title>
+  <title>Traçabilité – La Malterie Occitane</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="container">
-    <!-- Carte 1 -->
-    <section class="card" style="background-image: url('barley.jpg');">
-      <div class="card-overlay">
-        <h2>Récolte des céréales</h2>
-        <p>Décrivez le sujet de votre article</p>
-        <button class="circle-btn" aria-label="Voir Récolte des céréales">➜</button>
-      </div>
-    </section>
 
-    <!-- Carte 2 -->
-    <section class="card" style="background-image: url('malt-4950433_1280.jpg');">
-      <div class="card-overlay">
-        <h2>Maltage</h2>
-        <p>Décrivez le sujet de votre article</p>
-        <button class="circle-btn" aria-label="Voir Maltage">➜</button>
-      </div>
-    </section>
+  <!-- BANNIÈRE PRINCIPALE -->
+  <header class="banner">
+    <div class="banner-text">
+      <span class="tag">UN MALT D'EXCEPTION</span>
+      <span class="tag">FRUIT DE NOS RÉGIONS</span>
+    </div>
+    <img src="logo-malterie.png" class="banner-logo" alt="La Malterie Occitane">
+  </header>
 
-    <!-- Carte 3 -->
-    <section class="card" style="background-image: url('beer-2370783_1280.jpg');">
-      <div class="card-overlay">
-        <h2>Brassage</h2>
-        <p>Décrivez le sujet de votre article</p>
-        <button class="circle-btn" aria-label="Voir Brassage">➜</button>
-      </div>
-    </section>
+  <!-- PHRASE CENTRALE -->
+  <section class="center-text">
+    <p>De la graine à la binouze on ne<br>perd pas la trace !</p>
+  </section>
+
+  <!-- NUMÉRO DE LOT -->
+  <section class="lot-block">
+    <span class="lot-label">Numéro du Lot :</span>
+  </section>
+
+  <!-- 3 IMAGES AVEC TITRES -->
+  <main class="images-section">
+
+    <div class="img-card" style="background-image: url('barley.jpg');">
+      <div class="img-title">Récolte des céréales</div>
+    </div>
+
+    <div class="img-card" style="background-image: url('malt-4950433_1280.jpg');">
+      <div class="img-title">Maltage</div>
+    </div>
+
+    <div class="img-card" style="background-image: url('beer-2370783_1280.jpg');">
+      <div class="img-title">Brassage</div>
+    </div>
+
   </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-item">
+      <img src="logo-malterie.png" alt="logo malterie" class="footer-logo">
+      <p>
+        La Malterie Occitane <br>
+        Adresse : 12/13 Avenue des Terres Noires, 81800 Rabastens<br>
+        Mail : contact@malterieoccitane.fr
+      </p>
+    </div>
+
+    <div class="footer-item">
+      <img src="logo-malt-initiative.png" alt="logo malt initiative" class="footer-logo">
+      <p>
+        The Malt Initiative <br>
+        Mail : themaltinitiative@gmail.com
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
