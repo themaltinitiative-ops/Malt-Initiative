@@ -9,22 +9,17 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #fff7ef; /* ton fond crème */
+            background-color: #fff7ef;
             font-family: Arial, sans-serif;
         }
 
-        /* --- BANNIÈRE HAUTE --- */
-        .banner {
-            width: 100%;
-        }
-
+        /* --- BANNIÈRE --- */
         .banner img {
             width: 100%;
-            height: auto;
             display: block;
         }
 
-        /* --- 3 GRANDES CARTES --- */
+        /* --- CARTES --- */
         .cards-container {
             width: 90%;
             max-width: 1200px;
@@ -35,51 +30,123 @@
         }
 
         .card {
-            position: relative;
             height: 220px;
-            background-size: cover;
-            background-position: center;
             border-radius: 12px;
             overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
             cursor: pointer;
-            transition: transform 0.25s ease;
         }
 
-        /* effet hover */
-        .card:hover {
-            transform: scale(1.02);
-        }
-
-        /* voile de transparence */
         .card::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.30);
+            background: rgba(0, 0, 0, 0.25);
         }
 
-        /* titre en bas */
         .card-title {
             position: absolute;
             bottom: 0;
-            left: 0;
             width: 100%;
             padding: 15px;
-            background: rgba(0,0,0,0.45);
+            background: rgba(0, 0, 0, 0.45);
             color: white;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             text-align: left;
         }
 
         /* --- FOOTER --- */
-        .footer-infos {
+        .footer {
             margin: 60px 5% 40px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
             gap: 40px;
+            flex-wrap: wrap;
         }
 
-        .footer-bloc
+        .footer-block {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            width: 45%;
+            min-width: 280px;
+        }
+
+        .footer-block img {
+            max-width: 120px;
+            height: auto;
+        }
+
+        .footer-text {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 700px) {
+            .card { height: 180px; }
+            .card-title { font-size: 20px; }
+
+            .footer-block {
+                width: 100%;
+                text-align: center;
+                flex-direction: column;
+            }
+
+            .footer-text { text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BANNIÈRE -->
+    <div class="banner">
+        <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
+    </div>
+
+    <!-- CARTES PRINCIPALES -->
+    <div class="cards-container">
+
+        <a class="card" href="#"
+           style="background-image: url('barley.jpg');">
+            <div class="card-title">Récolte des céréales</div>
+        </a>
+
+        <a class="card" href="#"
+           style="background-image: url('malt-4950433_1280.jpg');">
+            <div class="card-title">Maltage</div>
+        </a>
+
+        <a class="card" href="#"
+           style="background-image: url('beer-2370783_1280.jpg');">
+            <div class="card-title">Brassage</div>
+        </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-block">
+            <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
+            <div class="footer-text">
+                <strong>Malterie Occitane</strong><br>
+                malterieoccitane.fr<br>
+                1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
+            </div>
+        </div>
+
+        <div class="footer-block">
+            <img src="content.png" alt="The Malt Initiative">
+            <div class="footer-text">
+                <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
+                Projet Ingénieur Agronome de l’AgroToulouse<br>
+                Mail : themaltinitiative@gmail.com
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
