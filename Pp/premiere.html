@@ -152,6 +152,32 @@
             line-height: 1.4;
             text-align: left;
         }
+
+        /* --- LOADER --- */
+        #loader {
+            display: none;
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background: rgba(255,255,255,0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loader img {
+            width: 120px;
+            height: 120px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 
@@ -208,6 +234,11 @@
         </div>
     </div>
 
+    <!-- LOADER -->
+    <div id="loader">
+        <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement">
+    </div>
+
     <!-- SCRIPT DE VALIDATION ET REDIRECTION -->
     <script>
         function validerAge(isMajor) {
@@ -223,11 +254,16 @@
                 return;
             }
 
-            // On stocke le numéro de lot si on veut l'utiliser ensuite
+            // Stockage du numéro de lot
             localStorage.setItem("lotNumber", lot);
 
-            // Redirection vers la PAGE 2
-            window.location.href = "page2.html"; 
+            // Affiche le loader
+            document.getElementById("loader").style.display = "flex";
+
+            // Redirection après un court délai
+            setTimeout(() => {
+                window.location.href = "page2.html";
+            }, 800);
         }
     </script>
 
