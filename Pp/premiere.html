@@ -6,55 +6,147 @@
 <title>The Malt Initiative</title>
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #fff7ef;
-        font-family: Arial, sans-serif;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-    }
-    .container { width:100%; max-width:1200px; margin:0 auto; text-align:center; flex:1; position:relative; }
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff7ef;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+}
 
-    /* Chopes animées */
-    .side-image { position:absolute; top:450px; width:160px; height:auto; z-index:10; pointer-events:none; }
-    .side-left { left:calc(50% - 450px); transform-origin:bottom center; animation: clinkLeft 1.5s linear infinite; }
-    .side-right { right:calc(50% - 450px); transform-origin:bottom center; animation: clinkRight 1.5s linear infinite; }
-    @keyframes clinkLeft {0%{transform:scaleX(-1) rotate(0deg);}25%{transform:scaleX(-1) rotate(-10deg);}50%{transform:scaleX(-1) rotate(-12deg);}75%{transform:scaleX(-1) rotate(-10deg);}100%{transform:scaleX(-1) rotate(0deg);}}
-    @keyframes clinkRight {0%{transform:rotate(0deg);}25%{transform:rotate(-10deg);}50%{transform:rotate(-12deg);}75%{transform:rotate(-10deg);}100%{transform:rotate(0deg);}}
+/* --- CHOPES ANIMÉES --- */
+.side-image {
+    position: absolute;
+    top: 450px;
+    width: 160px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+}
+.side-left { left: calc(50% - 450px); transform-origin: bottom center; animation: clinkLeft 1.5s linear infinite; }
+.side-right { right: calc(50% - 450px); transform-origin: bottom center; animation: clinkRight 1.5s linear infinite; }
 
-    .header-images img { width:100%; height:auto; display:block; }
-    .slogan { margin:30px auto; font-size:38px; font-weight:bold; color:#333; }
+@keyframes clinkLeft {
+    0%   { transform: scaleX(-1) rotate(0deg); }
+    25%  { transform: scaleX(-1) rotate(-10deg); }
+    50%  { transform: scaleX(-1) rotate(-12deg); }
+    75%  { transform: scaleX(-1) rotate(-10deg); }
+    100% { transform: scaleX(-1) rotate(0deg); }
+}
+@keyframes clinkRight {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-10deg); }
+    50%  { transform: rotate(-12deg); }
+    75%  { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
 
-    .form-container { margin:40px auto; max-width:90%; }
-    .form-container label { font-weight:bold; color:#6a3a15; font-family:"Courier New", monospace; font-size:26px; }
-    .form-container input { padding:14px; margin:12px 0; width:80%; max-width:500px; border-radius:8px; border:2px solid #c9a791; font-size:20px; box-sizing:border-box; }
-    .age-label { margin:30px 0 15px; font-size:24px; color:#333; }
-    .buttons button { padding:14px 30px; margin:0 10px; border:none; border-radius:8px; font-weight:bold; font-size:20px; cursor:pointer; }
-    .btn-oui { background-color:#f7a77a; }
-    .btn-non { background-color:#f5c6a1; }
+/* Loader */
+#loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    display: none; /* caché par défaut */
+}
+#loader img {
+    width: 150px;
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-    h3 { margin:50px 0 20px; font-size:32px; font-weight:bold; }
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
 
-    .footer-infos { margin:50px 5% 50px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:40px; }
-    .footer-block { display:flex; align-items:center; gap:20px; width:45%; }
-    .footer-block img { max-width:120px; height:auto; }
-    .footer-text { font-size:18px; color:#333; line-height:1.4; text-align:left; }
+/* Bannière */
+.header-images img { width: 100%; height: auto; display: block; }
 
-    /* Loader */
-    #loader { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; justify-content:center; align-items:center; }
-    #loader img { width:120px; height:120px; animation:spin 1s linear infinite; }
-    @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+/* Slogan */
+.slogan { margin: 30px auto; font-size: 38px; font-weight: bold; color: #333; }
+
+/* Formulaire */
+.form-container { margin: 40px auto; max-width: 90%; }
+.form-container label {
+    font-weight: bold;
+    color: #6a3a15;
+    font-family: "Courier New", monospace;
+    font-size: 26px;
+}
+.form-container input {
+    padding: 14px;
+    margin: 12px 0;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    border: 2px solid #c9a791;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+.age-label { margin: 30px 0 15px; font-size: 24px; color: #333; }
+
+.buttons button {
+    padding: 14px 30px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+.btn-oui { background-color: #f7a77a; }
+.btn-non { background-color: #f5c6a1; }
+
+/* Footer */
+.footer-infos {
+    margin:50px 5% 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:40px;
+}
+.footer-block { display:flex; align-items:center; gap:20px; width:45%; }
+.footer-block img { max-width:120px; height:auto; }
+.footer-text { font-size:18px; color:#333; line-height:1.4; text-align:left; }
+
+@media (max-width:700px){
+    .footer-block { width:100%; text-align:center; flex-direction:column; }
+    .footer-text { text-align:center; }
+}
 </style>
 </head>
 
 <body>
+
+<!-- Loader -->
+<div id="loader">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
+</div>
+
+<!-- CHOPES ANIMÉES -->
 <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
 <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-right" alt="Décor droit">
 
 <div class="container">
+
     <!-- Bannière -->
     <div class="header-images">
         <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
@@ -64,11 +156,12 @@
     <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
 
     <!-- Formulaire -->
-    <form class="form-container">
+    <form class="form-container" onsubmit="return false;">
         <label>Numéro de Lot :</label><br>
         <input id="lotInput" type="text" placeholder="Entrez le numéro"><br>
 
         <p class="age-label">Êtes-vous majeur(e) ?</p>
+
         <div class="buttons">
             <button type="button" class="btn-oui" onclick="validerAge(true)">Oui</button>
             <button type="button" class="btn-non" onclick="validerAge(false)">Non</button>
@@ -87,6 +180,7 @@
                 1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
             </div>
         </div>
+
         <div class="footer-block">
             <img src="content.png" alt="The Malt Initiative">
             <div class="footer-text">
@@ -96,11 +190,7 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- Loader -->
-<div id="loader">
-    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement">
 </div>
 
 <script>
@@ -117,14 +207,17 @@ function validerAge(isMajor) {
         return;
     }
 
+    // Stocke le numéro de lot
     localStorage.setItem("lotNumber", lot);
 
-    document.getElementById("loader").style.display = "flex";
+    // Affiche le loader
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
 
-   setTimeout(() => {
-    // Ajoute un paramètre timestamp pour forcer le rechargement
-    window.location.href = "deuxiemepage.html?ts=" + new Date().getTime();
-}, 800);
+    // Redirection vers page2.html avec paramètre anti-cache
+    setTimeout(() => {
+        window.location.href = "page2.html?ts=" + new Date().getTime();
+    }, 800); // délai pour montrer le loader
 }
 </script>
 
