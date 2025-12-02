@@ -121,9 +121,10 @@ function validerAge(isMajor) {
 
     document.getElementById("loader").style.display = "flex";
 
-    setTimeout(() => {
-        window.location.href = "page2.html";
-    }, 800);
+   setTimeout(() => {
+    // Ajoute un paramètre timestamp pour forcer le rechargement
+    window.location.href = "page2.html?ts=" + new Date().getTime();
+}, 800);
 }
 </script>
 
