@@ -1,69 +1,85 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Traçabilité – La Malterie Occitane</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Malt Initiative – Parcours</title>
 
-<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fff7ef; /* ton fond crème */
+            font-family: Arial, sans-serif;
+        }
 
-  <!-- BANNIÈRE PRINCIPALE -->
-  <header class="banner">
-    <div class="banner-text">
-      <span class="tag">UN MALT D'EXCEPTION</span>
-      <span class="tag">FRUIT DE NOS RÉGIONS</span>
-    </div>
-    <img src="logo-malterie.png" class="banner-logo" alt="La Malterie Occitane">
-  </header>
+        /* --- BANNIÈRE HAUTE --- */
+        .banner {
+            width: 100%;
+        }
 
-  <!-- PHRASE CENTRALE -->
-  <section class="center-text">
-    <p>De la graine à la binouze on ne<br>perd pas la trace !</p>
-  </section>
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-  <!-- NUMÉRO DE LOT -->
-  <section class="lot-block">
-    <span class="lot-label">Numéro du Lot :</span>
-  </section>
+        /* --- 3 GRANDES CARTES --- */
+        .cards-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
 
-  <!-- 3 IMAGES AVEC TITRES -->
-  <main class="images-section">
+        .card {
+            position: relative;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.25s ease;
+        }
 
-    <div class="img-card" style="background-image: url('barley.jpg');">
-      <div class="img-title">Récolte des céréales</div>
-    </div>
+        /* effet hover */
+        .card:hover {
+            transform: scale(1.02);
+        }
 
-    <div class="img-card" style="background-image: url('malt-4950433_1280.jpg');">
-      <div class="img-title">Maltage</div>
-    </div>
+        /* voile de transparence */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.30);
+        }
 
-    <div class="img-card" style="background-image: url('beer-2370783_1280.jpg');">
-      <div class="img-title">Brassage</div>
-    </div>
+        /* titre en bas */
+        .card-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.45);
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: left;
+        }
 
-  </main>
+        /* --- FOOTER --- */
+        .footer-infos {
+            margin: 60px 5% 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-item">
-      <img src="logo-malterie.png" alt="logo malterie" class="footer-logo">
-      <p>
-        La Malterie Occitane <br>
-        Adresse : 12/13 Avenue des Terres Noires, 81800 Rabastens<br>
-        Mail : contact@malterieoccitane.fr
-      </p>
-    </div>
-
-    <div class="footer-item">
-      <img src="logo-malt-initiative.png" alt="logo malt initiative" class="footer-logo">
-      <p>
-        The Malt Initiative <br>
-        Mail : themaltinitiative@gmail.com
-      </p>
-    </div>
-  </footer>
-
-</body>
-</html>
+        .footer-bloc
