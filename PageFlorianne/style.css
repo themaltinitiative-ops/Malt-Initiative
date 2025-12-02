@@ -1,0 +1,148 @@
+:root{
+  --accent:#d98a3d;    /* teinte orangée */
+  --dark: #222;
+  --muted:#f6eee9;
+  --overlay: rgba(20,20,20,0.55);
+  --radius: 8px;
+  --maxw:1200px;
+}
+
+/* Reset minimal */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+  color:var(--dark);
+  background: #fbf4f2;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Banner */
+.site-header .banner{
+  position:relative;
+  height:180px;
+  background-image: url('../assets/header.jpg'); /* remplacer par ta grande image */
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:18px 28px;
+}
+
+/* left badges */
+.banner-left{display:flex;flex-direction:column;gap:14px}
+.badge{
+  display:inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-weight:800;
+  background:rgba(255,255,255,0.9);
+  color:var(--accent);
+  padding:10px 18px;
+  border-radius:2px;
+  letter-spacing:1px;
+  font-size:28px;
+}
+.badge-mid{
+  background:var(--accent);
+  color:white;
+  font-size:34px;
+  padding:12px 28px;
+  align-self:flex-start;
+}
+
+/* logo on right */
+.logo-wrap{align-self:center}
+.logo{width:140px;height:auto;border-radius:100%;background:white;padding:8px}
+
+/* strapline under banner */
+.hero-strapline{
+  background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9));
+  text-align:center;
+  padding:40px 20px;
+}
+.hero-strapline h1{
+  font-family: "Montserrat", sans-serif;
+  font-size:40px;
+  font-weight:700;
+  color:#2c2c2c;
+  max-width:1000px;
+  margin:0 auto 18px;
+}
+.lot{
+  display:inline-block;
+  background:var(--muted);
+  padding:8px 12px;
+  border-radius:4px;
+  font-style:italic;
+  margin-top:6px;
+}
+
+/* main container to center and add spacing */
+.container{max-width:var(--maxw);margin:30px auto;padding:0 18px}
+
+/* card sections (full width like your screenshots) */
+.card-section{margin-bottom:28px}
+.card{
+  position:relative;
+  border-radius:10px;
+  height:260px;
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+}
+
+/* overlay panel */
+.card-overlay{
+  position:absolute;
+  left:28px;
+  top:28px;
+  width:min(520px,70%);
+  background:var(--overlay);
+  padding:28px;
+  border-radius:8px;
+  color:white;
+  backdrop-filter: blur(2px);
+}
+.card-overlay.left{left:24px}
+.card-overlay h2{
+  font-family: "Montserrat", sans-serif;
+  font-size:34px;
+  margin-bottom:8px;
+}
+.card-overlay p{opacity:0.95;font-size:16px;margin-bottom:14px}
+
+/* circular arrow button */
+.circle-btn{
+  display:inline-grid;
+  place-items:center;
+  width:44px;height:44px;
+  border-radius:50%;
+  border:none;
+  font-size:18px;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.18);
+}
+
+/* footer */
+.site-footer{padding:24px;text-align:center;color:#6b6665;background:transparent}
+
+/* responsive */
+@media (max-width:900px){
+  .banner{height:150px;padding:12px}
+  .badge{font-size:20px}
+  .badge-mid{font-size:24px;padding:10px 16px}
+  .hero-strapline h1{font-size:26px;padding:0 8px}
+  .card{height:200px}
+  .card-overlay{width:85%;left:16px;top:14px;padding:18px}
+  .card-overlay h2{font-size:22px}
+}
+
+@media (max-width:480px){
+  .logo{width:96px}
+  .hero-strapline{padding:22px 10px}
+  .card{height:180px}
+}
