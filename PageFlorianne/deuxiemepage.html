@@ -13,6 +13,7 @@ body {
     background-color: #f8fafc;
     color: #0f1724;
 }
+
 .card {
     background: #fff;
     border-radius: 16px;
@@ -21,18 +22,60 @@ body {
     max-width: 900px;
     margin: 20px auto;
 }
-h2 { margin-top:0; font-size:22px; margin-bottom:16px; }
-.carbon-rule { height:48px; border-radius:12px; overflow:hidden; display:flex; align-items:center; margin-top:12px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
-.seg { height:100%; display:inline-block; transition: width 0.3s ease; }
+
+h2 {
+    margin-top:0;
+    font-size:22px;
+    margin-bottom:16px;
+}
+
+.carbon-title {
+    font-weight:600;
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.carbon-rule {
+    height:48px;
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    margin-top:12px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.seg {
+    height:100%;
+    display:inline-block;
+    transition: width 0.3s ease;
+}
+
 .seg.agri { background:#15803d; }
 .seg.transp { background:#d9f99d; }
 .seg.malt { background:#fde68a; }
-.numbers { display:flex; gap:16px; margin-top:16px; flex-wrap:wrap; }
-.stat { padding:14px; border-radius:12px; border:1px solid transparent; min-width:140px; box-shadow:0 2px 6px rgba(0,0,0,0.04); font-size:14px; }
+
+.numbers {
+    display:flex;
+    gap:16px;
+    margin-top:16px;
+    flex-wrap:wrap;
+}
+
+.stat {
+    padding:14px;
+    border-radius:12px;
+    border:1px solid transparent;
+    min-width:140px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.04);
+    font-size:14px;
+}
+
 .stat.agri { background:#15803d; color:#fff; border-color:#064e3b; }
 .stat.transp { background:#d9f99d; border-color:#15803d; }
 .stat.malt { background:#fde68a; border-color:#b45309; }
 .stat.total { background:#fff; border-color:#e2e8f0; color:#0f1724; }
+
 .stat strong { display:block; font-size:20px; margin-top:4px; }
 </style>
 </head>
@@ -53,36 +96,46 @@ h2 { margin-top:0; font-size:22px; margin-bottom:16px; }
 </div>
 
 <script>
-// Exemple de "base de données" locale
+// Base de données locale des lots
 const database = [
     {lot_id:"MALT-2025-001", agriculture:120.5, transport:45.3, malterie:30.2},
     {lot_id:"MALT-2025-002", agriculture:150, transport:50, malterie:40},
     {lot_id:"MALT-2025-003", agriculture:110.2, transport:42.8, malterie:25.4}
 ];
 
+// Récupération du lot depuis localStorage
 const lot = localStorage.getItem("lotNumber") || "";
 document.getElementById("lotDisplay").textContent = lot;
 
+// Recherche du lot dans la base de données
 const found = database.find(r => r.lot_id.toUpperCase() === lot.toUpperCase());
+
 if(found){
     const total = found.agriculture + found.transport + found.malterie;
     const rule = document.getElementById('carbonRule');
+
     const makeSeg = (cls,val) => {
         const div = document.createElement('div');
         div.className = 'seg ' + cls;
-        div.style.width = (val/total*100)+'%';
+        div.style.width = (val/total*100) + '%';
         rule.appendChild(div);
     };
-    makeSeg('agri',found.agriculture);
-    makeSeg('transp',found.transport);
-    makeSeg('malt',found.malterie);
+
+    makeSeg('agri', found.agriculture);
+    makeSeg('transp', found.transport);
+    makeSeg('malt', found.malterie);
 
     document.getElementById('valAgri').textContent = found.agriculture.toFixed(1);
     document.getElementById('valTransp').textContent = found.transport.toFixed(1);
     document.getElementById('valMalt').textContent = found.malterie.toFixed(1);
     document.getElementById('valTotal').textContent = total.toFixed(1);
-}else{
+
+} else {
     document.getElementById("carbonRule").textContent = "❌ Lot non trouvé";
+    document.getElementById('valAgri').textContent = "—";
+    document.getElementById('valTransp').textContent = "—";
+    document.getElementById('valMalt').textContent = "—";
+    document.getElementById('valTotal').textContent = "—";
 }
 </script>
 
