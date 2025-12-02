@@ -29,42 +29,40 @@
         /* --- CHOPES ANIMÉES --- */
         .side-image {
             position: absolute;
-            top: 450px; /* place les chopes dans la grande zone vide */
+            top: 450px;
             width: 160px;
             height: auto;
             z-index: 10;
             pointer-events: none;
         }
 
-        /* Chopes centrées autour du milieu visuel */
-       .side-left {
-    left: calc(50% - 450px);
-    transform-origin: bottom center;
-    animation: clinkLeft 1.5s linear infinite;
-}
+        .side-left {
+            left: calc(50% - 450px);
+            transform-origin: bottom center;
+            animation: clinkLeft 1.5s linear infinite;
+        }
 
-.side-right {
-    right: calc(50% - 450px);
-    transform-origin: bottom center;
-    animation: clinkRight 1.5s linear infinite;
-}
+        .side-right {
+            right: calc(50% - 450px);
+            transform-origin: bottom center;
+            animation: clinkRight 1.5s linear infinite;
+        }
 
-@keyframes clinkLeft {
-    0%   { transform: scaleX(-1) rotate(0deg); }
-    25%  { transform: scaleX(-1) rotate(-10deg); }
-    50%  { transform: scaleX(-1) rotate(-12deg); }
-    75%  { transform: scaleX(-1) rotate(-10deg); }
-    100% { transform: scaleX(-1) rotate(0deg); }
-}
+        @keyframes clinkLeft {
+            0%   { transform: scaleX(-1) rotate(0deg); }
+            25%  { transform: scaleX(-1) rotate(-10deg); }
+            50%  { transform: scaleX(-1) rotate(-12deg); }
+            75%  { transform: scaleX(-1) rotate(-10deg); }
+            100% { transform: scaleX(-1) rotate(0deg); }
+        }
 
-@keyframes clinkRight {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(-10deg); }
-    50%  { transform: rotate(-12deg); }
-    75%  { transform: rotate(-10deg); }
-    100% { transform: rotate(0deg); }
-}
-        /* --- RESTE DU STYLE D'ORIGINE --- */
+        @keyframes clinkRight {
+            0%   { transform: rotate(0deg); }
+            25%  { transform: rotate(-10deg); }
+            50%  { transform: rotate(-12deg); }
+            75%  { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
 
         .header-images img {
             width: 100%;
@@ -154,32 +152,6 @@
             line-height: 1.4;
             text-align: left;
         }
-
-        @media (max-width: 640px) {
-            .side-image {
-                width: 120px;
-                top: 160px;
-            }
-
-            .side-left {
-                left: calc(50% - 200px);
-            }
-
-            .side-right {
-                right: calc(50% - 200px);
-            }
-
-            .footer-infos {
-                flex-direction: column;
-            }
-
-            .footer-block {
-                width: 100%;
-                justify-content: center;
-                text-align: center;
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 
@@ -202,12 +174,13 @@
         <!-- Formulaire -->
         <form class="form-container">
             <label>Numéro de Lot :</label><br>
-            <input type="text" placeholder="Entrez le numéro"><br>
+            <input id="lotInput" type="text" placeholder="Entrez le numéro"><br>
+
             <p class="age-label">Êtes-vous majeur(e) ?</p>
 
             <div class="buttons">
-                <button type="button" class="btn-oui" onclick="alert('Bienvenue 🍻')">Oui</button>
-                <button type="button" class="btn-non" onclick="alert('Désolé, accès refusé ❌')">Non</button>
+                <button type="button" class="btn-oui" onclick="validerAge(true)">Oui</button>
+                <button type="button" class="btn-non" onclick="validerAge(false)">Non</button>
             </div>
         </form>
 
@@ -234,6 +207,29 @@
             </div>
         </div>
     </div>
+
+    <!-- SCRIPT DE VALIDATION ET REDIRECTION -->
+    <script>
+        function validerAge(isMajor) {
+            const lot = document.getElementById("lotInput").value.trim();
+
+            if (!isMajor) {
+                alert("Désolé, accès refusé ❌");
+                return;
+            }
+
+            if (lot === "") {
+                alert("Veuillez entrer un numéro de lot avant de continuer.");
+                return;
+            }
+
+            // On stocke le numéro de lot si on veut l'utiliser ensuite
+            localStorage.setItem("lotNumber", lot);
+
+            // Redirection vers la PAGE 2
+            window.location.href = "page2.html"; 
+        }
+    </script>
 
 </body>
 </html>
