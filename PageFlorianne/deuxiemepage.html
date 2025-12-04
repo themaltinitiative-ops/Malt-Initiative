@@ -1,294 +1,311 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Malt Initiative – Empreinte Carbone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparence – Informations du lot</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #fff7ef;
-            font-family: Arial, sans-serif;
-            color: #0f1724;
-        }
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #F7F3ED;
+        padding: 20px;
+    }
 
-        /* --- BANNIÈRE --- */
-        .banner img {
-            width: 100%;
-            display: block;
-        }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        /* --- CALCULATRICE CARBONE --- */
-        .carbon-card {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
-            color: #0f1724;
-        }
+    /* --- ACCORDIONS --- */
+    .accordion {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        margin-bottom: 25px;
+    }
 
-        .carbon-card h2 {
-            margin-top: 0;
-            font-size: 22px;
-            margin-bottom: 16px;
-        }
+    .accordion-header {
+        background-size: cover;
+        background-position: center;
+        height: 180px;
+        position: relative;
+        cursor: pointer;
+    }
 
-        .carbon-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 6px;
-            color: #0f1724;
-        }
+    .accordion-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+    }
 
-        .carbon-rule {
-            height: 48px;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            margin-top: 12px;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
+    .accordion-title {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        font-size: 26px;
+        color: white;
+        font-weight: bold;
+        z-index: 5;
+    }
 
-        .seg {
-            height: 100%;
-            display: inline-block;
-            transition: width 0.3s ease;
-        }
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        background: #fff;
+        padding: 0 20px;
+    }
 
-        .seg.agri { background: #15803d; }
-        .seg.transp { background: #d9f99d; }
-        .seg.malt { background: #fde68a; }
+    .accordion-content.open {
+        padding: 20px;
+    }
 
-        .numbers {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
+    h3 {
+        margin-top: 20px;
+    }
 
-        .stat {
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            min-width: 140px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            font-size: 14px;
-        }
+    /* --- CARTE CARBONE --- */
+    .carbon-card {
+        background: #fafafa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
 
-        .stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
-        .stat.transp { background: #d9f99d; border-color: #15803d; }
-        .stat.malt { background: #fde68a; border-color: #b45309; }
-        .stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
+    .numbers {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
 
-        .stat strong { display: block; font-size: 20px; margin-top: 4px; }
+    .stat {
+        width: 48%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 
-        #lotsDispo { font-size: 13px; color: #475569; margin-top: 6px; }
-        #message { font-size: 14px; margin-top: 6px; color: #475569; min-height: 20px; }
+    .stat strong {
+        display: block;
+        margin-top: 5px;
+        font-size: 20px;
+    }
 
-        /* --- CARTES --- */
-        .cards-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 40px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
+    /* --- RÉGLETTE --- */
+    .reglette-container {
+        margin-top: 25px;
+    }
 
-        .card {
-            height: 220px;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-        }
+    .bar {
+        width: 100%;
+        height: 14px;
+        background: #ddd;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+    }
 
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.25);
-        }
+    .bar-fill {
+        height: 14px;
+        background: #4CAF50;
+        width: 0%;
+        transition: width 0.6s ease;
+    }
 
-        .card-title {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.45);
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            text-align: left;
-        }
-
-        /* --- FOOTER --- */
-        .footer {
-            margin: 60px 5% 40px;
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .footer-block {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            width: 45%;
-            min-width: 280px;
-        }
-
-        .footer-block img {
-            max-width: 120px;
-            height: auto;
-        }
-
-        .footer-text {
-            font-size: 18px;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 700px) {
-            .card { height: 180px; }
-            .card-title { font-size: 20px; }
-            .footer-block { width: 100%; text-align: center; flex-direction: column; }
-            .footer-text { text-align: center; }
-        }
-    </style>
+    .tick {
+        margin-top: 5px;
+        font-size: 14px;
+        text-align: right;
+    }
+</style>
 </head>
 
 <body>
 
-    <!-- BANNIÈRE -->
-    <div class="banner">
-        <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
-    </div>
+<h1>Informations du Lot</h1>
 
-    <!-- CALCULATRICE CARBONE -->
-    <div class="carbon-card">
-        <h2>Empreinte carbone — Lot : <span id="lotDisplay">—</span></h2>
 
-        <div class="carbon-title">Empreinte carbone du malt en kg CO₂ / kg de malt</div>
-        <div class="carbon-rule" id="carbonRule"></div>
 
-        <div class="numbers">
-            <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong><span> kg CO₂ / kg de malt</span></div>
-            <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong><span> kg CO₂ / kg de malt</span></div>
-            <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong><span> kg CO₂ / kg de malt</span></div>
-            <div class="stat total"><small>Total</small><strong id="valTotal">—</strong><span> kg CO₂ / kg de malt</span></div>
+<!-- ╔════════════════════════════════════╗ -->
+<!-- ║   ACCORDÉON CARBONE + RÉGLETTE     ║ -->
+<!-- ╚════════════════════════════════════╝ -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" 
+         style="background-image:url('carbone.jpg');">
+        <div class="accordion-title">
+            <img src="icon-carbone.png" style="width:40px;vertical-align:middle;margin-right:10px;">
+            Empreinte carbone du lot
         </div>
     </div>
 
-    <!-- CARTES PRINCIPALES -->
-    <div class="cards-container">
+    <div class="accordion-content">
 
-        <a class="card" href="#"
-           style="background-image: url('barley.jpg');">
-            <div class="card-title">Récolte des céréales</div>
-        </a>
+        <div class="carbon-card">
+            <h2>Empreinte carbone — Lot : <span id="lotDisplay">—</span></h2>
 
-        <a class="card" href="#"
-           style="background-image: url('malt-4950433_1280.jpg');">
-            <div class="card-title">Maltage</div>
-        </a>
+            <div class="carbon-rule" id="carbonRule">Total CO₂/kg de malt</div>
 
-        <a class="card" href="#"
-           style="background-image: url('beer-2370783_1280.jpg');">
-            <div class="card-title">Brassage</div>
-        </a>
+            <div class="numbers">
+                <div class="stat"><small>Agriculture</small><strong id="valAgri">—</strong></div>
+                <div class="stat"><small>Transport</small><strong id="valTransp">—</strong></div>
+                <div class="stat"><small>Malterie</small><strong id="valMalt">—</strong></div>
+                <div class="stat"><small>Total</small><strong id="valTotal">—</strong></div>
+            </div>
 
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-        <div class="footer-block">
-            <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
-            <div class="footer-text">
-                <strong>Malterie Occitane</strong><br>
-                malterieoccitane.fr<br>
-                1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
+            <!-- RÉGLETTE CARBONE -->
+            <div class="reglette-container">
+                <div class="bar">
+                    <div class="bar-fill" id="barFill"></div>
+                </div>
+                <div class="tick"><span id="tickValue">0</span> kg CO₂ / kg</div>
             </div>
         </div>
 
-        <div class="footer-block">
-            <img src="content.png" alt="The Malt Initiative">
-            <div class="footer-text">
-                <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
-                Projet Ingénieur Agronome de l’AgroToulouse<br>
-                Mail : themaltinitiative@gmail.com
-            </div>
-        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- ╔════════════════════════════════════╗ -->
+<!-- ║     ACCORDÉON RÉCOLTE (PAGE 4)     ║ -->
+<!-- ╚════════════════════════════════════╝ -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" 
+         style="background-image:url('barley.jpg');">
+        <div class="accordion-title">Récolte des céréales</div>
     </div>
 
-    <!-- SCRIPT POUR LA REGLETTE CARBONE -->
-    <script>
-        // Base de données CSV
-        const databaseCSV = `
-lot_id,agriculture,transport,malterie
-MALT-2025-001,120.5,45.3,30.2
-MALT-2025-002,150,50,40
-MALT-2025-003,110.2,42.8,25.4
-`;
+    <div class="accordion-content">
+        <h3>Agriculteur</h3>
+        <p>Nom de l’exploitation :</p>
+        <p>Lieu :</p>
+        <p>Type et variété de céréales :</p>
+        <p>Date de récolte :</p>
+        <p>Événements particuliers :</p>
+        <p>Date de validité certification bio :</p>
 
-        function parseCSV(csv) {
-            const [header, ...lines] = csv.trim().split(/\r?\n/);
-            const headers = header.split(',').map(h => h.trim());
-            return lines.map(line => {
-                const values = line.split(',').map(v => v.trim());
-                const obj = {};
-                headers.forEach((h,i) => obj[h] = values[i]);
-                return obj;
-            });
-        }
+        <h3>Coopérative</h3>
+        <p>Nom de la coopérative :</p>
+        <p>Lieu :</p>
+        <p>Date de réception :</p>
+        <p>Type/variété :</p>
+        <p>Certifications :</p>
 
-        const database = parseCSV(databaseCSV);
-        const rule = document.getElementById('carbonRule');
+        <h3>Qualité des grains</h3>
+        <p>Humidité :</p>
+        <p>Taux de protéines :</p>
+        <p>Impuretés :</p>
+        <p>Poids spécifique :</p>
+    </div>
+</div>
 
-        // Récupération du numéro de lot depuis la page précédente
-        const lotNumber = localStorage.getItem("lotNumber") || "";
-        document.getElementById("lotDisplay").textContent = lotNumber;
 
-        // Recherche automatique du lot
-        const found = database.find(row => row.lot_id.toUpperCase() === lotNumber.toUpperCase());
 
-        if(found){
-            const sums = {
-                agriculture: parseFloat(found.agriculture)||0,
-                transport: parseFloat(found.transport)||0,
-                malterie: parseFloat(found.malterie)||0
-            };
-            const total = sums.agriculture + sums.transport + sums.malterie;
 
-            rule.innerHTML = '';
-            const makeSeg = (cls,val) => {
-                const pct = val/total*100;
-                const div = document.createElement('div');
-                div.className = 'seg ' + cls;
-                div.style.width = pct + '%';
-                rule.appendChild(div);
-            };
-            makeSeg('agri',sums.agriculture);
-            makeSeg('transp',sums.transport);
-            makeSeg('malt',sums.malterie);
 
-            document.getElementById('valAgri').textContent = sums.agriculture.toFixed(1);
-            document.getElementById('valTransp').textContent = sums.transport.toFixed(1);
-            document.getElementById('valMalt').textContent = sums.malterie.toFixed(1);
-            document.getElementById('valTotal').textContent = total.toFixed(1);
-        } else {
-            rule.innerHTML = "";
-            ['valAgri','valTransp','valMalt','valTotal'].forEach(id=>document.getElementById(id).textContent='—');
-        }
-    </script>
+<!-- ╔════════════════════════════════════╗ -->
+<!-- ║      ACCORDÉON MALTERIE (PAGE 3)   ║ -->
+<!-- ╚════════════════════════════════════╝ -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" 
+         style="background-image:url('malt.jpeg');">
+        <div class="accordion-title">Maltage (Malterie Occitane)</div>
+    </div>
+
+    <div class="accordion-content">
+
+        <h3>Étapes du procédé</h3>
+        <p><strong>1. Réception des lots :</strong> Contrôle + stockage</p>
+        <p><strong>2. Trempage :</strong> Humidification et début germination</p>
+        <p><strong>3. Germination :</strong> Transformation enzymatique</p>
+        <p><strong>4. Touraillage :</strong> Séchage, arrêt germination, arômes</p>
+        <p><strong>5. Dégermination :</strong> Retrait des radicelles</p>
+        <p><strong>6. Analyses finales :</strong> Humidité, couleur, enzymes</p>
+
+        <h3>La Malterie Occitane</h3>
+        <img src="content2.png" style="width:100%;max-width:500px;">
+        <img src="content3.png" style="width:100%;max-width:500px;">
+    </div>
+</div>
+
+
+
+
+
+<!-- ╔════════════════════════════════════╗ -->
+<!-- ║          ACCORDÉON BRASSAGE        ║ -->
+<!-- ╚════════════════════════════════════╝ -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)"
+         style="background-image:url('beer-2370783_1280.jpg');">
+        <div class="accordion-title">Brassage</div>
+    </div>
+
+    <div class="accordion-content">
+        <p>Informations sur le brassage à compléter.</p>
+    </div>
+</div>
+
+
+
+
+
+<!-- ╔════════════════════════════════════╗ -->
+<!-- ║               SCRIPTS              ║ -->
+<!-- ╚════════════════════════════════════╝ -->
+<script>
+/* --- Gestion des menus déroulants --- */
+function toggleAccordion(header){
+    const content = header.nextElementSibling;
+    const isOpen = content.style.maxHeight;
+
+    document.querySelectorAll('.accordion-content').forEach(c => {
+        c.style.maxHeight = null;
+        c.classList.remove("open");
+    });
+
+    if(!isOpen){
+        content.style.maxHeight = content.scrollHeight + "px";
+        content.classList.add("open");
+    }
+}
+
+/* --- SCRIPT DE LA RÉGLETTE CARBONE --- */
+
+/*
+   ⚠️ TU PEUX MODIFIER ICI LES VALEURS CARBONE PAR LECTURE API / JSON / LOT
+*/
+
+let carboneData = {
+    agri: 0.18,
+    transp: 0.05,
+    malt: 0.22
+};
+
+function updateCarbonDisplay() {
+
+    const total = carboneData.agri + carboneData.transp + carboneData.malt;
+
+    document.getElementById("valAgri").textContent = carboneData.agri.toFixed(2);
+    document.getElementById("valTransp").textContent = carboneData.transp.toFixed(2);
+    document.getElementById("valMalt").textContent = carboneData.malt.toFixed(2);
+    document.getElementById("valTotal").textContent = total.toFixed(2);
+
+    // Mise à jour réglette
+    let percent = Math.min(100, (total / 1) * 100);  
+    document.getElementById("barFill").style.width = percent + "%";
+    document.getElementById("tickValue").textContent = total.toFixed(2);
+}
+
+// lancement
+updateCarbonDisplay();
+</script>
 
 </body>
 </html>
