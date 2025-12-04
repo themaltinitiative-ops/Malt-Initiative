@@ -52,11 +52,13 @@
         z-index: 5;
     }
 
+    /* 🎨 NOUVEAU STYLE POUR LE MENU DÉROULANT */
     .accordion-content {
+        background: #F0E9DF;        /* Couleur beige douce */
+        border-top: 1px solid #e0d7cc;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s ease;
-        background: #fff;
+        transition: max-height 0.4s ease, padding 0.3s ease;
         padding: 0 20px;
     }
 
@@ -121,13 +123,17 @@
         font-size: 14px;
         text-align: right;
     }
+
+    /* --- LISTES MALTERIE --- */
+    ul {
+        margin: 8px 0 15px 20px;
+    }
 </style>
 </head>
 
 <body>
 
 <h1>Informations du Lot</h1>
-
 
 
 <!-- ╔════════════════════════════════════╗ -->
@@ -163,6 +169,7 @@
                 </div>
                 <div class="tick"><span id="tickValue">0</span> kg CO₂ / kg</div>
             </div>
+
         </div>
 
     </div>
@@ -221,12 +228,48 @@
     <div class="accordion-content">
 
         <h3>Étapes du procédé</h3>
-        <p><strong>1. Réception des lots :</strong> Contrôle + stockage</p>
-        <p><strong>2. Trempage :</strong> Humidification et début germination</p>
-        <p><strong>3. Germination :</strong> Transformation enzymatique</p>
-        <p><strong>4. Touraillage :</strong> Séchage, arrêt germination, arômes</p>
-        <p><strong>5. Dégermination :</strong> Retrait des radicelles</p>
-        <p><strong>6. Analyses finales :</strong> Humidité, couleur, enzymes</p>
+
+        <p><strong>1. Réception des lots</strong></p>
+        <ul>
+            <li>Contrôle des caractéristiques du grain</li>
+            <li>Stockage dans les silos dédiés</li>
+        </ul>
+
+        <p><strong>2. Trempage</strong></p>
+        <ul>
+            <li>Humidification progressive du grain</li>
+            <li>Activation de la germination</li>
+            <li>Cyclage eau / repos</li>
+        </ul>
+
+        <p><strong>3. Germination</strong></p>
+        <ul>
+            <li>Développement du germe</li>
+            <li>Formation des enzymes</li>
+            <li>Contrôle température & humidité</li>
+        </ul>
+
+        <p><strong>4. Touraillage</strong></p>
+        <ul>
+            <li>Séchage du malt vert</li>
+            <li>Arrêt de la germination</li>
+            <li>Développement arômes et couleurs</li>
+            <li>Montée progressive en température</li>
+        </ul>
+
+        <p><strong>5. Dégermination</strong></p>
+        <ul>
+            <li>Retrait mécanique des radicelles</li>
+            <li>Nettoyage final du malt</li>
+        </ul>
+
+        <p><strong>6. Analyses finales</strong></p>
+        <ul>
+            <li>Humidité</li>
+            <li>Couleur (EBC)</li>
+            <li>Pouvoir enzymatique</li>
+            <li>Protéines</li>
+        </ul>
 
         <h3>La Malterie Occitane</h3>
         <img src="content2.png" style="width:100%;max-width:500px;">
@@ -257,7 +300,7 @@
 
 
 <!-- ╔════════════════════════════════════╗ -->
-<!-- ║               SCRIPTS              ║ -->
+<!-- ║               SCRIPT                ║ -->
 <!-- ╚════════════════════════════════════╝ -->
 <script>
 /* --- Gestion des menus déroulants --- */
@@ -276,254 +319,57 @@ function toggleAccordion(header){
     }
 }
 
+
 /* --- SCRIPT DE LA RÉGLETTE CARBONE --- */
 
-/*
-   ⚠️ TU PEUX MODIFIER ICI LES VALEURS CARBONE PAR LECTURE API / JSON / LOT
-*/
-
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f8fafc;
-    margin: 0;
-    padding: 24px;
-    color: #0f1724;
-  }
-​
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-  }
-​
-  h2 {
-    margin-top: 0;
-    font-size: 22px;
-    margin-bottom: 16px;
-  }
-​
-  .controls {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-​
-  input[type=text] {
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    flex: 1;
-    min-width: 200px;
-    font-size: 14px;
-    transition: border 0.2s;
-  }
-​
-  input[type=text]:focus {
-    border-color: #166534;
-    outline: none;
-  }
-​
-  .btn {
-    background: #0f1724;
-    color: #fff;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    font-size: 14px;
-  }
-​
-  .btn:hover {
-    background: #1e293b;
-    transform: translateY(-1px);
-  }
-​
-  .carbon-rule {
-    height: 48px;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  .carbon-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 6px;
-  color: #0f1724;
-  }
-  .seg {
-    height: 100%;
-    display: inline-block;
-    transition: width 0.3s ease;
-  }
-​
-  /* Barres carbone */
-  .seg.agri {
-    background: #15803d;
-  }
-​
-  /* vert sapin foncé */
-  .seg.transp {
-    background: #d9f99d;
-  }
-​
-  /* vert clair */
-  .seg.malt {
-    background: #fde68a;
-  }
-​
-  /* jaune ocre */
-​
-  .numbers {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-​
-  .stat {
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    min-width: 140px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    font-size: 14px;
-  }
-​
-  .stat.agri {
-    background: #15803d;
-    color: #fff;
-    border-color: #064e3b;
-  }
-​
-  /* vert foncé pastel */
-  .stat.transp {
-    background: #d9f99d;
-    border-color: #15803d;
-  }
-​
-  .stat.malt {
-    background: #fde68a;
-    border-color: #b45309;
-  }
-​
-  .stat.total {
-    background: #fff;
-    border-color: #e2e8f0;
-    color: #0f1724;
-  }
-​
-  .stat strong {
-    display: block;
-    font-size: 20px;
-    margin-top: 4px;
-  }
-​
-  #lotsDispo {
-    font-size: 13px;
-    color: #475569;
-    margin-top: 6px;
-  }
-​
-  #message {
-    font-size: 14px;
-    margin-top: 6px;
-    color: #475569;
-    min-height: 20px;
-  }
-</style>
-​
-<div class="card">
-  <h2>Empreinte carbone — Recherche par numéro de lot</h2>
-​
-  <div class="controls">
-    <input id="lotInput" type="text" placeholder="Numéro de lot (ex : MALT-2025-001)" />
-    <button id="searchBtn" class="btn">Rechercher</button>
-  </div>
-​
-  <div id="lotsDispo"></div>
-  <div id="message"></div>
-​
-  <div class="carbon-title">Empreinte carbone du malt en kg CO₂ / kg de malt</div>
-  <div class="carbon-rule" id="carbonRule"></div>
-​
-  <div class="numbers">
-    <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat total"><small>Total</small><strong id="valTotal">—</strong><span> kg CO₂ / kg de malt</span></div>
-  </div>
-</div>
-​
-<script>
-  const databaseCSV = `
+const databaseCSV = `
 lot_id,agriculture,transport,malterie
 MALT-2025-001,120.5,45.3,30.2
 MALT-2025-002,150,50,40
 MALT-2025-003,110.2,42.8,25.4
 `;
-​
-  function parseCSV(csv) {
+
+function parseCSV(csv) {
     const [header, ...lines] = csv.trim().split(/\r?\n/);
     const headers = header.split(',').map(h => h.trim());
     return lines.map(line => {
-      const values = line.split(',').map(v => v.trim());
-      const obj = {};
-      headers.forEach((h,i) => obj[h] = values[i]);
-      return obj;
+        const values = line.split(',').map(v => v.trim());
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = values[i]);
+        return obj;
     });
-  }
-​
-  const database = parseCSV(databaseCSV);
-  const rule = document.getElementById('carbonRule');
-  const message = document.getElementById('message');
-  document.getElementById('lotsDispo').innerHTML = 
-    "Lots disponibles : <strong>" + database.map(r => r.lot_id).join(" | ") + "</strong>";
-​
-  document.getElementById('searchBtn').addEventListener('click', () => {
-    const input = document.getElementById('lotInput').value;
-    const lot = input.replace(/\s+/g, '').toUpperCase();
-    const found = database.find(row => row.lot_id.toUpperCase().replace(/\s+/g,'')===lot);
-​
-    if(!found){
-      message.textContent = "❌ Aucun lot trouvé pour : " + lot;
-      rule.innerHTML = "";
-      ['valAgri','valTransp','valMalt','valTotal'].forEach(id=>document.getElementById(id).textContent='—');
-      return;
-    }
-​
-    message.textContent = "✅ Résultats pour le lot : " + found.lot_id;
-​
-    const sums = {
-      agriculture: parseFloat(found.agriculture)||0,
-      transport: parseFloat(found.transport)||0,
-      malterie: parseFloat(found.malterie)||0
-    };
-    const total = sums.agriculture + sums.transport + sums.malterie;
-​
-    rule.innerHTML = '';
-    const makeSeg = (cls,val) => {
-      const pct = val/total*100;
-      const div = document.createElement('div');
-      div.className = 'seg ' + cls;
-      div.style.width = pct + '%';
-      rule.appendChild(div);
-    };
-    makeSeg('agri',sums.agriculture);
-    makeSeg('transp',sums.transport);
-    makeSeg('malt',sums.malterie);
-​
-    document.getElementById('valAgri').textContent = sums.agriculture.toFixed(1);
-    document.getElementById('valTransp').textContent = sums.transport.toFixed(1);
-    document.getElementById('valMalt').textContent = sums.malterie.toFixed(1);
-    document.getElementById('valTotal').textContent = total.toFixed(1);
-  });
+}
+
+const database = parseCSV(databaseCSV);
+
+const barFill = document.getElementById("barFill");
+const tickValue = document.getElementById("tickValue");
+
+document.querySelector("#lotDisplay").textContent = "—";
+
+
+function loadCarbon(lotId){
+    const found = database.find(r => r.lot_id === lotId);
+    if(!found) return;
+
+    const agri = parseFloat(found.agriculture);
+    const transp = parseFloat(found.transport);
+    const malt = parseFloat(found.malterie);
+    const total = agri + transp + malt;
+
+    document.getElementById("valAgri").textContent = agri.toFixed(1);
+    document.getElementById("valTransp").textContent = transp.toFixed(1);
+    document.getElementById("valMalt").textContent = malt.toFixed(1);
+    document.getElementById("valTotal").textContent = total.toFixed(1);
+
+    document.getElementById("lotDisplay").textContent = lotId;
+
+    barFill.style.width = (total * 0.8) + "%";
+    tickValue.textContent = total.toFixed(1);
+}
+
+loadCarbon("MALT-2025-001");
 </script>
+
+</body>
+</html>
