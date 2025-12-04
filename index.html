@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockchain Brassicole 🍻</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background-color: #f5f0e1; color: #5c4438; margin:0; padding:0; }
+  header { background-color: #d9c7a1; padding: 20px; text-align:center; }
+  header h1 { margin:0; }
+  .container { width:90%; max-width:1000px; margin:20px auto; padding:20px; }
+  .formulaire { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
+  input, textarea { padding:10px; border-radius:5px; border:1px solid #b8a78b; outline:none; }
+  input { width:200px; } textarea { width:400px; height:70px; }
+  button { background-color:#b88b4a; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; }
+  button:hover { background-color:#a57336; }
+  .blockchain { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .block { width:150px; min-height:100px; background-color:#f0e4d1; border:2px solid #b88b4a; border-radius:10px; padding:10px; cursor:pointer; text-align:center; }
+  footer { text-align:center; margin:40px 0; font-size:0.9em; color:#7b6550; }
+</style>
+</head>
+<body>
+
+<header><h1>De l'Amont Agricole à l'Aval Brassicole 🍻</h1></header>
+
+<main class="container">
+  <h2>Ajouter une étape</h2>
+  <div class="formulaire">
+    <input type="text" id="etape" placeholder="Nom de l'étape">
+    <textarea id="description" placeholder="Description de l'étape"></textarea>
+    <button id="addBlockBtn">Ajouter</button>
+  </div>
+
+  <h2>Importer depuis Excel</h2>
+  <div class="formulaire">
+    <input type="file" id="excelFile">
+    <button id="uploadExcelBtn">Importer Excel</button>
+  </div>
+
+  <h2>🧱 La Blockchain</h2>
+  <div id="blockchain" class="blockchain"></div>
+</main>
+
+<footer>© 2025 - Blockchain Brassicole</footer>
+
+<script>
+async function fetchBlockchain() {
+  const res = await fetch("/blocks");
+  const blocks = await res.json();
+  const container = document.getElementById("blockchain");
+  container.innerHTML = "";
+  blocks.forEach(block => {
+    const div = document.createElement("div");
+    div.classList.add("block");
+    div.innerHTML = `<h3>${block.etape}</h3><p>${block.timestamp}</p>`;
+    div.addEventListener("click", () => {
+      localStorage.setItem("selectedBlock", JSON.stringify(block));
+      window.location.href = "block_detail.html";
+    });
+    container.appendChild(div);
+  });
+}
+
+// Ajouter un bloc via formulaire
+document.getElementById("addBlockBtn").addEventListener("click", async () => {
+  const etape = document.getElementById("etape").value.trim();
+  const description = document.getElementById("description").value.trim();
+  if (!etape || !description) return alert("Renseignez étape et description !");
+  
+  const res = await fetch("/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ etape, description })
+  });
+  if (!res.ok) return alert("Impossible d'ajouter le bloc.");
+  
+  document.getElementById("etape").value = "";
+  document.getElementById("description").value = "";
+  fetchBlockchain();
+});
+
+// Importer Excel
+document.getElementById("uploadExcelBtn").addEventListener("click", async () => {
+  const fileInput = document.getElementById("excelFile");
+  if (!fileInput.files.length) return alert("Choisissez un fichier Excel !");
+  const formData = new FormData();
+  formData.append("excel", fileInput.files[0]);
+  
+  const res = await fetch("/upload", { method:"POST", body: formData });
+  if (!res.ok) return alert("Erreur lors de l'import Excel.");
+  alert("Excel importé avec succès !");
+  fetchBlockchain();
+});
+
+fetchBlockchain();
+</script>
+</body>
+</html>
