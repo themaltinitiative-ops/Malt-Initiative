@@ -53,16 +53,30 @@
 
         /* --- FOOTER --- */
         footer {
-            background: #2b2b2b;
-            padding: 20px;
+            background-color: #2b2b2b;
+            color: white;
+            padding: 25px 40px;
             display: flex;
-            justify-content: center;
-            gap: 80px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        footer img {
+        .footer-block {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 45%;
+        }
+
+        .footer-block img {
             height: 60px;
             object-fit: contain;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -119,8 +133,8 @@
         </div>
     </div>
 
-        <!-- FOOTER -->
-    <div class="footer">
+    <!-- FOOTER -->
+    <footer>
         <div class="footer-block">
             <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
             <div class="footer-text">
@@ -137,6 +151,8 @@
                 Projet Ingénieur Agronome de l’AgroToulouse<br>
                 Mail : themaltinitiative@gmail.com
             </div>
+        </div>
+    </footer>
+
 </body>
 </html>
-
