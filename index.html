@@ -54,11 +54,9 @@ async function fetchBlockchain() {
     div.classList.add("block");
     div.innerHTML = `<h3>${block.etape}</h3><p>${block.timestamp}</p>`;
     div.addEventListener("click", () => {
-      localStorage.setItem("selectedBlock", JSON.stringify(block));
-      window.location.href = "block_detail.html";
-    });
-    container.appendChild(div);
-  });
+  localStorage.setItem("selectedBlock", JSON.stringify(block));
+  window.location.href = "Pp/premiere.html";
+});
 }
 
 // Ajouter un bloc via formulaire
