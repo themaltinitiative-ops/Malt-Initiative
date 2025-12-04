@@ -3,94 +3,223 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blockchain Brassicole 🍻</title>
+<title>The Malt Initiative</title>
+
 <style>
-  body { font-family: 'Segoe UI', sans-serif; background-color: #f5f0e1; color: #5c4438; margin:0; padding:0; }
-  header { background-color: #d9c7a1; padding: 20px; text-align:center; }
-  header h1 { margin:0; }
-  .container { width:90%; max-width:1000px; margin:20px auto; padding:20px; }
-  .formulaire { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:20px; }
-  input, textarea { padding:10px; border-radius:5px; border:1px solid #b8a78b; outline:none; }
-  input { width:200px; } textarea { width:400px; height:70px; }
-  button { background-color:#b88b4a; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; }
-  button:hover { background-color:#a57336; }
-  .blockchain { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-  .block { width:150px; min-height:100px; background-color:#f0e4d1; border:2px solid #b88b4a; border-radius:10px; padding:10px; cursor:pointer; text-align:center; }
-  footer { text-align:center; margin:40px 0; font-size:0.9em; color:#7b6550; }
-</style>
-</head>
-<body>
-
-<header><h1>De l'Amont Agricole à l'Aval Brassicole 🍻</h1></header>
-
-<main class="container">
-  <h2>Ajouter une étape</h2>
-  <div class="formulaire">
-    <input type="text" id="etape" placeholder="Nom de l'étape">
-    <textarea id="description" placeholder="Description de l'étape"></textarea>
-    <button id="addBlockBtn">Ajouter</button>
-  </div>
-
-  <h2>Importer depuis Excel</h2>
-  <div class="formulaire">
-    <input type="file" id="excelFile">
-    <button id="uploadExcelBtn">Importer Excel</button>
-  </div>
-
-  <h2>🧱 La Blockchain</h2>
-  <div id="blockchain" class="blockchain"></div>
-</main>
-
-<footer>© 2025 - Blockchain Brassicole</footer>
-
-<script>
-async function fetchBlockchain() {
-  const res = await fetch("/blocks");
-  const blocks = await res.json();
-  const container = document.getElementById("blockchain");
-  container.innerHTML = "";
-  blocks.forEach(block => {
-    const div = document.createElement("div");
-    div.classList.add("block");
-    div.innerHTML = `<h3>${block.etape}</h3><p>${block.timestamp}</p>`;
-    div.addEventListener("click", () => {
-  localStorage.setItem("selectedBlock", JSON.stringify(block));
-  window.location.href = "Pp/premiere.html";
-});
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff7ef;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
 }
 
-// Ajouter un bloc via formulaire
-document.getElementById("addBlockBtn").addEventListener("click", async () => {
-  const etape = document.getElementById("etape").value.trim();
-  const description = document.getElementById("description").value.trim();
-  if (!etape || !description) return alert("Renseignez étape et description !");
-  
-  const res = await fetch("/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ etape, description })
-  });
-  if (!res.ok) return alert("Impossible d'ajouter le bloc.");
-  
-  document.getElementById("etape").value = "";
-  document.getElementById("description").value = "";
-  fetchBlockchain();
-});
+/* --- CHOPES ANIMÉES --- */
+.side-image {
+    position: absolute;
+    top: 450px;
+    width: 160px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+}
+.side-left { left: calc(50% - 450px); transform-origin: bottom center; animation: clinkLeft 1.5s linear infinite; }
+.side-right { right: calc(50% - 450px); transform-origin: bottom center; animation: clinkRight 1.5s linear infinite; }
 
-// Importer Excel
-document.getElementById("uploadExcelBtn").addEventListener("click", async () => {
-  const fileInput = document.getElementById("excelFile");
-  if (!fileInput.files.length) return alert("Choisissez un fichier Excel !");
-  const formData = new FormData();
-  formData.append("excel", fileInput.files[0]);
-  
-  const res = await fetch("/upload", { method:"POST", body: formData });
-  if (!res.ok) return alert("Erreur lors de l'import Excel.");
-  alert("Excel importé avec succès !");
-  fetchBlockchain();
-});
+@keyframes clinkLeft {
+    0%   { transform: scaleX(-1) rotate(0deg); }
+    25%  { transform: scaleX(-1) rotate(-10deg); }
+    50%  { transform: scaleX(-1) rotate(-12deg); }
+    75%  { transform: scaleX(-1) rotate(-10deg); }
+    100% { transform: scaleX(-1) rotate(0deg); }
+}
+@keyframes clinkRight {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-10deg); }
+    50%  { transform: rotate(-12deg); }
+    75%  { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
 
-fetchBlockchain();
+/* Loader */
+#loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    display: none; /* caché par défaut */
+}
+#loader img {
+    width: 150px;
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+
+/* Bannière */
+.header-images img { width: 100%; height: auto; display: block; }
+
+/* Slogan */
+.slogan { margin: 30px auto; font-size: 38px; font-weight: bold; color: #333; }
+
+/* Formulaire */
+.form-container { margin: 40px auto; max-width: 90%; }
+.form-container label {
+    font-weight: bold;
+    color: #6a3a15;
+    font-family: "Courier New", monospace;
+    font-size: 26px;
+}
+.form-container input {
+    padding: 14px;
+    margin: 12px 0;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    border: 2px solid #c9a791;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+.age-label { margin: 30px 0 15px; font-size: 24px; color: #333; }
+
+.buttons button {
+    padding: 14px 30px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+.btn-oui { background-color: #f7a77a; }
+.btn-non { background-color: #f5c6a1; }
+
+/* Footer */
+.footer-infos {
+    margin:50px 5% 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:40px;
+}
+.footer-block { display:flex; align-items:center; gap:20px; width:45%; }
+.footer-block img { max-width:120px; height:auto; }
+.footer-text { font-size:18px; color:#333; line-height:1.4; text-align:left; }
+
+@media (max-width:700px){
+    .footer-block { width:100%; text-align:center; flex-direction:column; }
+    .footer-text { text-align:center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div id="loader">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
+</div>
+
+<!-- CHOPES ANIMÉES -->
+<img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-left" alt="Décor gauche">
+<img src="Dessin_chope_de_biere_480x480-removebg-preview.png" class="side-image side-right" alt="Décor droit">
+
+<div class="container">
+
+    <!-- Bannière -->
+    <div class="header-images">
+        <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
+    </div>
+
+    <!-- Slogan -->
+    <h2 class="slogan">De la graine à la binouze on ne perd pas la trace !</h2>
+
+    <!-- Formulaire -->
+    <form class="form-container" onsubmit="return false;">
+        <label>Numéro de Lot :</label><br>
+        <input id="lotInput" type="text" placeholder="Entrez le numéro"><br>
+
+        <p class="age-label">Êtes-vous majeur(e) ?</p>
+
+        <div class="buttons">
+            <button type="button" class="btn-oui" onclick="validerAge(true)">Oui</button>
+            <button type="button" class="btn-non" onclick="validerAge(false)">Non</button>
+        </div>
+    </form>
+
+    <h3>Projet - The Malt Initiative</h3>
+
+    <!-- Footer -->
+    <div class="footer-infos">
+        <div class="footer-block">
+            <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
+            <div class="footer-text">
+                <strong>Malterie Occitane</strong><br>
+                malterieoccitane.fr<br>
+                1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
+            </div>
+        </div>
+
+        <div class="footer-block">
+            <img src="content.png" alt="The Malt Initiative">
+            <div class="footer-text">
+                <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
+                Projet Ingénieur Agronome de l’AgroToulouse<br>
+                Mail : themaltinitiative@gmail.com
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function validerAge(isMajor) {
+    const lot = document.getElementById("lotInput").value.trim();
+
+    if (!isMajor) {
+        alert("Désolé, accès refusé ❌");
+        return;
+    }
+
+    if (lot === "") {
+        alert("Veuillez entrer un numéro de lot avant de continuer.");
+        return;
+    }
+
+    // Stocke le numéro de lot
+    localStorage.setItem("lotNumber", lot);
+
+    // Affiche le loader
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
+
+    // Redirection vers page2.html avec paramètre anti-cache
+    setTimeout(() => {
+        window.location.href = "page2.html?ts=" + new Date().getTime();
+    }, 800); // délai pour montrer le loader
+}
 </script>
+
 </body>
 </html>
