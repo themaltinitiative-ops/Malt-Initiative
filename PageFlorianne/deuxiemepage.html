@@ -19,6 +19,17 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* --- BANNIÈRE --- */
+.header-images {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-images img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* --- ACCORDIONS --- */
 .accordion {
     background: #f0e6d2; /* couleur crème clair */
@@ -69,36 +80,72 @@ h3 {
     margin-top: 20px;
 }
 
-/* --- CARTE CARBONE --- */
-.carbon-card {
-    background: #fafafa;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 10px;
+/* --- LISTES --- */
+ul {
+    margin: 10px 0 20px 20px;
+    padding: 0;
+    list-style-type: disc;
+}
+
+ul li {
+    margin-bottom: 6px;
+}
+
+/* --- RÉGLETTE CARBONE --- */
+.carbon-rule {
+    height: 28px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.seg {
+    height: 100%;
+    display: inline-block;
+    transition: width 0.3s ease;
+}
+
+.seg.agri {
+    background: #15803d;
+}
+
+.seg.transp {
+    background: #d9f99d;
+}
+
+.seg.malt {
+    background: #fde68a;
 }
 
 .numbers {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    gap: 16px;
+    margin-top: 16px;
     flex-wrap: wrap;
 }
 
 .stat {
-    width: 48%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    min-width: 140px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    font-size: 14px;
     text-align: center;
-    margin-bottom: 10px;
 }
 
-.stat strong {
-    display: block;
-    margin-top: 5px;
-    font-size: 20px;
-}
+.stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
+.stat.transp { background: #d9f99d; border-color: #15803d; }
+.stat.malt { background: #fde68a; border-color: #b45309; }
+.stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
 
-/* --- RÉGLETTE --- */
+.stat strong { display: block; font-size: 20px; margin-top: 4px; }
+
 .reglette-container {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .bar {
@@ -123,46 +170,62 @@ h3 {
     text-align: right;
 }
 
-/* --- LISTES ET SOUS-ÉTAPES --- */
-ul {
-    margin: 10px 0 20px 20px;
-    padding: 0;
-    list-style-type: disc;
+/* --- FOOTER --- */
+footer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background: #e0d8c5;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 12px;
 }
 
-ul li {
-    margin-bottom: 6px;
+.footer-block {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.footer-block img {
+    width: 60px;
+    height: auto;
+}
+
+.footer-text {
+    font-size: 14px;
+    line-height: 1.4;
 }
 </style>
 </head>
 
 <body>
 
+<!-- BANNIÈRE -->
+<div class="header-images">
+    <img src="Pp/bannire-fine.png" alt="Bannière The Malt Initiative">
+</div>
+
 <h1>Informations du Lot</h1>
 
 <!-- ACCORDÉON EMPREINTE CARBONE -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" 
-         style="background-image:url('carbone.jpg');">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('carbone.jpg');">
         <div class="accordion-title">
             <img src="icon-carbone.png" style="width:40px;vertical-align:middle;margin-right:10px;">
             Empreinte carbone du lot
         </div>
     </div>
     <div class="accordion-content">
-        <div class="carbon-card">
-            <h2>Empreinte carbone — Lot : <span id="lotDisplay">—</span></h2>
-
-            <div class="carbon-rule" id="carbonRule">Total CO₂/kg de malt</div>
-
+        <div id="carbonCard">
+            <div class="carbon-rule" id="carbonRule"></div>
             <div class="numbers">
-                <div class="stat"><small>Agriculture</small><strong id="valAgri">—</strong></div>
-                <div class="stat"><small>Transport</small><strong id="valTransp">—</strong></div>
-                <div class="stat"><small>Malterie</small><strong id="valMalt">—</strong></div>
-                <div class="stat"><small>Total</small><strong id="valTotal">—</strong></div>
+                <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong></div>
+                <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong></div>
+                <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong></div>
+                <div class="stat total"><small>Total</small><strong id="valTotal">—</strong></div>
             </div>
-
-            <!-- RÉGLETTE CARBONE -->
             <div class="reglette-container">
                 <div class="bar">
                     <div class="bar-fill" id="barFill"></div>
@@ -175,8 +238,7 @@ ul li {
 
 <!-- ACCORDÉON RÉCOLTE -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" 
-         style="background-image:url('barley.jpg');">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
         <div class="accordion-title">Récolte des céréales</div>
     </div>
     <div class="accordion-content">
@@ -211,8 +273,7 @@ ul li {
 
 <!-- ACCORDÉON MALTERIE -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" 
-         style="background-image:url('malt.jpeg');">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt.jpeg');">
         <div class="accordion-title">Maltage (Malterie Occitane)</div>
     </div>
     <div class="accordion-content">
@@ -234,14 +295,34 @@ ul li {
 
 <!-- ACCORDÉON BRASSAGE -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)"
-         style="background-image:url('beer-2370783_1280.jpg');">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
         <div class="accordion-title">Brassage</div>
     </div>
     <div class="accordion-content">
         <p>Informations sur le brassage à compléter.</p>
     </div>
 </div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-block">
+        <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
+        <div class="footer-text">
+            <strong>Malterie Occitane</strong><br>
+            malterieoccitane.fr<br>
+            1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
+        </div>
+    </div>
+
+    <div class="footer-block">
+        <img src="content.png" alt="The Malt Initiative">
+        <div class="footer-text">
+            <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
+            Projet Ingénieur Agronome de l’AgroToulouse<br>
+            Mail : themaltinitiative@gmail.com
+        </div>
+    </div>
+</footer>
 
 <script>
 /* --- Gestion des menus déroulants --- */
@@ -260,250 +341,79 @@ function toggleAccordion(header){
     }
 }
 
-/* --- SCRIPT DE LA RÉGLETTE CARBONE --- */
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f8fafc;
-    margin: 0;
-    padding: 24px;
-    color: #0f1724;
-  }
-​
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-  }
-​
-  h2 {
-    margin-top: 0;
-    font-size: 22px;
-    margin-bottom: 16px;
-  }
-​
-  .controls {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-​
-  input[type=text] {
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    flex: 1;
-    min-width: 200px;
-    font-size: 14px;
-    transition: border 0.2s;
-  }
-​
-  input[type=text]:focus {
-    border-color: #166534;
-    outline: none;
-  }
-​
-  .btn {
-    background: #0f1724;
-    color: #fff;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    font-size: 14px;
-  }
-​
-  .btn:hover {
-    background: #1e293b;
-    transform: translateY(-1px);
-  }
-​
-  .carbon-rule {
-    height: 48px;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  .carbon-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 6px;
-  color: #0f1724;
-  }
-  .seg {
-    height: 100%;
-    display: inline-block;
-    transition: width 0.3s ease;
-  }
-​
-  /* Barres carbone */
-  .seg.agri {
-    background: #15803d;
-  }
-​
-  /* vert sapin foncé */
-  .seg.transp {
-    background: #d9f99d;
-  }
-​
-  /* vert clair */
-  .seg.malt {
-    background: #fde68a;
-  }
-​
-  /* jaune ocre */
-​
-  .numbers {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-​
-  .stat {
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    min-width: 140px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    font-size: 14px;
-  }
-​
-  .stat.agri {
-    background: #15803d;
-    color: #fff;
-    border-color: #064e3b;
-  }
-​
-  /* vert foncé pastel */
-  .stat.transp {
-    background: #d9f99d;
-    border-color: #15803d;
-  }
-​
-  .stat.malt {
-    background: #fde68a;
-    border-color: #b45309;
-  }
-​
-  .stat.total {
-    background: #fff;
-    border-color: #e2e8f0;
-    color: #0f1724;
-  }
-​
-  .stat strong {
-    display: block;
-    font-size: 20px;
-    margin-top: 4px;
-  }
-​
-  #lotsDispo {
-    font-size: 13px;
-    color: #475569;
-    margin-top: 6px;
-  }
-​
-  #message {
-    font-size: 14px;
-    margin-top: 6px;
-    color: #475569;
-    min-height: 20px;
-  }
-</style>
-​
-<div class="card">
-  <h2>Empreinte carbone — Recherche par numéro de lot</h2>
-​
-  <div class="controls">
-    <input id="lotInput" type="text" placeholder="Numéro de lot (ex : MALT-2025-001)" />
-    <button id="searchBtn" class="btn">Rechercher</button>
-  </div>
-​
-  <div id="lotsDispo"></div>
-  <div id="message"></div>
-​
-  <div class="carbon-title">Empreinte carbone du malt en kg CO₂ / kg de malt</div>
-  <div class="carbon-rule" id="carbonRule"></div>
-​
-  <div class="numbers">
-    <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong><span> kg CO₂ / kg de malt</span></div>
-    <div class="stat total"><small>Total</small><strong id="valTotal">—</strong><span> kg CO₂ / kg de malt</span></div>
-  </div>
-</div>
-​
-<script>
-  const databaseCSV = `
+/* --- Script réglette carbone --- */
+const databaseCSV = `
 lot_id,agriculture,transport,malterie
 MALT-2025-001,120.5,45.3,30.2
 MALT-2025-002,150,50,40
 MALT-2025-003,110.2,42.8,25.4
 `;
-​
-  function parseCSV(csv) {
+
+function parseCSV(csv) {
     const [header, ...lines] = csv.trim().split(/\r?\n/);
     const headers = header.split(',').map(h => h.trim());
     return lines.map(line => {
-      const values = line.split(',').map(v => v.trim());
-      const obj = {};
-      headers.forEach((h,i) => obj[h] = values[i]);
-      return obj;
+        const values = line.split(',').map(v => v.trim());
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = values[i]);
+        return obj;
     });
-  }
-​
-  const database = parseCSV(databaseCSV);
-  const rule = document.getElementById('carbonRule');
-  const message = document.getElementById('message');
-  document.getElementById('lotsDispo').innerHTML = 
-    "Lots disponibles : <strong>" + database.map(r => r.lot_id).join(" | ") + "</strong>";
-​
-  document.getElementById('searchBtn').addEventListener('click', () => {
-    const input = document.getElementById('lotInput').value;
-    const lot = input.replace(/\s+/g, '').toUpperCase();
+}
+
+const database = parseCSV(databaseCSV);
+const rule = document.getElementById('carbonRule');
+const message = document.createElement('div');
+document.getElementById('carbonCard').prepend(message);
+
+document.getElementById('lotDisplay').textContent = "—";
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        if(header.querySelector('.accordion-title').textContent.includes("Empreinte carbone")) {
+            header.addEventListener('click', () => {
+                message.textContent = "Saisissez un lot dans le menu prévu.";
+            });
+        }
+    });
+});
+
+function updateCarbon(lotInput) {
+    const lot = lotInput.replace(/\s+/g, '').toUpperCase();
     const found = database.find(row => row.lot_id.toUpperCase().replace(/\s+/g,'')===lot);
-​
     if(!found){
-      message.textContent = "❌ Aucun lot trouvé pour : " + lot;
-      rule.innerHTML = "";
-      ['valAgri','valTransp','valMalt','valTotal'].forEach(id=>document.getElementById(id).textContent='—');
-      return;
+        message.textContent = "❌ Aucun lot trouvé pour : " + lot;
+        rule.innerHTML = "";
+        ['valAgri','valTransp','valMalt','valTotal','tickValue'].forEach(id => document.getElementById(id).textContent='—');
+        return;
     }
-​
     message.textContent = "✅ Résultats pour le lot : " + found.lot_id;
-​
+
     const sums = {
-      agriculture: parseFloat(found.agriculture)||0,
-      transport: parseFloat(found.transport)||0,
-      malterie: parseFloat(found.malterie)||0
+        agriculture: parseFloat(found.agriculture)||0,
+        transport: parseFloat(found.transport)||0,
+        malterie: parseFloat(found.malterie)||0
     };
     const total = sums.agriculture + sums.transport + sums.malterie;
-​
+
     rule.innerHTML = '';
     const makeSeg = (cls,val) => {
-      const pct = val/total*100;
-      const div = document.createElement('div');
-      div.className = 'seg ' + cls;
-      div.style.width = pct + '%';
-      rule.appendChild(div);
+        const pct = val/total*100;
+        const div = document.createElement('div');
+        div.className = 'seg ' + cls;
+        div.style.width = pct + '%';
+        rule.appendChild(div);
     };
     makeSeg('agri',sums.agriculture);
     makeSeg('transp',sums.transport);
     makeSeg('malt',sums.malterie);
-​
+
     document.getElementById('valAgri').textContent = sums.agriculture.toFixed(1);
     document.getElementById('valTransp').textContent = sums.transport.toFixed(1);
     document.getElementById('valMalt').textContent = sums.malterie.toFixed(1);
     document.getElementById('valTotal').textContent = total.toFixed(1);
-  });
+    document.getElementById('tickValue').textContent = total.toFixed(1);
+}
 </script>
-​
+
+</body>
+</html>
