@@ -311,8 +311,8 @@ async function loadLot() {
         return;
     }
 
-    // URL brute GitHub
-    const csvPath = `https://raw.githubusercontent.com/<utilisateur>/<repo>/master/data/${lotId}.csv`;
+    // URL brute GitHub correcte
+    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
     try {
         const response = await fetch(csvPath);
@@ -326,6 +326,7 @@ async function loadLot() {
         alert("Erreur : " + err.message);
     }
 }
+
 // --- PARSE CSV ---
 function parseLotCSV(csv){
     const lines = csv.trim().split(/\r?\n/);
