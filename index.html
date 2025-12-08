@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -207,19 +208,18 @@ function validerAge(isMajor) {
         return;
     }
 
-    // Stocke le numéro de lot (utile si tu veux le réutiliser ailleurs)
+    // Stocke le numéro de lot
     localStorage.setItem("lotNumber", lot);
 
     // Affiche le loader
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    // Redirection avec numéro de lot dans l’URL
+    // Redirection vers la page dans /PageFlorianne
     setTimeout(() => {
-        window.location.href = "PageFlorianne/deuxiemepage.html?lot=" + encodeURIComponent(lot);
+        window.location.href = "PageFlorianne/deuxiemepage.html?ts=" + new Date().getTime();
     }, 800);
 }
 </script>
-
 </body>
 </html>
