@@ -305,7 +305,9 @@ async function loadLot() {
         return;
     }
 
-    const csvPath = `data/${lotId}.csv`;
+    // URL brute GitHub
+    const csvPath = `https://raw.githubusercontent.com/<utilisateur>/<repo>/master/data/${lotId}.csv`;
+
     try {
         const response = await fetch(csvPath);
         if (!response.ok) throw new Error("Fichier CSV introuvable");
@@ -314,12 +316,10 @@ async function loadLot() {
         if (!lot) throw new Error("Données invalides");
 
         updatePageWithLot(lot);
-
     } catch (err) {
         alert("Erreur : " + err.message);
     }
 }
-
 // --- PARSE CSV ---
 function parseLotCSV(csv){
     const lines = csv.trim().split(/\r?\n/);
