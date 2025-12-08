@@ -1,12 +1,12 @@
 Categorie,Valeur
-Émission Agriculture,12.4 kgCO2e
-Émission Transport,3.1 kgCO2e
-Émission Malterie,8.2 kgCO2e
-Émission Total,23.7 kgCO2e
+Émission Agriculture,12.4
+Émission Transport,3.1 
+Émission Malterie,8.2 
+Émission Total,23.7 
 Nom de l’exploitation,Ferme Martin
 Lieu exploitation,Gers
 Type et variété de céréales,Orge de printemps
-Date de moisson,18/08/2025
+Date de moisson,
 Événements particuliers,Aucun
 Date validité certification bio,—
 Nom de la coopérative,Coop Occitanie
@@ -14,7 +14,7 @@ Lieu coopérative,Auch
 Date réception céréales,2 jours après moisson
 Type / variété céréales (coop),Orge de printemps
 Certification coopérative,—
-Humidité (%),13.5
-Taux de protéines (%),9.8
-Teneur en impuretés (%),1.2
-Poids spécifique (kg/hL),67.4
+Humidité ,13.5
+Taux de protéines ,9.8
+Teneur en impuretés,1.2
+Poids spécifique,67.4
