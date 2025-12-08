@@ -214,12 +214,11 @@ function validerAge(isMajor) {
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    // Redirection vers page2.html avec paramètre anti-cache
+    // Redirection vers la page dans /PageFlorianne
     setTimeout(() => {
-        window.location.href = "page2.html?ts=" + new Date().getTime();
-    }, 800); // délai pour montrer le loader
+        window.location.href = "PageFlorianne/deuxiemepage.html?ts=" + new Date().getTime();
+    }, 800);
 }
 </script>
-
 </body>
 </html>
