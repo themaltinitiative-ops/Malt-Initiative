@@ -1,3 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparence – Informations du lot</title>
+
+<style>
+/* --- RESET ET BODY --- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #F7F3ED;
+    color: #0f1724;
+    padding: 0;
+}
+
+/* --- BANNIERE --- */
+.header-images img {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* --- TITRE --- */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* --- ACCORDIONS --- */
+.accordion {
+    background: #f0e6d2;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 900px;
+}
+
+.accordion-header {
+    background-size: cover;
+    background-position: center;
+    height: 180px;
+    position: relative;
+    cursor: pointer;
+}
+
+.accordion-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+.accordion-title {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: #fff;
+    padding: 0 20px;
+}
+
+.accordion-content.open {
+    padding: 20px;
+}
+
+/* --- LISTES --- */
+ul {
+    margin: 10px 0 20px 20px;
+    padding: 0;
+    list-style-type: disc;
+}
+
+ul li {
+    margin-bottom: 6px;
+}
+
+/* --- RÉGLETTE CARBONE --- */
+.carbon-rule {
+    height: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.seg {
+    height: 100%;
+    display: inline-block;
+    transition: width 0.3s ease;
+}
+
+.seg.agri { background: #15803d; }
+.seg.transp { background: #d9f99d; }
+.seg.malt { background: #fde68a; }
+
+.numbers {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    min-width: 140px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    font-size: 14px;
+}
+
+.stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
+.stat.transp { background: #d9f99d; border-color: #15803d; }
+.stat.malt { background: #fde68a; border-color: #b45309; }
+.stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
+.stat strong { display: block; font-size: 20px; margin-top: 4px; }
+
+/* --- FOOTER --- */
+footer {
+    background: #e2e2e2;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+footer .footer-block {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+footer .footer-block img {
+    max-width: 80px;
+    margin-right: 15px;
+}
+
+footer .footer-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<!-- BANNIERE -->
+<div class="header-images">
+    <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
+</div>
+
+<h1>Informations du Lot</h1>
+
+<!-- ACCORDÉON EMPREINTE CARBONE -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('vue-des-arbres-de-la-foret-verte-avec-co2 (2).jpg');">
+        <div class="accordion-title">
+            <img src="icon-carbone.png" style="width:40px;vertical-align:middle;margin-right:10px;">
+            Empreinte carbone du lot
+        </div>
+    </div>
+    <div class="accordion-content">
+        <div>
+            <div class="carbon-rule" id="carbonRule"></div>
+            <div class="numbers">
+                <div class="stat agri"><small>Agriculture</small><strong id="valAgri">—</strong></div>
+                <div class="stat transp"><small>Transport</small><strong id="valTransp">—</strong></div>
+                <div class="stat malt"><small>Malterie</small><strong id="valMalt">—</strong></div>
+                <div class="stat total"><small>Total</small><strong id="valTotal">—</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ACCORDÉON RÉCOLTE -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
+        <div class="accordion-title">Récolte des céréales</div>
+    </div>
+    <div class="accordion-content">
+         <h3>Agriculteur</h3>
+        <ul>
+            <li>Nom de l’exploitation : <span id="recolteNom">—</span></li>
+            <li>Lieu : <span id="recolteLieu">—</span></li>
+            <li>Type et variété de céréales : <span id="recolteType">—</span></li>
+            <li>Date de moisson : <span id="recolteDate">—</span></li>
+            <li>Événements particuliers : <span id="recolteEvent">—</span></li>
+            <li>Date de validité certification bio : <span id="recolteBio">—</span></li>
+        </ul>
+        <h3>Coopérative</h3>
+        <ul>
+            <li>Nom de la coopérative : <span id="coopNom">—</span></li>
+            <li>Lieu : <span id="coopLieu">—</span></li>
+            <li>Date de réception des céréales : <span id="coopDate">—</span></li>
+            <li>Type et variété de céréales : <span id="coopType">—</span></li>
+            <li>Certification bio ou autres certifications : <span id="coopCert">—</span></li>
+        </ul>
+
+        <h3>Qualité de grain</h3>
+        <ul>
+            <li>Humidité (%) : <span id="qualHumid">—</span></li>
+            <li>Taux de protéines (%) : <span id="qualProt">—</span></li>
+            <li>Teneur en impuretés (%) : <span id="qualImpure">—</span></li>
+            <li>Poids spécifique (kg/hL) : <span id="qualPoids">—</span></li>
+        </ul>
+    </div>
+</div>
+
+<!-- ACCORDÉON MALTERIE -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt.jpeg');">
+        <div class="accordion-title">Maltage (Malterie Occitane)</div>
+    </div>
+    <div class="accordion-content">
+        <h3>Étapes du procédé</h3>
+        <ul>
+            <li>Réception des lots : <span id="maltEtape1">—</span></li>
+            <li>Trempage : <span id="maltEtape2">—</span></li>
+            <li>Germination : <span id="maltEtape3">—</span></li>
+            <li>Touraillage : <span id="maltEtape4">—</span></li>
+            <li>Dégermination : <span id="maltEtape5">—</span></li>
+            <li>Analyses finales : <span id="maltEtape6">—</span></li>
+        </ul>
+    </div>
+</div>
+
+<!-- ACCORDÉON BRASSAGE -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
+        <div class="accordion-title">Brassage</div>
+    </div>
+    <div class="accordion-content">
+        <p>Informations sur le brassage à compléter.</p>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-block">
+        <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="Malterie Occitane">
+        <div class="footer-text">
+            <strong>Malterie Occitane</strong><br>
+            malterieoccitane.fr<br>
+            1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
+        </div>
+    </div>
+
+    <div class="footer-block">
+        <img src="content.png" alt="The Malt Initiative">
+        <div class="footer-text">
+            <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
+            Projet Ingénieur Agronome de l’AgroToulouse<br>
+            Mail : themaltinitiative@gmail.com
+        </div>
+    </div>
+</footer>
+
 <script>
 // --- ACCORDION ---
 function toggleAccordion(header){
@@ -15,111 +285,71 @@ function toggleAccordion(header){
     }
 }
 
-// ------------------------------
-//  RÉCUPÉRATION DU NUMÉRO DE LOT
-// ------------------------------
-const urlParams = new URLSearchParams(window.location.search);
-const lotId = urlParams.get("lot");  // ex : ?lot=202601
+// --- CSV FICTIF POUR TEST ---
+const csvText = `
+lot_id,agriculture,transport,malterie,recolteNom,recolteLieu,recolteType,recolteDate,coopNom,coopLieu,maltEtape1,maltEtape2,maltEtape3,maltEtape4,maltEtape5,maltEtape6
+MALT-2025-001,120.5,45.3,30.2,Exploit A,Lieu A,Orge,15/08/2025,Coop A,Lieu Coop,Contrôle + stockage,Humidification,Transformation enzymatique,Séchage et arômes,Retrait radicelles,Humidité couleur enzymes
+`;
 
-if(!lotId){
-    alert("Aucun numéro de lot fourni.");
-}
-
-// ------------------------------
-//  LECTURE DU FICHIER CSV
-// ------------------------------
+// --- PARSE CSV ---
 function parseCSV(csv){
-    const lines = csv.trim().split(/\r?\n/);
-    const headers = lines[0].split(",");
-
-    return lines.slice(1).map(line => {
-        const data = line.split(",");
+    const [header, ...lines] = csv.trim().split(/\r?\n/);
+    const keys = header.split(',');
+    return lines.map(line => {
+        const values = line.split(',');
         const obj = {};
-        headers.forEach((h, i) => obj[h.trim()] = data[i] ? data[i].trim() : "");
+        keys.forEach((k,i)=>obj[k]=values[i]);
         return obj;
     });
 }
 
-fetch(`data/${lotId}.csv`)
-.then(res => res.text())
-.then(csv => {
-    const rows = parseCSV(csv);
-    const lot = rows[0]; // toujours 1 ligne par lot
+// --- CHARGEMENT DES DONNÉES ---
+const lotId = 'MALT-2025-001'; // déjà connu depuis page 1
+const data = parseCSV(csvText);
+const lot = data.find(r => r.lot_id===lotId);
 
-    if(!lot){
-        alert("Lot introuvable dans le fichier CSV.");
-        return;
-    }
-
-    // ------------------------------
-    //  EMPREINTE CARBONE
-    // ------------------------------
+if(lot){
+    // réglette carbone
     const sums = {
-        agriculture: parseFloat(lot.emission_agriculture),
-        transport: parseFloat(lot.emission_transport),
-        malterie: parseFloat(lot.emission_malterie)
+        agriculture: parseFloat(lot.agriculture),
+        transport: parseFloat(lot.transport),
+        malterie: parseFloat(lot.malterie)
     };
     const total = sums.agriculture + sums.transport + sums.malterie;
 
     const rule = document.getElementById('carbonRule');
     rule.innerHTML = '';
-
-    const makeSeg = (cls, val) => {
-        const pct = val / total * 100;
-        const div = document.createElement("div");
-        div.className = "seg " + cls;
-        div.style.width = pct + "%";
+    const makeSeg = (cls,val) => {
+        const pct = val/total*100;
+        const div = document.createElement('div');
+        div.className = 'seg ' + cls;
+        div.style.width = pct + '%';
         rule.appendChild(div);
     };
+    makeSeg('agri', sums.agriculture);
+    makeSeg('transp', sums.transport);
+    makeSeg('malt', sums.malterie);
 
-    makeSeg("agri", sums.agriculture);
-    makeSeg("transp", sums.transport);
-    makeSeg("malt", sums.malterie);
+    document.getElementById('valAgri').textContent = sums.agriculture.toFixed(1);
+    document.getElementById('valTransp').textContent = sums.transport.toFixed(1);
+    document.getElementById('valMalt').textContent = sums.malterie.toFixed(1);
+    document.getElementById('valTotal').textContent = total.toFixed(1);
 
-    document.getElementById("valAgri").textContent = sums.agriculture.toFixed(1);
-    document.getElementById("valTransp").textContent = sums.transport.toFixed(1);
-    document.getElementById("valMalt").textContent = sums.malterie.toFixed(1);
-    document.getElementById("valTotal").textContent = total.toFixed(1);
-
-    // ------------------------------
-    //  RECOLTE
-    // ------------------------------
-    document.getElementById("recolteNom").textContent = lot.nom_exploitation;
-    document.getElementById("recolteLieu").textContent = lot.lieu_exploitation;
-    document.getElementById("recolteType").textContent = lot.type_cereale;
-    document.getElementById("recolteDate").textContent = lot.date_moisson;
-    document.getElementById("recolteEvent").textContent = lot.evenements || "—";
-    document.getElementById("recolteBio").textContent = lot.certification_bio || "—";
-
-    // ------------------------------
-    //  COOPÉRATIVE
-    // ------------------------------
-    document.getElementById("coopNom").textContent = lot.nom_cooperative;
-    document.getElementById("coopLieu").textContent = lot.lieu_cooperative;
-    document.getElementById("coopDate").textContent = lot.date_reception || "—";
-    document.getElementById("coopType").textContent = lot.type_coop || "—";
-    document.getElementById("coopCert").textContent = lot.certification_coop || "—";
-
-    // ------------------------------
-    //  QUALITÉ DU GRAIN
-    // ------------------------------
-    document.getElementById("qualHumid").textContent = lot.humidite;
-    document.getElementById("qualProt").textContent = lot.proteines;
-    document.getElementById("qualImpure").textContent = lot.impuretes;
-    document.getElementById("qualPoids").textContent = lot.poids_specifique;
-
-    // ------------------------------
-    //  MALTERIE
-    // ------------------------------
-    document.getElementById("maltEtape1").textContent = lot.etape_reception;
-    document.getElementById("maltEtape2").textContent = lot.etape_trempage;
-    document.getElementById("maltEtape3").textContent = lot.etape_germination;
-    document.getElementById("maltEtape4").textContent = lot.etape_touraillage;
-    document.getElementById("maltEtape5").textContent = lot.etape_degermination;
-    document.getElementById("maltEtape6").textContent = lot.etape_analyses;
-})
-.catch(err => {
-    console.error("Erreur CSV :", err);
-    alert("Impossible de charger les données du lot.");
-});
+    // autres infos
+    document.getElementById('recolteNom').textContent = lot.recolteNom;
+    document.getElementById('recolteLieu').textContent = lot.recolteLieu;
+    document.getElementById('recolteType').textContent = lot.recolteType;
+    document.getElementById('recolteDate').textContent = lot.recolteDate;
+    document.getElementById('coopNom').textContent = lot.coopNom;
+    document.getElementById('coopLieu').textContent = lot.coopLieu;
+    document.getElementById('maltEtape1').textContent = lot.maltEtape1;
+    document.getElementById('maltEtape2').textContent = lot.maltEtape2;
+    document.getElementById('maltEtape3').textContent = lot.maltEtape3;
+    document.getElementById('maltEtape4').textContent = lot.maltEtape4;
+    document.getElementById('maltEtape5').textContent = lot.maltEtape5;
+    document.getElementById('maltEtape6').textContent = lot.maltEtape6;
+}
 </script>
+
+</body>
+</html>
