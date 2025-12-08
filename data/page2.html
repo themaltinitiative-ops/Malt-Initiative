@@ -311,8 +311,7 @@ async function loadLot() {
         return;
     }
 
-    // URL brute GitHub correcte
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+    const csvPath = `data/${lotId}.csv`; // chemin relatif
 
     try {
         const response = await fetch(csvPath);
