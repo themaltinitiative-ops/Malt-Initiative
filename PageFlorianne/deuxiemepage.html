@@ -158,9 +158,6 @@ footer .footer-text {
 </head>
 <body>
 
-    <!-- Loader -->
-<div id="loader" style="display:none; text-align:center; font-size:18px; margin:20px;">Chargement...</div>
-    
 <!-- BANNIERE -->
 <div class="header-images">
     <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
@@ -289,7 +286,7 @@ function cleanNumber(str) {
     const num = parseFloat(str.replace(/[^\d.-]/g,''));
     return isNaN(num) ? 0 : num;
 }
-function toggleAccordion(header, open = true){
+function toggleAccordion(header){
     const content = header.nextElementSibling;
     const isOpen = content.style.maxHeight;
 
@@ -298,7 +295,7 @@ function toggleAccordion(header, open = true){
         c.classList.remove("open");
     });
 
-    if(open || !isOpen){
+    if(!isOpen){
         content.style.maxHeight = content.scrollHeight + "px";
         content.classList.add("open");
     }
@@ -311,32 +308,6 @@ async function loadLot() {
         alert("Veuillez entrer un numéro de lot !");
         return;
     }
-
-    const loader = document.getElementById('loader');
-    loader.style.display = 'block'; // afficher le loader
-
-    // URL brute GitHub
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
-
-    try {
-        const response = await fetch(csvPath);
-        if (!response.ok) throw new Error("Fichier CSV introuvable");
-        const csvText = await response.text();
-        const lot = parseLotCSV(csvText);
-        if (!lot) throw new Error("Données invalides");
-
-        updatePageWithLot(lot);
-
-        // Dérouler le premier accordéon automatiquement
-        const firstHeader = document.querySelector('.accordion-header');
-        toggleAccordion(firstHeader, true);
-
-    } catch (err) {
-        alert("Erreur : " + err.message);
-    } finally {
-        loader.style.display = 'none'; // cacher le loader
-    }
-}
 
     // URL brute GitHub correcte
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
