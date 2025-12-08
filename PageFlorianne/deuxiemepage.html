@@ -282,6 +282,12 @@ footer .footer-text {
 
 <script>
 // --- ACCORDION ---
+function cleanNumber(str) {
+    if (!str) return 0;
+    // Supprime tout sauf les chiffres et le point
+    const num = parseFloat(str.replace(/[^\d.-]/g,''));
+    return isNaN(num) ? 0 : num;
+}
 function toggleAccordion(header){
     const content = header.nextElementSibling;
     const isOpen = content.style.maxHeight;
@@ -333,10 +339,10 @@ function parseLotCSV(csv){
 
 // --- MET À JOUR LA PAGE ---
 function updatePageWithLot(lot){
-    const agri = parseFloat(lot["Émission Agriculture"]);
-    const transp = parseFloat(lot["Émission Transport"]);
-    const malt = parseFloat(lot["Émission Malterie"]);
-    const total = parseFloat(lot["Émission Total"]);
+    const agri = cleanNumber(lot["Émission Agriculture"]);
+    const transp = cleanNumber(lot["Émission Transport"]);
+    const malt = cleanNumber(lot["Émission Malterie"]);
+    const total = cleanNumber(lot["Émission Total"]);
 
     const rule = document.getElementById('carbonRule');
     rule.innerHTML = '';
@@ -356,6 +362,7 @@ function updatePageWithLot(lot){
     document.getElementById('valMalt').textContent = malt.toFixed(1);
     document.getElementById('valTotal').textContent = total.toFixed(1);
 
+    // autres infos texte
     document.getElementById('recolteNom').textContent = lot["Nom de l’exploitation"];
     document.getElementById('recolteLieu').textContent = lot["Lieu exploitation"];
     document.getElementById('recolteType').textContent = lot["Type et variété de céréales"];
@@ -367,11 +374,12 @@ function updatePageWithLot(lot){
     document.getElementById('coopDate').textContent = lot["Date réception céréales"];
     document.getElementById('coopType').textContent = lot["Type / variété céréales (coop)"];
     document.getElementById('coopCert').textContent = lot["Certification coopérative"];
-    document.getElementById('qualHumid').textContent = lot["Humidité (%)"];
-    document.getElementById('qualProt').textContent = lot["Taux de protéines (%)"];
-    document.getElementById('qualImpure').textContent = lot["Teneur en impuretés (%)"];
-    document.getElementById('qualPoids').textContent = lot["Poids spécifique (kg/hL)"];
+    document.getElementById('qualHumid').textContent = cleanNumber(lot["Humidité (%)"]);
+    document.getElementById('qualProt').textContent = cleanNumber(lot["Taux de protéines (%)"]);
+    document.getElementById('qualImpure').textContent = cleanNumber(lot["Teneur en impuretés (%)"]);
+    document.getElementById('qualPoids').textContent = cleanNumber(lot["Poids spécifique (kg/hL)"]);
 }
+
 </script>
 
 </body>
