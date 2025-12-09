@@ -346,9 +346,9 @@ function parseLotCSV(csv){
 
 // Met à jour l'UI avec les données du lot
 function updatePageWithLot(lot){
-    if (!lot) {
-        alert("Données du lot invalides.");
-        return;
+    const agri = cleanNumber(lot["Émission Agriculture"]);
+    ...
+    document.getElementById('qualPoids').textContent = cleanNumber(lot["Poids spécifique (kg/hL)"]);
     }
 
     const agri = cleanNumber(lot["Émission Agriculture"]);
