@@ -49,6 +49,13 @@ h1 {
     font-size: 16px;
 }
 
+
+const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
+if (!isAdult) {
+    alert("Accès refusé : vous devez être majeur pour continuer.");
+    return;
+}
+    
 /* --- ACCORDIONS --- */
 .accordion {
     background: #f0e6d2;
@@ -335,6 +342,38 @@ async function loadLot() {
         alert("Veuillez entrer un numéro de lot !");
         return;
     }
+
+    // Vérification majorité
+    const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
+    if (!isAdult) {
+        alert("Accès refusé : vous devez être majeur pour continuer.");
+        return;
+    }
+
+    // Affiche le loader
+    document.getElementById('loader').style.display = "flex";
+
+    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+
+    try {
+        const response = await fetch(csvPath);
+        if (!response.ok) throw new Error("Fichier CSV introuvable");
+
+        const csvText = await response.text();
+        const lot = parseLotCSV(csvText);
+        if (!lot) throw new Error("Données invalides");
+
+        updatePageWithLot(lot);
+
+    } catch (err) {
+        alert("Erreur : " + err.message);
+
+    } finally {
+        // Cache le loader
+        document.getElementById('loader').style.display = "none";
+    }
+}
+
 
     // URL brute GitHub correcte
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
