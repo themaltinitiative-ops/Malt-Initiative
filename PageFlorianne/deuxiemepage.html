@@ -405,20 +405,23 @@ async function loadLot() {
         return;
     }
 
-    // Vérification majorité (boîte de confirmation)
+    // Vérification majorité
     const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
     if (!isAdult) {
         alert("Accès refusé : vous devez être majeur pour continuer.");
         return;
     }
 
-    // Affiche le loader et désactive le bouton pour éviter les clics multiples
+    // Montrer le loader + désactiver le bouton
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
     loader.setAttribute('aria-hidden', 'false');
     loadBtn.disabled = true;
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
+
+    // --- ⏳ Attente forcée de 1 seconde ---
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
@@ -428,14 +431,15 @@ async function loadLot() {
 
         const csvText = await response.text();
         const lot = parseLotCSV(csvText);
-        if (!lot || Object.keys(lot).length === 0) throw new Error("Données CSV invalides ou vides");
+        if (!lot || Object.keys(lot).length === 0)
+            throw new Error("Données CSV invalides ou vides");
 
         updatePageWithLot(lot);
 
     } catch (err) {
         alert("Erreur : " + err.message);
     } finally {
-        // Cache le loader et réactive le bouton
+        // Cacher le loader + réactiver le bouton
         loader.style.display = "none";
         loader.setAttribute('aria-hidden', 'true');
         loadBtn.disabled = false;
@@ -443,6 +447,7 @@ async function loadLot() {
         loadBtn.style.cursor = '';
     }
 }
+
 
 // lie le bouton au chargement
 document.getElementById('loadBtn').addEventListener('click', loadLot);
