@@ -1,314 +1,3 @@
-<!DOCTYPE html>
-<!-- saved from url=(0104)https://themaltinitiative-ops.github.io/Malt-Initiative/PageFlorianne/deuxiemepage.html?ts=1765297310408 -->
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Transparence – Informations du lot</title>
-<style>
-/* --- RESET ET BODY --- */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #F7F3ED;
-    color: #0f1724;
-    padding: 0;
-}
-
-/* Loader */
-#loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(255,255,255,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    display: none; /* caché par défaut */
-}
-#loader img {
-    width: 150px;
-    animation: spin 1.5s linear infinite;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-/* Bannière */
-.header-images img { width: 100%; height: auto; display: block; }
-
-/* --- TITRE --- */
-h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-/* --- CHAMP DE LOT --- */
-#lotInput, button {
-    font-size: 16px;
-}
-
-/* --- ACCORDIONS --- */
-.accordion {
-    background: #f0e6d2;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    margin: 20px auto;
-    max-width: 900px;
-}
-
-.accordion-header {
-    background-size: cover;
-    background-position: center;
-    height: 180px;
-    position: relative;
-    cursor: pointer;
-}
-
-.accordion-header::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-}
-
-.accordion-title {
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
-    font-size: 26px;
-    color: white;
-    font-weight: bold;
-    z-index: 5;
-}
-
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-    background: #fff;
-    padding: 0 20px;
-}
-
-.accordion-content.open {
-    padding: 20px;
-}
-
-/* --- LISTES --- */
-ul {
-    margin: 10px 0 20px 20px;
-    padding: 0;
-    list-style-type: disc;
-}
-
-ul li {
-    margin-bottom: 6px;
-}
-
-/* --- RÉGLETTE CARBONE --- */
-.carbon-rule {
-    height: 48px;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-.seg {
-    height: 100%;
-    display: inline-block;
-    transition: width 0.3s ease;
-}
-
-.seg.agri { background: #15803d; }
-.seg.transp { background: #d9f99d; }
-.seg.malt { background: #fde68a; }
-
-.numbers {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-}
-
-.stat {
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    min-width: 140px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    font-size: 14px;
-}
-
-.stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
-.stat.transp { background: #d9f99d; border-color: #15803d; }
-.stat.malt { background: #fde68a; border-color: #b45309; }
-.stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
-.stat strong { display: block; font-size: 20px; margin-top: 4px; }
-
-/* --- FOOTER --- */
-footer {
-    background: #e2e2e2;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-footer .footer-block {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-}
-
-footer .footer-block img {
-    max-width: 80px;
-    margin-right: 15px;
-}
-
-footer .footer-text {
-    font-size: 14px;
-    line-height: 1.4;
-}
-</style>
-</head>
-<body>
-
-<!-- Loader -->
-<div id="loader" aria-hidden="true" style="display: none;">
-    <!-- Remplacez le src par le chemin correct vers votre image -->
-    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
-</div>
-
-<!-- BANNIERE -->
-<div class="header-images">
-    <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
-</div>
-
-<h1>Informations du Lot</h1>
-
-<!-- CHAMP DE SAISIE DU LOT -->
-<div style="text-align:center; margin:20px;">
-    <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
-    <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
-</div>
-
-<!-- (le reste du HTML est inchangé — accordions, contenu, footer...) -->
-<!-- ACCORDÉON EMPREINTE CARBONE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;vue-des-arbres-de-la-foret-verte-avec-co2 (2).jpg&#39;);">
-        <div class="accordion-title">
-            Empreinte carbone du lot
-        </div>
-    </div>
-    <div class="accordion-content" style="">
-        <div>
-            <div class="carbon-rule" id="carbonRule"><div class="seg agri" style="width: 52.3207%;"></div><div class="seg transp" style="width: 13.0802%;"></div><div class="seg malt" style="width: 34.5992%;"></div></div>
-            <div class="numbers">
-                <div class="stat agri"><small>Agriculture</small><strong id="valAgri">12.4</strong></div>
-                <div class="stat transp"><small>Transport</small><strong id="valTransp">3.1</strong></div>
-                <div class="stat malt"><small>Malterie</small><strong id="valMalt">8.2</strong></div>
-                <div class="stat total"><small>Total</small><strong id="valTotal">23.7</strong></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ACCORDÉON RÉCOLTE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;barley.jpg&#39;);">
-        <div class="accordion-title">Récolte des céréales</div>
-            Récolte
-        </div>
-    </div>
-    <div class="accordion-content" style="">
-        <h3>Agriculteur</h3>
-        <ul>
-            <li>Nom de l’exploitation : <span id="recolteNom">Ferme Durant</span></li>
-            <li>Lieu : <span id="recolteLieu">Tarn</span></li>
-            <li>Type et variété de céréales : <span id="recolteType">Orge d’hiver</span></li>
-            <li>Date de moisson : <span id="recolteDate">18/02/06</span></li>
-            <li>Événements particuliers : <span id="recolteEvent">Aucun</span></li>
-            <li>Date de validité certification bio : <span id="recolteBio">—</span></li>
-        </ul>
-        <h3>Coopérative</h3>
-        <ul>
-            <li>Nom de la coopérative : <span id="coopNom">Coop Sud</span></li>
-            <li>Lieu : <span id="coopLieu">Albi</span></li>
-            <li>Date de réception des céréales : <span id="coopDate">2 jours après moisson</span></li>
-            <li>Type et variété de céréales : <span id="coopType">Orge d’hiver</span></li>
-            <li>Certification bio ou autres certifications : <span id="coopCert">—</span></li>
-        </ul>
-
-        <h3>Qualité de grain</h3>
-        <ul>
-            <li>Humidité (%) : <span id="qualHumid">13.5</span></li>
-            <li>Taux de protéines (%) : <span id="qualProt">9.8</span></li>
-            <li>Teneur en impuretés (%) : <span id="qualImpure">1.2</span></li>
-            <li>Poids spécifique (kg/hL) : <span id="qualPoids">—</span></li>
-        </ul>
-    </div>
-</div>
-
-<!-- ACCORDÉON MALTERIE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;malt-4950433_1280.jpg&#39;);">
-        <div class="accordion-title">Maltage (Malterie Occitane)</div>
-            Malterie
-        </div>
-    </div>
-    <div class="accordion-content">
-        <h3>Étapes du procédé</h3>
-        <ul>
-            <li>Réception des lots : <span id="maltEtape1">—</span></li>
-            <li>Trempage : <span id="maltEtape2">—</span></li>
-            <li>Germination : <span id="maltEtape3">—</span></li>
-            <li>Touraillage : <span id="maltEtape4">—</span></li>
-            <li>Dégermination : <span id="maltEtape5">—</span></li>
-            <li>Analyses finales : <span id="maltEtape6">—</span></li>
-        </ul>
-    </div>
-</div>
-
-<!-- ACCORDÉON BRASSAGE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;beer-2370783_1280.jpg&#39;);">
-        <div class="accordion-title">Brassage</div>
-            Brasserie
-        </div>
-    </div>
-    <div class="accordion-content">
-        <p>Informations sur le brassage à compléter.</p>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-    <div class="footer-infos">
-        <div class="footer-block">
-            <img src="Capture_d_écran_2025-11-17_220106-removebg-preview.png" alt="">
-            <div class="footer-text">
-                <strong>Malterie Occitane</strong><br>
-                malterieoccitane.fr<br>
-                1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
-            </div>
-        </div>
-
-        <div class="footer-block">
-            <img src="content.png" alt="">
-            <div class="footer-text">
-                <strong>The Malt Initiative – Projet Grain Trust :</strong><br>
-                Projet Ingénieur Agronome de l’AgroToulouse<br>
-                Mail : themaltinitiative@gmail.com
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
 // --- ACCORDION ---
 function toggleAccordion(header){
@@ -339,7 +28,6 @@ function parseLotCSV(csv){
     const lines = csv.trim().split(/\r?\n/);
     const obj = {};
     lines.forEach(line => {
-        // on split seulement sur la première virgule pour garder les valeurs contenant des virgules
         const idx = line.indexOf(',');
         if (idx === -1) return;
         const key = line.slice(0, idx).trim();
@@ -364,7 +52,6 @@ function updatePageWithLot(lot){
     const rule = document.getElementById('carbonRule');
     rule.innerHTML = '';
 
-    // Evite division par zéro
     const safeTotal = total === 0 ? 1 : total;
 
     const makeSeg = (cls, val) => {
@@ -383,7 +70,6 @@ function updatePageWithLot(lot){
     document.getElementById('valMalt').textContent = malt.toFixed(1);
     document.getElementById('valTotal').textContent = total.toFixed(1);
 
-    // autres infos texte (utiliser || '—' pour valeurs manquantes)
     document.getElementById('recolteNom').textContent = lot["Nom de l’exploitation"] || '—';
     document.getElementById('recolteLieu').textContent = lot["Lieu exploitation"] || '—';
     document.getElementById('recolteType').textContent = lot["Type et variété de céréales"] || '—';
@@ -401,7 +87,7 @@ function updatePageWithLot(lot){
     document.getElementById('qualPoids').textContent = lot["Poids spécifique (kg/hL)"] || '—';
 }
 
-// --- CHARGEMENT DU LOT SELON LE NUMÉRO ---
+// --- CHARGEMENT DU LOT ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
@@ -425,7 +111,7 @@ async function loadLot() {
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
 
-    // --- ⏳ Attente forcée de 1 seconde ---
+    // --- Attente forcée de 1 seconde ---
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
@@ -441,10 +127,13 @@ async function loadLot() {
 
         updatePageWithLot(lot);
 
+        // --- OUVERTURE AUTOMATIQUE DE LA PREMIÈRE BANNIÈRE ---
+        const firstHeader = document.querySelector('.accordion .accordion-header');
+        if (firstHeader) toggleAccordion(firstHeader);
+
     } catch (err) {
         alert("Erreur : " + err.message);
     } finally {
-        // Cacher le loader + réactiver le bouton
         loader.style.display = "none";
         loader.setAttribute('aria-hidden', 'true');
         loadBtn.disabled = false;
@@ -453,11 +142,6 @@ async function loadLot() {
     }
 }
 
-
 // lie le bouton au chargement
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
-
-
-
-</body></html>
