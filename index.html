@@ -166,35 +166,49 @@ footer .footer-text {
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- ACCORDÉON — COLONNES 1 À 4 -->
+
+<!-- ACCORDÉONS -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
-        <div class="accordion-title">Section 1 (Colonnes 1 → 4)</div>
-    </div>
-    <div class="accordion-content">
-        <ul id="section1"></ul>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 1 : Informations générales</div>
+    <div class="accordion-content" id="accordion1"></div>
 </div>
 
-<!-- ACCORDÉON — COLONNES 7 À 9 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt-4950433_1280.jpg');">
-        <div class="accordion-title">Section 2 (Colonnes 7 → 9)</div>
-    </div>
-    <div class="accordion-content">
-        <ul id="section2"></ul>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 2 : Suivi des actions</div>
+    <div class="accordion-content" id="accordion2"></div>
 </div>
 
-<!-- ACCORDÉON — COLONNES 12 À 15 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
-        <div class="accordion-title">Section 3 (Colonnes 12 → 15)</div>
-    </div>
-    <div class="accordion-content">
-        <ul id="section3"></ul>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 3 : Identification exploitant</div>
+    <div class="accordion-content" id="accordion3"></div>
 </div>
+
+<script>
+// --- Accordion toggle ---
+function toggleAccordion(header){
+    const content = header.nextElementSibling;
+    document.querySelectorAll('.accordion-content').forEach(c => {
+        if(c !== content) c.style.maxHeight = null;
+        c.classList.remove("open");
+    });
+    if(!content.classList.contains("open")){
+        content.style.maxHeight = content.scrollHeight + "px";
+        content.classList.add("open");
+    }
+}
+
+// --- Parse CSV avec en-têtes ---
+function parseCSV(csvText){
+    const lines = csvText.trim().split(/\r?\n/);
+    const headers = lines[0].split('\t');
+    const rows = lines.slice(1).map(line => {
+        const values = line.split('\t');
+        const obj = {};
+        headers.forEach((h,i)=>obj[h.trim()] = values[i]?values[i].trim():'');
+        return obj;
+    });
+    return rows;
+}
 
 
 <!-- FOOTER -->
@@ -278,7 +292,42 @@ function normalizeCat(s){
     if(!s) return '';
     return s.trim().toLowerCase();
 }
+// --- Met à jour les accordéons ---
+function updateAccordions(rows){
+    const acc1 = document.getElementById('accordion1');
+    const acc2 = document.getElementById('accordion2');
+    const acc3 = document.getElementById('accordion3');
 
+    acc1.innerHTML = '';
+    acc2.innerHTML = '';
+    acc3.innerHTML = '';
+
+    rows.forEach((row,i)=>{
+        // Accordéon 1 : colonnes 2,3,4
+        const ul1 = document.createElement('ul');
+        ul1.innerHTML = `<li>Date de soumission : ${row['Date de soumission']}</li>
+                         <li>Dernière page : ${row['Dernière page']}</li>
+                         <li>Langue de départ : ${row['Langue de départ']}</li>`;
+        acc1.appendChild(document.createElement('hr'));
+        acc1.appendChild(ul1);
+
+        // Accordéon 2 : colonnes 7,8,9
+        const ul2 = document.createElement('ul');
+        ul2.innerHTML = `<li>Tête de série : ${row['Tête de série']}</li>
+                         <li>Date de lancement : ${row['Date de lancement']}</li>
+                         <li>Date de la dernière action : ${row['Date de la dernière action']}</li>`;
+        acc2.appendChild(document.createElement('hr'));
+        acc2.appendChild(ul2);
+
+        // Accordéon 3 : colonnes 10,11,12
+        const ul3 = document.createElement('ul');
+        ul3.innerHTML = `<li>Maillon : ${row['Quel maillon de la chaîne êtes-vous ?']}</li>
+                         <li>Nom de l'exploitant : ${row['Identification [Nom de l\'exploitant :]']}</li>
+                         <li>Prénom de l'exploitant : ${row['Identification [Prénom de l\'exploitant :]']}</li>`;
+        acc3.appendChild(document.createElement('hr'));
+        acc3.appendChild(ul3);
+    });
+}
 // --- CHARGEMENT DU CSV ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
