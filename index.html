@@ -235,100 +235,20 @@ function parseCSV(csvText){
 </footer>
 
 <script>
-// --- ACCORDION ---
+// --- Accordion toggle ---
 function toggleAccordion(header){
     const content = header.nextElementSibling;
-    const isOpen = content.style.maxHeight;
-
     document.querySelectorAll('.accordion-content').forEach(c => {
-        c.style.maxHeight = null;
+        if(c !== content) c.style.maxHeight = null;
         c.classList.remove("open");
     });
-
-    if(!isOpen){
+    if(!content.classList.contains("open")){
         content.style.maxHeight = content.scrollHeight + "px";
         content.classList.add("open");
     }
 }
 
-// parser CSV robuste : tab ou comma, gère CRLF
-function parseCSVtable(text){
-    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length);
-    if (!lines.length) return [];
-    // Try tab first
-    const sep = lines[0].includes('\t') ? '\t' : ',';
-    const headers = lines[0].split(sep).map(h => h.trim());
-    return lines.slice(1).map(line => {
-        const cols = line.split(sep);
-        const obj = {};
-        headers.forEach((h,i) => obj[h] = (cols[i]||'').trim());
-        return obj;
-    });
-}
-
-// Render table for a given array of objects (shows Prénom / Nom and full object as details)
-function renderTable(arr){
-    if (!arr || arr.length === 0) return '<p>Aucune donnée.</p>';
-    // pick columns safely
-    const first = arr[0];
-    const headers = Object.keys(first);
-    let html = '<table class="table-list"><thead><tr>';
-    html += '<th>Prénom</th><th>Nom</th><th>Autres infos</th></tr></thead><tbody>';
-    arr.forEach(row => {
-        const prenom = row["Identification [Prénom de l'exploitant :]"] || row["Prénom"] || '';
-        const nom = row["Identification [Nom de l'exploitant :]"] || row["Nom"] || '';
-        // create a small details string for remaining columns
-        const others = headers.filter(h => h !== "Identification [Prénom de l'exploitant :]" && h !== "Identification [Nom de l'exploitant :]").map(h => {
-            return `<strong>${h}:</strong> ${row[h]||'—'}`;
-        }).join(' · ');
-        html += `<tr><td>${prenom}</td><td>${nom}</td><td>${others}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    return html;
-}
-
-// normalize category strings for matching
-function normalizeCat(s){
-    if(!s) return '';
-    return s.trim().toLowerCase();
-}
-// --- Met à jour les accordéons ---
-function updateAccordions(rows){
-    const acc1 = document.getElementById('accordion1');
-    const acc2 = document.getElementById('accordion2');
-    const acc3 = document.getElementById('accordion3');
-
-    acc1.innerHTML = '';
-    acc2.innerHTML = '';
-    acc3.innerHTML = '';
-
-    rows.forEach((row,i)=>{
-        // Accordéon 1 : colonnes 2,3,4
-        const ul1 = document.createElement('ul');
-        ul1.innerHTML = `<li>Date de soumission : ${row['Date de soumission']}</li>
-                         <li>Dernière page : ${row['Dernière page']}</li>
-                         <li>Langue de départ : ${row['Langue de départ']}</li>`;
-        acc1.appendChild(document.createElement('hr'));
-        acc1.appendChild(ul1);
-
-        // Accordéon 2 : colonnes 7,8,9
-        const ul2 = document.createElement('ul');
-        ul2.innerHTML = `<li>Tête de série : ${row['Tête de série']}</li>
-                         <li>Date de lancement : ${row['Date de lancement']}</li>
-                         <li>Date de la dernière action : ${row['Date de la dernière action']}</li>`;
-        acc2.appendChild(document.createElement('hr'));
-        acc2.appendChild(ul2);
-
-        // Accordéon 3 : colonnes 10,11,12
-        const ul3 = document.createElement('ul');
-        ul3.innerHTML = `<li>Maillon : ${row['Quel maillon de la chaîne êtes-vous ?']}</li>
-                         <li>Nom de l'exploitant : ${row['Identification [Nom de l\'exploitant :]']}</li>
-                         <li>Prénom de l'exploitant : ${row['Identification [Prénom de l\'exploitant :]']}</li>`;
-        acc3.appendChild(document.createElement('hr'));
-        acc3.appendChild(ul3);
-    });
-}
-// --- CHARGEMENT DU CSV ---
+// --- Charger et afficher CSV large ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
@@ -337,12 +257,7 @@ async function loadLot() {
         return;
     }
 
-    // Vérification majorité
-    const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
-    if (!isAdult) {
-        alert("Accès refusé : vous devez être majeur pour continuer.");
-        return;
-    }
+    if(!confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?")) return;
 
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
@@ -355,67 +270,64 @@ async function loadLot() {
         if (!response.ok) throw new Error("Fichier CSV introuvable");
 
         const csvText = await response.text();
-        const rows = csvText.trim().split("\n").map(r => r.split("\t"));
+        const lines = csvText.trim().split(/\r?\n/).filter(l=>l.length>0);
+        if(lines.length<2) throw new Error("CSV vide");
 
-        const headers = rows[0];      // ligne 1
-        const data = rows.slice(1);   // le reste
+        const headers = lines[0].split('\t').map(h=>h.trim());
+        const data = lines.slice(1).map(line => line.split('\t'));
 
-        // Références aux <ul>
-        const sec1 = document.getElementById("section1");
-        const sec2 = document.getElementById("section2");
-        const sec3 = document.getElementById("section3");
+        const acc1 = document.getElementById('accordion1');
+        const acc2 = document.getElementById('accordion2');
+        const acc3 = document.getElementById('accordion3');
 
         // Nettoyage
-        sec1.innerHTML = "";
-        sec2.innerHTML = "";
-        sec3.innerHTML = "";
+        acc1.innerHTML = ''; acc2.innerHTML = ''; acc3.innerHTML = '';
 
-        // Colonnes : 1→4, 7→9, 12→15 (index JS : -1)
-        const ranges = {
-            sec1: [0, 3],
-            sec2: [6, 8],
-            sec3: [11, 14]
-        };
+        // Découpage dynamique en 3 parties
+        const total = headers.length;
+        const part1End = Math.floor(total/3)-1;
+        const part2End = Math.floor(total*2/3)-1;
 
-        // On parcourt toutes les lignes
         data.forEach(row => {
-            appendColumns(sec1, headers, row, ranges.sec1);
-            appendColumns(sec2, headers, row, ranges.sec2);
-            appendColumns(sec3, headers, row, ranges.sec3);
+            appendColumns(acc1, headers, row, 0, part1End);
+            appendColumns(acc2, headers, row, part1End+1, part2End);
+            appendColumns(acc3, headers, row, part2End+1, total-1);
         });
 
         // Ouvre automatiquement le 1er accordéon
         autoOpenFirstAccordion();
 
-    } catch (err) {
+    } catch(err){
         alert("Erreur : " + err.message);
-    } finally {
+    } finally{
         loader.style.display = "none";
         loadBtn.disabled = false;
     }
 }
 
-// Ajout des colonnes dans un <ul>
-function appendColumns(ul, headers, row, [start, end]) {
-    for (let i = start; i <= end; i++) {
-        if (headers[i] && row[i] !== undefined && row[i].trim() !== "") {
-            const li = document.createElement("li");
+// --- Ajout des colonnes dans un accordéon ---
+function appendColumns(acc, headers, row, start, end){
+    const ul = document.createElement('ul');
+    for(let i=start; i<=end; i++){
+        if(headers[i] && row[i]!==undefined && row[i].trim()!==''){
+            const li = document.createElement('li');
             li.innerHTML = `<strong>${headers[i]} :</strong> ${row[i]}`;
             ul.appendChild(li);
         }
     }
+    acc.appendChild(document.createElement('hr'));
+    acc.appendChild(ul);
 }
 
-// Ouvre automatiquement le premier accordéon
-function autoOpenFirstAccordion() {
+// --- Ouvre automatiquement le premier accordéon ---
+function autoOpenFirstAccordion(){
     const first = document.querySelector(".accordion .accordion-header");
-    if (first) toggleAccordion(first);
+    if(first) toggleAccordion(first);
 }
 
-
-// lie le bouton au chargement
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
+
 
 </body>
 </html>
