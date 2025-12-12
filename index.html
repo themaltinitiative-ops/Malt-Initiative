@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0104)https://themaltinitiative-ops.github.io/Malt-Initiative/PageFlorianne/deuxiemepage.html?ts=1765297310408 -->
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Transparence – Informations du lot</title>
 <style>
 /* --- RESET ET BODY --- */
@@ -34,6 +34,7 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
 /* Bannière */
 .header-images img { width: 100%; height: auto; display: block; }
 
@@ -61,23 +62,24 @@ h1 {
 .accordion-header {
     background-size: cover;
     background-position: center;
-    height: 180px;
+    height: 120px;
     position: relative;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
 }
 
 .accordion-header::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0,0,0,0.25);
 }
 
 .accordion-title {
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
-    font-size: 26px;
+    position: relative;
+    font-size: 22px;
     color: white;
     font-weight: bold;
     z-index: 5;
@@ -106,48 +108,10 @@ ul li {
     margin-bottom: 6px;
 }
 
-/* --- RÉGLETTE CARBONE --- */
-.carbon-rule {
-    height: 48px;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-.seg {
-    height: 100%;
-    display: inline-block;
-    transition: width 0.3s ease;
-}
-
-.seg.agri { background: #15803d; }
-.seg.transp { background: #d9f99d; }
-.seg.malt { background: #fde68a; }
-
-.numbers {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-}
-
-.stat {
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    min-width: 140px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    font-size: 14px;
-}
-
-.stat.agri { background: #15803d; color: #fff; border-color: #064e3b; }
-.stat.transp { background: #d9f99d; border-color: #15803d; }
-.stat.malt { background: #fde68a; border-color: #b45309; }
-.stat.total { background: #fff; border-color: #e2e8f0; color: #0f1724; }
-.stat strong { display: block; font-size: 20px; margin-top: 4px; }
+/* simple table style for lists */
+.table-list { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.table-list th, .table-list td { border: 1px solid #e6e6e6; padding: 8px; text-align: left; }
+.table-list th { background: #fafafa; }
 
 /* --- FOOTER --- */
 footer {
@@ -173,13 +137,18 @@ footer .footer-text {
     font-size: 14px;
     line-height: 1.4;
 }
+
+/* small responsive */
+@media (max-width:600px){
+    .accordion-header { height: 90px; padding-left: 12px; }
+    .accordion-title { font-size: 18px; }
+}
 </style>
 </head>
 <body>
 
 <!-- Loader -->
-<div id="loader" aria-hidden="true" style="display: none;">
-    <!-- Remplacez le src par le chemin correct vers votre image -->
+<div id="loader" aria-hidden="true" style="display:none;">
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
 </div>
 
@@ -193,90 +162,37 @@ footer .footer-text {
 <!-- CHAMP DE SAISIE DU LOT -->
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
+    <input type="text" id="lotInput" placeholder="Ex : 202603" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- (le reste du HTML est inchangé — accordions, contenu, footer...) -->
-<!-- ACCORDÉON EMPREINTE CARBONE -->
+<!-- ACCORDÉON AGRICULTEURS -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;vue-des-arbres-de-la-foret-verte-avec-co2 (2).jpg&#39;);">
-        <div class="accordion-title">
-            Empreinte carbone du lot
-        </div>
-    </div>
-    <div class="accordion-content" style="">
-        <div>
-            <div class="carbon-rule" id="carbonRule"><div class="seg agri" style="width: 52.3207%;"></div><div class="seg transp" style="width: 13.0802%;"></div><div class="seg malt" style="width: 34.5992%;"></div></div>
-            <div class="numbers">
-                <div class="stat agri"><small>Agriculture</small><strong id="valAgri">12.4</strong></div>
-                <div class="stat transp"><small>Transport</small><strong id="valTransp">3.1</strong></div>
-                <div class="stat malt"><small>Malterie</small><strong id="valMalt">8.2</strong></div>
-                <div class="stat total"><small>Total</small><strong id="valTotal">23.7</strong></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ACCORDÉON RÉCOLTE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;barley.jpg&#39;);">
-        <div class="accordion-title">Récolte des céréales</div>
-    </div>
-    <div class="accordion-content" style="">
-        <h3>Agriculteur</h3>
-        <ul>
-            <li>Nom de l’exploitation : <span id="recolteNom">Ferme Durant</span></li>
-            <li>Lieu : <span id="recolteLieu">Tarn</span></li>
-            <li>Type et variété de céréales : <span id="recolteType">Orge d’hiver</span></li>
-            <li>Date de moisson : <span id="recolteDate">18/02/06</span></li>
-            <li>Événements particuliers : <span id="recolteEvent">Aucun</span></li>
-            <li>Date de validité certification bio : <span id="recolteBio">—</span></li>
-        </ul>
-        <h3>Coopérative</h3>
-        <ul>
-            <li>Nom de la coopérative : <span id="coopNom">Coop Sud</span></li>
-            <li>Lieu : <span id="coopLieu">Albi</span></li>
-            <li>Date de réception des céréales : <span id="coopDate">2 jours après moisson</span></li>
-            <li>Type et variété de céréales : <span id="coopType">Orge d’hiver</span></li>
-            <li>Certification bio ou autres certifications : <span id="coopCert">—</span></li>
-        </ul>
-
-        <h3>Qualité de grain</h3>
-        <ul>
-            <li>Humidité (%) : <span id="qualHumid">13.5</span></li>
-            <li>Taux de protéines (%) : <span id="qualProt">9.8</span></li>
-            <li>Teneur en impuretés (%) : <span id="qualImpure">1.2</span></li>
-            <li>Poids spécifique (kg/hL) : <span id="qualPoids">—</span></li>
-        </ul>
-    </div>
-</div>
-
-<!-- ACCORDÉON MALTERIE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;malt-4950433_1280.jpg&#39;);">
-        <div class="accordion-title">Maltage (Malterie Occitane)</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
+        <div class="accordion-title">Agriculteurs</div>
     </div>
     <div class="accordion-content">
-        <h3>Étapes du procédé</h3>
-        <ul>
-            <li>Réception des lots : <span id="maltEtape1">—</span></li>
-            <li>Trempage : <span id="maltEtape2">—</span></li>
-            <li>Germination : <span id="maltEtape3">—</span></li>
-            <li>Touraillage : <span id="maltEtape4">—</span></li>
-            <li>Dégermination : <span id="maltEtape5">—</span></li>
-            <li>Analyses finales : <span id="maltEtape6">—</span></li>
-        </ul>
+        <div id="agriculteursList">Aucune donnée pour le moment.</div>
     </div>
 </div>
 
-<!-- ACCORDÉON BRASSAGE -->
+<!-- ACCORDÉON COOPÉRATIVES -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;beer-2370783_1280.jpg&#39;);">
-        <div class="accordion-title">Brassage</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt-4950433_1280.jpg');">
+        <div class="accordion-title">Coopératives</div>
     </div>
     <div class="accordion-content">
-        <p>Informations sur le brassage à compléter.</p>
+        <div id="cooperativesList">Aucune donnée pour le moment.</div>
+    </div>
+</div>
+
+<!-- ACCORDÉON BRASSERIES -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
+        <div class="accordion-title">Brasseries</div>
+    </div>
+    <div class="accordion-content">
+        <div id="brasseriesList">Aucune donnée pour le moment.</div>
     </div>
 </div>
 
@@ -320,83 +236,50 @@ function toggleAccordion(header){
     }
 }
 
-// utilitaire pour nettoyer/changer string -> nombre
-function cleanNumber(str) {
-    if (!str && str !== 0) return 0;
-    const num = parseFloat(String(str).replace(/[^\d.-]/g,''));
-    return isNaN(num) ? 0 : num;
-}
-
-// Parse simple CSV clé,valeur (une paire par ligne)
-function parseLotCSV(csv){
-    if (!csv) return null;
-    const lines = csv.trim().split(/\r?\n/);
-    const obj = {};
-    lines.forEach(line => {
-        // on split seulement sur la première virgule pour garder les valeurs contenant des virgules
-        const idx = line.indexOf(',');
-        if (idx === -1) return;
-        const key = line.slice(0, idx).trim();
-        const value = line.slice(idx + 1).trim();
-        if (key) obj[key] = value;
+// parser CSV robuste : tab ou comma, gère CRLF
+function parseCSVtable(text){
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length);
+    if (!lines.length) return [];
+    // Try tab first
+    const sep = lines[0].includes('\t') ? '\t' : ',';
+    const headers = lines[0].split(sep).map(h => h.trim());
+    return lines.slice(1).map(line => {
+        const cols = line.split(sep);
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = (cols[i]||'').trim());
+        return obj;
     });
-    return obj;
 }
 
-// Met à jour l'UI avec les données du lot
-function updatePageWithLot(lot){
-    if (!lot) {
-        alert("Données du lot invalides.");
-        return;
-    }
-
-    const agri = cleanNumber(lot["Émission Agriculture"]);
-    const transp = cleanNumber(lot["Émission Transport"]);
-    const malt = cleanNumber(lot["Émission Malterie"]);
-    const total = cleanNumber(lot["Émission Total"]) || (agri + transp + malt);
-
-    const rule = document.getElementById('carbonRule');
-    rule.innerHTML = '';
-
-    // Evite division par zéro
-    const safeTotal = total === 0 ? 1 : total;
-
-    const makeSeg = (cls, val) => {
-        const pct = Math.max(0, Math.min(100, (val / safeTotal) * 100));
-        const div = document.createElement('div');
-        div.className = 'seg ' + cls;
-        div.style.width = pct + '%';
-        rule.appendChild(div);
-    };
-    makeSeg('agri', agri);
-    makeSeg('transp', transp);
-    makeSeg('malt', malt);
-
-    document.getElementById('valAgri').textContent = agri.toFixed(1);
-    document.getElementById('valTransp').textContent = transp.toFixed(1);
-    document.getElementById('valMalt').textContent = malt.toFixed(1);
-    document.getElementById('valTotal').textContent = total.toFixed(1);
-
-    // autres infos texte (utiliser || '—' pour valeurs manquantes)
-    document.getElementById('recolteNom').textContent = lot["Nom de l’exploitation"] || '—';
-    document.getElementById('recolteLieu').textContent = lot["Lieu exploitation"] || '—';
-    document.getElementById('recolteType').textContent = lot["Type et variété de céréales"] || '—';
-    document.getElementById('recolteDate').textContent = lot["Date de moisson"] || '—';
-    document.getElementById('recolteEvent').textContent = lot["Événements particuliers"] || '—';
-    document.getElementById('recolteBio').textContent = lot["Date validité certification bio"] || '—';
-    document.getElementById('coopNom').textContent = lot["Nom de la coopérative"] || '—';
-    document.getElementById('coopLieu').textContent = lot["Lieu coopérative"] || '—';
-    document.getElementById('coopDate').textContent = lot["Date réception céréales"] || '—';
-    document.getElementById('coopType').textContent = lot["Type / variété céréales (coop)"] || '—';
-    document.getElementById('coopCert').textContent = lot["Certification coopérative"] || '—';
-    document.getElementById('qualHumid').textContent = lot["Humidité (%)"] || '—';
-    document.getElementById('qualProt').textContent = lot["Taux de protéines (%)"] || '—';
-    document.getElementById('qualImpure').textContent = lot["Teneur en impuretés (%)"] || '—';
-    document.getElementById('qualPoids').textContent = lot["Poids spécifique (kg/hL)"] || '—';
+// Render table for a given array of objects (shows Prénom / Nom and full object as details)
+function renderTable(arr){
+    if (!arr || arr.length === 0) return '<p>Aucune donnée.</p>';
+    // pick columns safely
+    const first = arr[0];
+    const headers = Object.keys(first);
+    let html = '<table class="table-list"><thead><tr>';
+    html += '<th>Prénom</th><th>Nom</th><th>Autres infos</th></tr></thead><tbody>';
+    arr.forEach(row => {
+        const prenom = row["Identification [Prénom de l'exploitant :]"] || row["Prénom"] || '';
+        const nom = row["Identification [Nom de l'exploitant :]"] || row["Nom"] || '';
+        // create a small details string for remaining columns
+        const others = headers.filter(h => h !== "Identification [Prénom de l'exploitant :]" && h !== "Identification [Nom de l'exploitant :]").map(h => {
+            return `<strong>${h}:</strong> ${row[h]||'—'}`;
+        }).join(' · ');
+        html += `<tr><td>${prenom}</td><td>${nom}</td><td>${others}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    return html;
 }
 
-// --- CHARGEMENT DU LOT SELON LE NUMÉRO ---
-async function loadLot() {
+// normalize category strings for matching
+function normalizeCat(s){
+    if(!s) return '';
+    return s.trim().toLowerCase();
+}
+
+// --- CHARGEMENT DU CSV ---
+async function loadLot(){
     const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
     if (!lotId) {
@@ -411,47 +294,86 @@ async function loadLot() {
         return;
     }
 
-    // Montrer le loader + désactiver le bouton
+    // montrer loader + désactiver bouton
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
-    loader.setAttribute('aria-hidden', 'false');
+    loader.setAttribute('aria-hidden','false');
     loadBtn.disabled = true;
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
 
-    // --- ⏳ Attente forcée de 1 seconde ---
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // attente forcée 1s
+    await new Promise(r => setTimeout(r, 1000));
 
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+    // fichier CSV (change si tu ranges ailleurs)
+    const csvUrl = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
     try {
-        const response = await fetch(csvPath);
-        if (!response.ok) throw new Error("Fichier CSV introuvable (404)");
+        const res = await fetch(csvUrl);
+        if (!res.ok) throw new Error("Fichier CSV introuvable : " + csvUrl);
+        const text = await res.text();
+        const rows = parseCSVtable(text);
 
-        const csvText = await response.text();
-        const lot = parseLotCSV(csvText);
-        if (!lot || Object.keys(lot).length === 0)
-            throw new Error("Données CSV invalides ou vides");
+        // filter by category column (robust to small variations)
+        const catKeyCandidates = [
+            "Quel maillon de la chaîne êtes-vous ?",
+            "Quel maillon êtes-vous ?",
+            "Maillon",
+            "Quel maillon"
+        ];
+        // detect actual category column name
+        let catKey = null;
+        if (rows.length) {
+            const keys = Object.keys(rows[0]);
+            for (const k of keys){
+                if (catKeyCandidates.includes(k)) { catKey = k; break; }
+            }
+            if (!catKey) {
+                // try fuzzy: pick first column name containing 'maillon' or 'qui' etc
+                catKey = keys.find(k => /maillon|chaine|chaîne|quel/i.test(k)) || keys[0];
+            }
+        }
 
-        updatePageWithLot(lot);
+        // categorize entries
+        const agris = [];
+        const coops = [];
+        const brasseries = [];
+
+        rows.forEach(r => {
+            const cat = normalizeCat(r[catKey]);
+            if (cat.includes('agricul')) agris.push(r);
+            else if (cat.includes('coop')) coops.push(r);
+            else if (cat.includes('brass') || cat.includes('brasseur')) brasseries.push(r);
+            else {
+                // fallback: if unknown but row contains typical agriculteur fields, push to agris
+                agris.push(r);
+            }
+        });
+
+        // render into accordions
+        document.getElementById('agriculteursList').innerHTML = renderTable(agris);
+        document.getElementById('cooperativesList').innerHTML = renderTable(coops);
+        document.getElementById('brasseriesList').innerHTML = renderTable(brasseries);
+
+        // open first accordion
+        const firstHeader = document.querySelector('.accordion .accordion-header');
+        if (firstHeader) toggleAccordion(firstHeader);
 
     } catch (err) {
         alert("Erreur : " + err.message);
     } finally {
-        // Cacher le loader + réactiver le bouton
+        // cacher loader + réactiver bouton
         loader.style.display = "none";
-        loader.setAttribute('aria-hidden', 'true');
+        loader.setAttribute('aria-hidden','true');
         loadBtn.disabled = false;
         loadBtn.style.opacity = '';
         loadBtn.style.cursor = '';
     }
 }
 
-
 // lie le bouton au chargement
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
 
-
-
-</body></html>
+</body>
+</html>
