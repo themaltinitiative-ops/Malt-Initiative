@@ -286,7 +286,7 @@ async function loadLot() {
         const data = parseCSV(csvText);
 
         // Recherche de la ligne correspondant à l'ID de la réponse
-        const line = data.find(d => d["ID de la réponse"] === idRecherche);
+        const line = data.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
         if(!line) throw new Error("ID de la réponse non trouvé dans le CSV");
 
         updatePageWithLine(line);
