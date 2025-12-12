@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Transparence – Informations du lot</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Informations du lot</title>
 <style>
-/* --- RESET ET BODY --- */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -13,43 +12,9 @@ body {
     color: #0f1724;
     padding: 0;
 }
-
-/* Loader */
-#loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(255,255,255,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    display: none; /* caché par défaut */
-}
-#loader img {
-    width: 150px;
-    animation: spin 1.5s linear infinite;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Bannière */
 .header-images img { width: 100%; height: auto; display: block; }
-
-/* --- TITRE --- */
-h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-/* --- CHAMP DE LOT --- */
-#lotInput, button {
-    font-size: 16px;
-}
-
-/* --- ACCORDIONS --- */
+h1 { text-align: center; margin: 20px 0; }
+#lotInput, button { font-size: 16px; }
 .accordion {
     background: #f0e6d2;
     border-radius: 12px;
@@ -58,33 +23,18 @@ h1 {
     margin: 20px auto;
     max-width: 900px;
 }
-
 .accordion-header {
     background-size: cover;
     background-position: center;
-    height: 120px;
+    height: 60px;
     position: relative;
     cursor: pointer;
+    padding-left: 20px;
     display: flex;
     align-items: center;
-    padding-left: 20px;
-}
-
-.accordion-header::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.25);
-}
-
-.accordion-title {
-    position: relative;
-    font-size: 22px;
-    color: white;
     font-weight: bold;
-    z-index: 5;
+    font-size: 18px;
 }
-
 .accordion-content {
     max-height: 0;
     overflow: hidden;
@@ -92,28 +42,9 @@ h1 {
     background: #fff;
     padding: 0 20px;
 }
-
-.accordion-content.open {
-    padding: 20px;
-}
-
-/* --- LISTES --- */
-ul {
-    margin: 10px 0 20px 20px;
-    padding: 0;
-    list-style-type: disc;
-}
-
-ul li {
-    margin-bottom: 6px;
-}
-
-/* simple table style for lists */
-.table-list { width: 100%; border-collapse: collapse; margin-top: 12px; }
-.table-list th, .table-list td { border: 1px solid #e6e6e6; padding: 8px; text-align: left; }
-.table-list th { background: #fafafa; }
-
-/* --- FOOTER --- */
+.accordion-content.open { padding: 20px; }
+ul { margin: 10px 0 20px 20px; padding: 0; list-style-type: disc; }
+ul li { margin-bottom: 6px; }
 footer {
     background: #e2e2e2;
     padding: 20px;
@@ -121,36 +52,12 @@ footer {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-
-footer .footer-block {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-}
-
-footer .footer-block img {
-    max-width: 80px;
-    margin-right: 15px;
-}
-
-footer .footer-text {
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-/* small responsive */
-@media (max-width:600px){
-    .accordion-header { height: 90px; padding-left: 12px; }
-    .accordion-title { font-size: 18px; }
-}
+footer .footer-block { display: flex; align-items: center; margin: 10px; }
+footer .footer-block img { max-width: 80px; margin-right: 15px; }
+footer .footer-text { font-size: 14px; line-height: 1.4; }
 </style>
 </head>
 <body>
-
-<!-- Loader -->
-<div id="loader" aria-hidden="true" style="display:none;">
-    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
-</div>
 
 <!-- BANNIERE -->
 <div class="header-images">
@@ -162,37 +69,43 @@ footer .footer-text {
 <!-- CHAMP DE SAISIE DU LOT -->
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 202603" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
+    <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- ACCORDÉON AGRICULTEURS -->
+<!-- ACCORDÉON 1 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
-        <div class="accordion-title">Agriculteurs</div>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Informations générales</div>
     <div class="accordion-content">
-        <div id="agriculteursList">Aucune donnée pour le moment.</div>
+        <ul>
+            <li>Date de soumission : <span id="dateSoumission">—</span></li>
+            <li>Dernière page : <span id="dernierePage">—</span></li>
+            <li>Langue de départ : <span id="langue">—</span></li>
+        </ul>
     </div>
 </div>
 
-<!-- ACCORDÉON COOPÉRATIVES -->
+<!-- ACCORDÉON 2 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt-4950433_1280.jpg');">
-        <div class="accordion-title">Coopératives</div>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Dates et suivi</div>
     <div class="accordion-content">
-        <div id="cooperativesList">Aucune donnée pour le moment.</div>
+        <ul>
+            <li>Tête de série : <span id="teteSerie">—</span></li>
+            <li>Date de lancement : <span id="dateLancement">—</span></li>
+            <li>Date de la dernière action : <span id="dateDerniereAction">—</span></li>
+        </ul>
     </div>
 </div>
 
-<!-- ACCORDÉON BRASSERIES -->
+<!-- ACCORDÉON 3 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
-        <div class="accordion-title">Brasseries</div>
-    </div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Identification de l'exploitant</div>
     <div class="accordion-content">
-        <div id="brasseriesList">Aucune donnée pour le moment.</div>
+        <ul>
+            <li>Quel maillon de la chaîne êtes-vous ? : <span id="maillon">—</span></li>
+            <li>Nom de l'exploitant : <span id="nomExploitant">—</span></li>
+            <li>Prénom de l'exploitant : <span id="prenomExploitant">—</span></li>
+        </ul>
     </div>
 </div>
 
@@ -234,91 +147,63 @@ function toggleAccordion(header){
     }
 }
 
-// --- Parse CSV ---
-function parseCSVtable(text){
-    const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l.length);
-    if(!lines.length) return [];
-    const sep = lines[0].includes(',') ? ',' : '\t';
-    const headers = lines[0].split(sep).map(h=>h.trim());
-    return lines.slice(1).map(line => {
-        const cols = line.split(sep);
+// Parse CSV avec en-tête
+function parseCSV(csv){
+    const lines = csv.trim().split(/\r?\n/);
+    if(lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim());
+    const data = lines.slice(1).map(line => {
+        const values = line.split(',').map(v => v.trim());
         const obj = {};
-        headers.forEach((h,i)=>obj[h]= (cols[i]||'').trim());
+        headers.forEach((h,i) => { obj[h] = values[i] || ''; });
         return obj;
     });
+    return data;
 }
 
-// --- Render table dynamique ---
-function renderTableDynamic(arr){
-    if(!arr.length) return '<p>Aucune donnée.</p>';
-    const headers = Object.keys(arr[0]);
-    const total = headers.length;
-    const part1End = Math.floor(total/3)-1;
-    const part2End = Math.floor(total*2/3)-1;
-    let html = '';
-    arr.forEach(row=>{
-        html += '<ul>';
-        for(let i=0;i<=part1End;i++){
-            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
-        }
-        html += '</ul><ul>';
-        for(let i=part1End+1;i<=part2End;i++){
-            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
-        }
-        html += '</ul><ul>';
-        for(let i=part2End+1;i<total;i++){
-            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
-        }
-        html += '</ul><hr>';
-    });
-    return html;
+// Met à jour l'UI avec les données de la ligne correspondante
+function updatePageWithLine(line){
+    if(!line) return;
+    document.getElementById('dateSoumission').textContent = line["Date de soumission"] || '—';
+    document.getElementById('dernierePage').textContent = line["Dernière page"] || '—';
+    document.getElementById('langue').textContent = line["Langue de départ"] || '—';
+    document.getElementById('teteSerie').textContent = line["Tête de série"] || '—';
+    document.getElementById('dateLancement').textContent = line["Date de lancement"] || '—';
+    document.getElementById('dateDerniereAction').textContent = line["Date de la dernière action"] || '—';
+    document.getElementById('maillon').textContent = line["Quel maillon de la chaîne êtes-vous ?"] || '—';
+    document.getElementById('nomExploitant').textContent = line["Identification [Nom de l'exploitant :]"] || '—';
+    document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
-// --- Normalize category ---
-function normalizeCat(s){ return s? s.trim().toLowerCase() : ''; }
-
-// --- Load CSV and distribute ---
-async function loadLot(){
+// --- CHARGEMENT DU LOT SELON LA TÊTE DE SÉRIE ---
+async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
-    if(!lotId){ alert("Veuillez entrer un numéro de lot !"); return; }
-    if(!confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?")) return;
+    if (!lotId) { alert("Veuillez entrer un numéro de lot !"); return; }
 
     const loader = document.getElementById('loader');
-    loader.style.display="flex"; loadBtn.disabled=true;
+    loader.style.display = "flex";
+    loadBtn.disabled = true;
 
-    const csvUrl = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
-    try{
-        const res = await fetch(csvUrl);
-        if(!res.ok) throw new Error("Fichier CSV introuvable");
-        const text = await res.text();
-        const rows = parseCSVtable(text);
+    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+    try {
+        const response = await fetch(csvPath);
+        if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
+        const csvText = await response.text();
+        const data = parseCSV(csvText);
 
-        // détecter colonne catégorie
-        const catKeyCandidates = ["Quel maillon de la chaîne êtes-vous ?","Quel maillon êtes-vous ?","Maillon"];
-        let catKey = Object.keys(rows[0]||{}).find(k=>catKeyCandidates.includes(k)) || Object.keys(rows[0])[0];
+        // Filtrer par Tête de série (lotId)
+        const line = data.find(d => d["Tête de série"] === lotId) || data[0];
+        updatePageWithLine(line);
 
-        const agris=[], coops=[], brass=[];
-        rows.forEach(r=>{
-            const cat = normalizeCat(r[catKey]);
-            if(cat.includes('agricul')) agris.push(r);
-            else if(cat.includes('coop')) coops.push(r);
-            else if(cat.includes('brass')) brass.push(r);
-            else agris.push(r); // fallback
-        });
-
-        document.getElementById('agriculteursList').innerHTML = renderTableDynamic(agris);
-        document.getElementById('cooperativesList').innerHTML = renderTableDynamic(coops);
-        document.getElementById('brasseriesList').innerHTML = renderTableDynamic(brass);
-
-        const firstHeader = document.querySelector('.accordion .accordion-header');
-        if(firstHeader) toggleAccordion(firstHeader);
-
-    }catch(err){ alert("Erreur : "+err.message); }
-    finally{ loader.style.display="none"; loadBtn.disabled=false; }
+    } catch(err){
+        alert("Erreur : " + err.message);
+    } finally {
+        loader.style.display = "none";
+        loadBtn.disabled = false;
+    }
 }
 
-// --- Bind button ---
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
 
