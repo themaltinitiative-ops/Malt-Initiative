@@ -62,7 +62,7 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
+    <input type="text" id="lotInput" placeholder="Ex : 1869417330" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
@@ -122,7 +122,7 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </footer>
 
 <script>
-// --- Accordions ---
+// Accordions
 document.querySelectorAll('.accordion-header').forEach(header => {
     header.addEventListener('click', () => {
         const content = header.nextElementSibling;
@@ -145,6 +145,7 @@ function parseCSV(csv){
     });
 }
 
+// Mettre à jour la page avec la ligne sélectionnée
 function updatePageWithLine(line){
     if(!line) return;
     document.getElementById('dateSoumission').textContent = line["Date de soumission"] || '—';
@@ -158,17 +159,25 @@ function updatePageWithLine(line){
     document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
+// Charger le lot selon lotId + ID de la réponse
 async function loadLot() {
     const lotId = document.getElementById('lotInput').value.trim();
     if(!lotId) { alert("Veuillez entrer un numéro de lot !"); return; }
+
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
     try {
         const response = await fetch(csvPath);
         if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
+
         const csvText = await response.text();
         const data = parseCSV(csvText);
-        const line = data.find(d => d["Tête de série"] === lotId) || data[0];
+
+        // Ajouter 1 au lotId pour correspondre à "ID de la réponse"
+        const idRecherche = String(Number(lotId) + 1);
+        const line = data.find(d => d["ID de la réponse"] === idRecherche) || data[0];
+
         updatePageWithLine(line);
+
     } catch(err) {
         alert("Erreur : " + err.message);
     }
@@ -176,5 +185,6 @@ async function loadLot() {
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
+
 </body>
 </html>
