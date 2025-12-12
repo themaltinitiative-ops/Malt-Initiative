@@ -198,10 +198,6 @@ footer .footer-text {
 </footer>
 
 <script>
-<script>
-
-
-    
 // --- ACCORDIONS ---
 function toggleAccordion(header){
     const content = header.nextElementSibling;
@@ -245,11 +241,11 @@ function updatePageWithLine(line){
     document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
-// --- CHARGEMENT DU LOT AVEC FORMAT 202603-3 ---
+// --- CHARGEMENT DU LOT ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
-    const input = document.getElementById('lotInput').value.trim();
-    if(!input){ alert("Veuillez entrer un numéro de lot !"); return; }
+    const lotId = document.getElementById('lotInput').value.trim();
+    if(!lotId){ alert("Veuillez entrer un numéro de lot !"); return; }
 
     // Vérification majorité
     const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
@@ -259,6 +255,7 @@ async function loadLot() {
     }
 
     // Loader
+    // Montrer le loader + désactiver le bouton
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
     loader.setAttribute('aria-hidden', 'false');
@@ -266,15 +263,9 @@ async function loadLot() {
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
 
-    // --- Attente forcée 1s ---
+// --- ⏳ Attente forcée de 1 seconde ---
     await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Séparer fichier et ID
-    let [filePart, idPart] = input.split('-');
-    if(!filePart) { loader.style.display="none"; loadBtn.disabled=false; alert("Numéro de lot invalide"); return; }
-    if(!idPart) idPart = String(Number(filePart)+1); // fallback si pas de tiret
-
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${filePart}.csv`;
+    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
     try {
         const response = await fetch(csvPath);
@@ -283,8 +274,9 @@ async function loadLot() {
         const csvText = await response.text();
         const data = parseCSV(csvText);
 
-        // Chercher la ligne correspondant à l'ID de la réponse
-        const line = data.find(d => d["ID de la réponse"] === idPart) || data[0];
+        // Recherche ligne avec ID de la réponse = lotId + 1
+        const idRecherche = String(Number(lotId) + 1);
+        const line = data.find(d => d["ID de la réponse"] === idRecherche) || data[0];
 
         updatePageWithLine(line);
 
@@ -293,14 +285,11 @@ async function loadLot() {
     } finally {
         loader.style.display = "none";
         loadBtn.disabled = false;
-        loadBtn.style.opacity = '';
-        loadBtn.style.cursor = '';
     }
 }
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
-
 
 </body>
 </html>
