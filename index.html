@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Informations du lot</title>
+<title>Transparence – Informations du lot</title>
 <style>
+/* --- RESET ET BODY --- */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -12,9 +13,38 @@ body {
     color: #0f1724;
     padding: 0;
 }
+
+/* Loader */
+#loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    display: none;
+}
+#loader img {
+    width: 150px;
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Bannière */
 .header-images img { width: 100%; height: auto; display: block; }
+
+/* --- TITRE --- */
 h1 { text-align: center; margin: 20px 0; }
-#lotInput, button { font-size: 16px; }
+
+/* --- CHAMP DE LOT --- */
+#lotInput, button { font-size: 16px; padding: 6px 10px; }
+
+/* --- ACCORDIONS --- */
 .accordion {
     background: #f0e6d2;
     border-radius: 12px;
@@ -23,13 +53,25 @@ h1 { text-align: center; margin: 20px 0; }
     margin: 20px auto;
     max-width: 900px;
 }
+
 .accordion-header {
+    background-size: cover;
+    background-position: center;
+    height: 100px;
+    position: relative;
     cursor: pointer;
-    padding: 15px 20px;
-    font-weight: bold;
-    font-size: 18px;
-    background: #d9cfa6;
 }
+
+.accordion-title {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    z-index: 5;
+}
+
 .accordion-content {
     max-height: 0;
     overflow: hidden;
@@ -37,9 +79,13 @@ h1 { text-align: center; margin: 20px 0; }
     background: #fff;
     padding: 0 20px;
 }
+
 .accordion-content.open { padding: 20px; }
+
 ul { margin: 10px 0 20px 20px; padding: 0; list-style-type: disc; }
 ul li { margin-bottom: 6px; }
+
+/* --- FOOTER --- */
 footer {
     background: #e2e2e2;
     padding: 20px;
@@ -47,27 +93,41 @@ footer {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-footer .footer-block { display: flex; align-items: center; margin: 10px; }
+footer .footer-block {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
 footer .footer-block img { max-width: 80px; margin-right: 15px; }
 footer .footer-text { font-size: 14px; line-height: 1.4; }
 </style>
 </head>
 <body>
 
+<!-- Loader -->
+<div id="loader" aria-hidden="true">
+    <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
+</div>
+
+<!-- BANNIERE -->
 <div class="header-images">
     <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
 </div>
 
 <h1>Informations du Lot</h1>
 
+<!-- CHAMP DE SAISIE DU LOT -->
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 1869417330" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
-    <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
+    <input type="text" id="lotInput" placeholder="Ex : 1869417330" style="border-radius:6px; border:1px solid #ccc;">
+    <button id="loadBtn" style="border-radius:6px; border:none; background:rgb(21,128,61); color:white;">Charger le lot</button>
 </div>
 
+<!-- ACCORDÉONS -->
 <div class="accordion">
-    <div class="accordion-header">Informations générales</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#15803d;">
+        <div class="accordion-title">Informations générales</div>
+    </div>
     <div class="accordion-content">
         <ul>
             <li>Date de soumission : <span id="dateSoumission">—</span></li>
@@ -78,7 +138,9 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </div>
 
 <div class="accordion">
-    <div class="accordion-header">Dates et suivi</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#d9cfa6;">
+        <div class="accordion-title">Dates et suivi</div>
+    </div>
     <div class="accordion-content">
         <ul>
             <li>Tête de série : <span id="teteSerie">—</span></li>
@@ -89,7 +151,9 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </div>
 
 <div class="accordion">
-    <div class="accordion-header">Identification de l'exploitant</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#fde68a;">
+        <div class="accordion-title">Identification de l'exploitant</div>
+    </div>
     <div class="accordion-content">
         <ul>
             <li>Quel maillon de la chaîne êtes-vous ? : <span id="maillon">—</span></li>
@@ -99,6 +163,7 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
     </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
     <div class="footer-infos">
         <div class="footer-block">
@@ -109,7 +174,6 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
                 1273 Avenue des Terres Noires, 81370 St Sulpice la Pointe
             </div>
         </div>
-
         <div class="footer-block">
             <img src="content.png" alt="">
             <div class="footer-text">
@@ -122,15 +186,21 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </footer>
 
 <script>
-// Accordions
-document.querySelectorAll('.accordion-header').forEach(header => {
-    header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        const isOpen = content.classList.contains('open');
-        document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
-        if(!isOpen) content.classList.add('open');
+// --- ACCORDIONS ---
+function toggleAccordion(header){
+    const content = header.nextElementSibling;
+    const isOpen = content.style.maxHeight;
+
+    document.querySelectorAll('.accordion-content').forEach(c => {
+        c.style.maxHeight = null;
+        c.classList.remove("open");
     });
-});
+
+    if(!isOpen){
+        content.style.maxHeight = content.scrollHeight + "px";
+        content.classList.add("open");
+    }
+}
 
 // Parser CSV avec en-tête
 function parseCSV(csv){
@@ -159,12 +229,19 @@ function updatePageWithLine(line){
     document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
-// Charger le lot selon lotId + ID de la réponse
+// --- CHARGEMENT DU LOT ---
 async function loadLot() {
+    const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
-    if(!lotId) { alert("Veuillez entrer un numéro de lot !"); return; }
+    if(!lotId){ alert("Veuillez entrer un numéro de lot !"); return; }
+
+    // Loader
+    const loader = document.getElementById('loader');
+    loader.style.display = "flex";
+    loadBtn.disabled = true;
 
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+
     try {
         const response = await fetch(csvPath);
         if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
@@ -172,14 +249,17 @@ async function loadLot() {
         const csvText = await response.text();
         const data = parseCSV(csvText);
 
-        // Ajouter 1 au lotId pour correspondre à "ID de la réponse"
+        // Recherche ligne avec ID de la réponse = lotId + 1
         const idRecherche = String(Number(lotId) + 1);
         const line = data.find(d => d["ID de la réponse"] === idRecherche) || data[0];
 
         updatePageWithLine(line);
 
-    } catch(err) {
+    } catch(err){
         alert("Erreur : " + err.message);
+    } finally {
+        loader.style.display = "none";
+        loadBtn.disabled = false;
     }
 }
 
