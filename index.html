@@ -24,21 +24,16 @@ h1 { text-align: center; margin: 20px 0; }
     max-width: 900px;
 }
 .accordion-header {
-    background-size: cover;
-    background-position: center;
-    height: 60px;
-    position: relative;
     cursor: pointer;
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
+    padding: 15px 20px;
     font-weight: bold;
     font-size: 18px;
+    background: #d9cfa6;
 }
 .accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.4s ease, padding 0.4s ease;
     background: #fff;
     padding: 0 20px;
 }
@@ -59,23 +54,20 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </head>
 <body>
 
-<!-- BANNIERE -->
 <div class="header-images">
     <img src="bannire-fine.png" alt="Bannière The Malt Initiative">
 </div>
 
 <h1>Informations du Lot</h1>
 
-<!-- CHAMP DE SAISIE DU LOT -->
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
     <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- ACCORDÉON 1 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Informations générales</div>
+    <div class="accordion-header">Informations générales</div>
     <div class="accordion-content">
         <ul>
             <li>Date de soumission : <span id="dateSoumission">—</span></li>
@@ -85,9 +77,8 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
     </div>
 </div>
 
-<!-- ACCORDÉON 2 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Dates et suivi</div>
+    <div class="accordion-header">Dates et suivi</div>
     <div class="accordion-content">
         <ul>
             <li>Tête de série : <span id="teteSerie">—</span></li>
@@ -97,9 +88,8 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
     </div>
 </div>
 
-<!-- ACCORDÉON 3 -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Identification de l'exploitant</div>
+    <div class="accordion-header">Identification de l'exploitant</div>
     <div class="accordion-content">
         <ul>
             <li>Quel maillon de la chaîne êtes-vous ? : <span id="maillon">—</span></li>
@@ -109,7 +99,6 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
     </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-infos">
         <div class="footer-block">
@@ -133,35 +122,29 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 </footer>
 
 <script>
-// --- ACCORDION ---
-function toggleAccordion(header){
-    const content = header.nextElementSibling;
-    const isOpen = content.style.maxHeight;
-    document.querySelectorAll('.accordion-content').forEach(c => {
-        c.style.maxHeight = null;
-        c.classList.remove("open");
+// --- Accordions ---
+document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const isOpen = content.classList.contains('open');
+        document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+        if(!isOpen) content.classList.add('open');
     });
-    if(!isOpen){
-        content.style.maxHeight = content.scrollHeight + "px";
-        content.classList.add("open");
-    }
-}
+});
 
-// Parse CSV avec en-tête
+// Parser CSV avec en-tête
 function parseCSV(csv){
     const lines = csv.trim().split(/\r?\n/);
     if(lines.length < 2) return [];
     const headers = lines[0].split(',').map(h => h.trim());
-    const data = lines.slice(1).map(line => {
+    return lines.slice(1).map(line => {
         const values = line.split(',').map(v => v.trim());
         const obj = {};
         headers.forEach((h,i) => { obj[h] = values[i] || ''; });
         return obj;
     });
-    return data;
 }
 
-// Met à jour l'UI avec les données de la ligne correspondante
 function updatePageWithLine(line){
     if(!line) return;
     document.getElementById('dateSoumission').textContent = line["Date de soumission"] || '—';
@@ -175,37 +158,23 @@ function updatePageWithLine(line){
     document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
-// --- CHARGEMENT DU LOT SELON LA TÊTE DE SÉRIE ---
 async function loadLot() {
-    const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
-    if (!lotId) { alert("Veuillez entrer un numéro de lot !"); return; }
-
-    const loader = document.getElementById('loader');
-    loader.style.display = "flex";
-    loadBtn.disabled = true;
-
+    if(!lotId) { alert("Veuillez entrer un numéro de lot !"); return; }
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
     try {
         const response = await fetch(csvPath);
         if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
         const csvText = await response.text();
         const data = parseCSV(csvText);
-
-        // Filtrer par Tête de série (lotId)
         const line = data.find(d => d["Tête de série"] === lotId) || data[0];
         updatePageWithLine(line);
-
-    } catch(err){
+    } catch(err) {
         alert("Erreur : " + err.message);
-    } finally {
-        loader.style.display = "none";
-        loadBtn.disabled = false;
     }
 }
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
-
 </body>
 </html>
