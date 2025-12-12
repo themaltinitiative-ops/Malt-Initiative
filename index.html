@@ -166,50 +166,35 @@ footer .footer-text {
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-
-<!-- ACCORDÉONS -->
+<!-- ACCORDÉON AGRICULTEURS -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 1 : Informations générales</div>
-    <div class="accordion-content" id="accordion1"></div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('barley.jpg');">
+        <div class="accordion-title">Agriculteurs</div>
+    </div>
+    <div class="accordion-content">
+        <div id="agriculteursList">Aucune donnée pour le moment.</div>
+    </div>
 </div>
 
+<!-- ACCORDÉON COOPÉRATIVES -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 2 : Suivi des actions</div>
-    <div class="accordion-content" id="accordion2"></div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('malt-4950433_1280.jpg');">
+        <div class="accordion-title">Coopératives</div>
+    </div>
+    <div class="accordion-content">
+        <div id="cooperativesList">Aucune donnée pour le moment.</div>
+    </div>
 </div>
 
+<!-- ACCORDÉON BRASSERIES -->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">Accordéon 3 : Identification exploitant</div>
-    <div class="accordion-content" id="accordion3"></div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url('beer-2370783_1280.jpg');">
+        <div class="accordion-title">Brasseries</div>
+    </div>
+    <div class="accordion-content">
+        <div id="brasseriesList">Aucune donnée pour le moment.</div>
+    </div>
 </div>
-
-<script>
-// --- Accordion toggle ---
-function toggleAccordion(header){
-    const content = header.nextElementSibling;
-    document.querySelectorAll('.accordion-content').forEach(c => {
-        if(c !== content) c.style.maxHeight = null;
-        c.classList.remove("open");
-    });
-    if(!content.classList.contains("open")){
-        content.style.maxHeight = content.scrollHeight + "px";
-        content.classList.add("open");
-    }
-}
-
-// --- Parse CSV avec en-têtes ---
-function parseCSV(csvText){
-    const lines = csvText.trim().split(/\r?\n/);
-    const headers = lines[0].split('\t');
-    const rows = lines.slice(1).map(line => {
-        const values = line.split('\t');
-        const obj = {};
-        headers.forEach((h,i)=>obj[h.trim()] = values[i]?values[i].trim():'');
-        return obj;
-    });
-    return rows;
-}
-
 
 <!-- FOOTER -->
 <footer>
@@ -235,99 +220,107 @@ function parseCSV(csvText){
 </footer>
 
 <script>
-// --- Accordion toggle ---
+// --- ACCORDION ---
 function toggleAccordion(header){
     const content = header.nextElementSibling;
+    const isOpen = content.style.maxHeight;
     document.querySelectorAll('.accordion-content').forEach(c => {
-        if(c !== content) c.style.maxHeight = null;
+        c.style.maxHeight = null;
         c.classList.remove("open");
     });
-    if(!content.classList.contains("open")){
+    if(!isOpen){
         content.style.maxHeight = content.scrollHeight + "px";
         content.classList.add("open");
     }
 }
 
-// --- Charger et afficher CSV large ---
-async function loadLot() {
+// --- Parse CSV ---
+function parseCSVtable(text){
+    const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l.length);
+    if(!lines.length) return [];
+    const sep = lines[0].includes(',') ? ',' : '\t';
+    const headers = lines[0].split(sep).map(h=>h.trim());
+    return lines.slice(1).map(line => {
+        const cols = line.split(sep);
+        const obj = {};
+        headers.forEach((h,i)=>obj[h]= (cols[i]||'').trim());
+        return obj;
+    });
+}
+
+// --- Render table dynamique ---
+function renderTableDynamic(arr){
+    if(!arr.length) return '<p>Aucune donnée.</p>';
+    const headers = Object.keys(arr[0]);
+    const total = headers.length;
+    const part1End = Math.floor(total/3)-1;
+    const part2End = Math.floor(total*2/3)-1;
+    let html = '';
+    arr.forEach(row=>{
+        html += '<ul>';
+        for(let i=0;i<=part1End;i++){
+            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
+        }
+        html += '</ul><ul>';
+        for(let i=part1End+1;i<=part2End;i++){
+            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
+        }
+        html += '</ul><ul>';
+        for(let i=part2End+1;i<total;i++){
+            if(headers[i] && row[headers[i]]) html += `<li><strong>${headers[i]}:</strong> ${row[headers[i]]}</li>`;
+        }
+        html += '</ul><hr>';
+    });
+    return html;
+}
+
+// --- Normalize category ---
+function normalizeCat(s){ return s? s.trim().toLowerCase() : ''; }
+
+// --- Load CSV and distribute ---
+async function loadLot(){
     const loadBtn = document.getElementById('loadBtn');
     const lotId = document.getElementById('lotInput').value.trim();
-    if (!lotId) {
-        alert("Veuillez entrer un numéro de lot !");
-        return;
-    }
-
+    if(!lotId){ alert("Veuillez entrer un numéro de lot !"); return; }
     if(!confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?")) return;
 
     const loader = document.getElementById('loader');
-    loader.style.display = "flex";
-    loadBtn.disabled = true;
+    loader.style.display="flex"; loadBtn.disabled=true;
 
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+    const csvUrl = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
+    try{
+        const res = await fetch(csvUrl);
+        if(!res.ok) throw new Error("Fichier CSV introuvable");
+        const text = await res.text();
+        const rows = parseCSVtable(text);
 
-    try {
-        const response = await fetch(csvPath);
-        if (!response.ok) throw new Error("Fichier CSV introuvable");
+        // détecter colonne catégorie
+        const catKeyCandidates = ["Quel maillon de la chaîne êtes-vous ?","Quel maillon êtes-vous ?","Maillon"];
+        let catKey = Object.keys(rows[0]||{}).find(k=>catKeyCandidates.includes(k)) || Object.keys(rows[0])[0];
 
-        const csvText = await response.text();
-        const lines = csvText.trim().split(/\r?\n/).filter(l=>l.length>0);
-        if(lines.length<2) throw new Error("CSV vide");
-
-        const headers = lines[0].split('\t').map(h=>h.trim());
-        const data = lines.slice(1).map(line => line.split('\t'));
-
-        const acc1 = document.getElementById('accordion1');
-        const acc2 = document.getElementById('accordion2');
-        const acc3 = document.getElementById('accordion3');
-
-        // Nettoyage
-        acc1.innerHTML = ''; acc2.innerHTML = ''; acc3.innerHTML = '';
-
-        // Découpage dynamique en 3 parties
-        const total = headers.length;
-        const part1End = Math.floor(total/3)-1;
-        const part2End = Math.floor(total*2/3)-1;
-
-        data.forEach(row => {
-            appendColumns(acc1, headers, row, 0, part1End);
-            appendColumns(acc2, headers, row, part1End+1, part2End);
-            appendColumns(acc3, headers, row, part2End+1, total-1);
+        const agris=[], coops=[], brass=[];
+        rows.forEach(r=>{
+            const cat = normalizeCat(r[catKey]);
+            if(cat.includes('agricul')) agris.push(r);
+            else if(cat.includes('coop')) coops.push(r);
+            else if(cat.includes('brass')) brass.push(r);
+            else agris.push(r); // fallback
         });
 
-        // Ouvre automatiquement le 1er accordéon
-        autoOpenFirstAccordion();
+        document.getElementById('agriculteursList').innerHTML = renderTableDynamic(agris);
+        document.getElementById('cooperativesList').innerHTML = renderTableDynamic(coops);
+        document.getElementById('brasseriesList').innerHTML = renderTableDynamic(brass);
 
-    } catch(err){
-        alert("Erreur : " + err.message);
-    } finally{
-        loader.style.display = "none";
-        loadBtn.disabled = false;
-    }
+        const firstHeader = document.querySelector('.accordion .accordion-header');
+        if(firstHeader) toggleAccordion(firstHeader);
+
+    }catch(err){ alert("Erreur : "+err.message); }
+    finally{ loader.style.display="none"; loadBtn.disabled=false; }
 }
 
-// --- Ajout des colonnes dans un accordéon ---
-function appendColumns(acc, headers, row, start, end){
-    const ul = document.createElement('ul');
-    for(let i=start; i<=end; i++){
-        if(headers[i] && row[i]!==undefined && row[i].trim()!==''){
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${headers[i]} :</strong> ${row[i]}`;
-            ul.appendChild(li);
-        }
-    }
-    acc.appendChild(document.createElement('hr'));
-    acc.appendChild(ul);
-}
-
-// --- Ouvre automatiquement le premier accordéon ---
-function autoOpenFirstAccordion(){
-    const first = document.querySelector(".accordion .accordion-header");
-    if(first) toggleAccordion(first);
-}
-
+// --- Bind button ---
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
-
 
 </body>
 </html>
