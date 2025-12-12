@@ -260,10 +260,10 @@ async function loadLot() {
     // Séparer le numéro de lot et l'ID de la réponse
     const parts = lotInput.split('-');
     if(parts.length !== 2){
-        alert("Format invalide : utilisez par exemple 202603-3");
+        alert("Format invalide : utilisez par exemple MO-3");
         return;
     }
-    const csvFile = parts[0];       // 202603 -> nom du fichier CSV
+    const csvFile = parts[0];       // MO-3 -> nom du fichier CSV
     const idRecherche = parts[1];   // 3 -> ID de la réponse
 
     // Afficher loader
