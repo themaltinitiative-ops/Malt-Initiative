@@ -93,19 +93,29 @@ footer {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
 footer .footer-block {
     display: flex;
     align-items: center;
     margin: 10px;
 }
-footer .footer-block img { max-width: 80px; margin-right: 15px; }
-footer .footer-text { font-size: 14px; line-height: 1.4; }
+
+footer .footer-block img {
+    max-width: 80px;
+    margin-right: 15px;
+}
+
+footer .footer-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
 </style>
 </head>
 <body>
 
 <!-- Loader -->
-<div id="loader" aria-hidden="true">
+<div id="loader" aria-hidden="true" style="display: none;">
+    <!-- Remplacez le src par le chemin correct vers votre image -->
     <img src="Dessin_chope_de_biere_480x480-removebg-preview.png" alt="Chargement...">
 </div>
 
@@ -119,16 +129,17 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
 <!-- CHAMP DE SAISIE DU LOT -->
 <div style="text-align:center; margin:20px;">
     <label for="lotInput"><strong>Entrer le numéro de lot :</strong></label>
-    <input type="text" id="lotInput" placeholder="Ex : 1869417330" style="border-radius:6px; border:1px solid #ccc;">
-    <button id="loadBtn" style="border-radius:6px; border:none; background:rgb(21,128,61); color:white;">Charger le lot</button>
+    <input type="text" id="lotInput" placeholder="Ex : 202601" style="padding:6px 10px; border-radius:6px; border:1px solid #ccc;">
+    <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- ACCORDÉONS -->
+<!-- ACCORDÉONS 1-->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#15803d;">
-        <div class="accordion-title">Informations générales</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;barley.jpg&#39;);">
+        <div class="accordion-title">Récolte des céréales</div>
     </div>
-    <div class="accordion-content">
+    <div class="accordion-content" style="">
+        <h3>Agriculteur</h3>
         <ul>
             <li>Date de soumission : <span id="dateSoumission">—</span></li>
             <li>Dernière page : <span id="dernierePage">—</span></li>
@@ -136,12 +147,13 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
         </ul>
     </div>
 </div>
-
+<!-- ACCORDÉONS 2-->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#d9cfa6;">
-        <div class="accordion-title">Dates et suivi</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;malt-4950433_1280.jpg&#39;);">
+        <div class="accordion-title">Maltage (Malterie Occitane)</div>
     </div>
     <div class="accordion-content">
+        <h3>Étapes du procédé</h3>
         <ul>
             <li>Tête de série : <span id="teteSerie">—</span></li>
             <li>Date de lancement : <span id="dateLancement">—</span></li>
@@ -149,10 +161,10 @@ footer .footer-text { font-size: 14px; line-height: 1.4; }
         </ul>
     </div>
 </div>
-
+<!-- ACCORDÉONS 3-->
 <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-color:#fde68a;">
-        <div class="accordion-title">Identification de l'exploitant</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)" style="background-image:url(&#39;beer-2370783_1280.jpg&#39;);">
+        <div class="accordion-title">Brassage</div>
     </div>
     <div class="accordion-content">
         <ul>
@@ -235,10 +247,22 @@ async function loadLot() {
     const lotId = document.getElementById('lotInput').value.trim();
     if(!lotId){ alert("Veuillez entrer un numéro de lot !"); return; }
 
+    // Vérification majorité
+    const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
+    if (!isAdult) {
+        alert("Accès refusé : vous devez être majeur pour continuer.");
+        return;
+    }
+
     // Loader
+    // Montrer le loader + désactiver le bouton
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
+    loader.setAttribute('aria-hidden', 'false');
     loadBtn.disabled = true;
+    loadBtn.style.opacity = 0.6;
+    loadBtn.style.cursor = 'not-allowed';
+
 
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
