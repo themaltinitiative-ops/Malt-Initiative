@@ -263,7 +263,8 @@ async function loadLot() {
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
 
-
+// --- ⏳ Attente forcée de 1 seconde ---
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
 
     try {
