@@ -198,20 +198,23 @@ footer .footer-text {
 </footer>
 
 <script>
+<script>
+
+
+    
 // --- ACCORDIONS ---
 function toggleAccordion(header){
     const content = header.nextElementSibling;
-    const isOpen = content.classList.contains("open");
+    const isOpen = content.style.maxHeight;
 
-    // Fermer tous les autres accordions
     document.querySelectorAll('.accordion-content').forEach(c => {
-        c.classList.remove("open");
         c.style.maxHeight = null;
+        c.classList.remove("open");
     });
 
     if(!isOpen){
-        content.classList.add("open");
         content.style.maxHeight = content.scrollHeight + "px";
+        content.classList.add("open");
     }
 }
 
@@ -242,32 +245,20 @@ function updatePageWithLine(line){
     document.getElementById('prenomExploitant').textContent = line["Identification [Prénom de l'exploitant :]"] || '—';
 }
 
-// --- CHARGEMENT DU LOT ---
+// --- CHARGEMENT DU LOT AVEC FORMAT 202603-3 ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
-    const lotInput = document.getElementById('lotInput').value.trim();
-    if(!lotInput){ 
-        alert("Veuillez entrer un numéro de lot !"); 
-        return; 
-    }
+    const input = document.getElementById('lotInput').value.trim();
+    if(!input){ alert("Veuillez entrer un numéro de lot !"); return; }
 
-    // Vérification majeure
+    // Vérification majorité
     const isAdult = confirm("Ce site présente des informations liées à l'alcool.\nConfirmez-vous avoir plus de 18 ans ?");
     if (!isAdult) {
         alert("Accès refusé : vous devez être majeur pour continuer.");
         return;
     }
 
-    // Séparer le numéro de lot et l'ID de la réponse
-    const parts = lotInput.split('-');
-    if(parts.length !== 2){
-        alert("Format invalide : utilisez par exemple 202603-3");
-        return;
-    }
-    const csvFile = parts[0];       // 202603 -> nom du fichier CSV
-    const idRecherche = parts[1];   // 3 -> ID de la réponse
-
-    // Afficher loader
+    // Loader
     const loader = document.getElementById('loader');
     loader.style.display = "flex";
     loader.setAttribute('aria-hidden', 'false');
@@ -275,9 +266,15 @@ async function loadLot() {
     loadBtn.style.opacity = 0.6;
     loadBtn.style.cursor = 'not-allowed';
 
+    // --- Attente forcée 1s ---
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${csvFile}.csv`;
+    // Séparer fichier et ID
+    let [filePart, idPart] = input.split('-');
+    if(!filePart) { loader.style.display="none"; loadBtn.disabled=false; alert("Numéro de lot invalide"); return; }
+    if(!idPart) idPart = String(Number(filePart)+1); // fallback si pas de tiret
+
+    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${filePart}.csv`;
 
     try {
         const response = await fetch(csvPath);
@@ -286,9 +283,8 @@ async function loadLot() {
         const csvText = await response.text();
         const data = parseCSV(csvText);
 
-        // Recherche de la ligne correspondant à l'ID de la réponse
-        const line = data.find(d => d["ID de la réponse"] === idRecherche);
-        if(!line) throw new Error("ID de la réponse non trouvé dans le CSV");
+        // Chercher la ligne correspondant à l'ID de la réponse
+        const line = data.find(d => d["ID de la réponse"] === idPart) || data[0];
 
         updatePageWithLine(line);
 
@@ -302,46 +298,9 @@ async function loadLot() {
     }
 }
 
-
-    // Loader
-    // Montrer le loader + désactiver le bouton
-    const loader = document.getElementById('loader');
-    loader.style.display = "flex";
-    loader.setAttribute('aria-hidden', 'false');
-    loadBtn.disabled = true;
-    loadBtn.style.opacity = 0.6;
-    loadBtn.style.cursor = 'not-allowed';
-
-// --- ⏳ Attente forcée de 1 seconde ---
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${lotId}.csv`;
-
-    try {
-        const response = await fetch(csvPath);
-        if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
-
-        const csvText = await response.text();
-        const data = parseCSV(csvText);
-
-        // Recherche ligne avec ID de la réponse = lotId + 1
-        const idRecherche = String(Number(lotId) + 1);
-        const line = data.find(d => d["ID de la réponse"] === idRecherche) || data[0];
-
-        updatePageWithLine(line);
-
-    } catch(err){
-        alert("Erreur : " + err.message);
-    } finally {
-        loader.style.display = "none";
-        loadBtn.disabled = false;
-    }
-}
-
-document.getElementById('loadBtn').addEventListener('click', function(){
-    console.log("Bouton cliqué");
-    loadLot();
-});
+document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
+
 
 </body>
 </html>
