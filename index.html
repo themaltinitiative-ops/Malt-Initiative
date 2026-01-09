@@ -378,16 +378,18 @@ footer .footer-text {
 <script>
 
 // --- ACCORDIONS ---
-function toggleAccordion(header){
+function toggleAccordion(header) {
     const content = header.nextElementSibling;
-    const isOpen = content.style.maxHeight;
+    const isOpen = content.classList.contains("open"); // Vérifie si la classe open est présente
 
+    // Fermer tous les accordéons
     document.querySelectorAll('.accordion-content').forEach(c => {
         c.style.maxHeight = null;
         c.classList.remove("open");
     });
 
-    if(!isOpen){
+    // Ouvrir celui cliqué s'il n'était pas ouvert
+    if (!isOpen) {
         content.style.maxHeight = content.scrollHeight + "px";
         content.classList.add("open");
     }
