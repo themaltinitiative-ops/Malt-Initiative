@@ -480,18 +480,14 @@ function updateCarbon(line) {
     }
 
     // Mise à jour des segments de la réglette
-    const segAgriculture = document.getElementById('segAgriculture');
-    const segTransport = document.getElementById('segTransport');
-    const segMalterie = document.getElementById('segMalterie');
-
     if(total > 0){
-        if(segAgriculture) segAgriculture.style.width = (values["Agriculture"]/total*100) + '%';
-        if(segTransport) segTransport.style.width = (values["Transport"]/total*100) + '%';
-        if(segMalterie) segMalterie.style.width = (values["Malterie"]/total*100) + '%';
+        document.getElementById('segAgriculture').style.width = (values["Agriculture"]/total*100) + '%';
+        document.getElementById('segTransport').style.width = (values["Transport"]/total*100) + '%';
+        document.getElementById('segMalterie').style.width = (values["Malterie"]/total*100) + '%';
     } else {
-        if(segAgriculture) segAgriculture.style.width = '0';
-        if(segTransport) segTransport.style.width = '0';
-        if(segMalterie) segMalterie.style.width = '0';
+        document.getElementById('segAgriculture').style.width = '0';
+        document.getElementById('segTransport').style.width = '0';
+        document.getElementById('segMalterie').style.width = '0';
     }
 }
 
