@@ -519,48 +519,47 @@ async function loadLot() {
     }
 
     // Séparer le numéro de lot et l'ID de la réponse
-    const parts = lotInput.split('-');
-    if(parts.length !== 2){
-        alert("Format invalide : utilisez par exemple MO-3");
-        return;
-    }
-    const csvFile = parts[0];       // MO-3 -> nom du fichier CSV
-    const idRecherche = parts[1];   // 3 -> ID de la réponse
-
-    // Afficher loader
-    const loader = document.getElementById('loader');
-    loader.style.display = "flex";
-    loader.setAttribute('aria-hidden', 'false');
-    loadBtn.disabled = true;
-    loadBtn.style.opacity = 0.6;
-    loadBtn.style.cursor = 'not-allowed';
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${csvFile}.csv`;
-
-    try {
-        const response = await fetch(csvPath);
-        if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
-
-        const csvText = await response.text();
-        const data = parseCSV(csvText);
-
-        // Recherche de la ligne correspondant à l'ID de la réponse
-        const line = data.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
-        if(!line) throw new Error("ID de la réponse non trouvé dans le CSV");
-
-        updatePageWithLine(line);
-
-    } catch(err){
-        alert("Erreur : " + err.message);
-    } finally {
-        loader.style.display = "none";
-        loadBtn.disabled = false;
-        loadBtn.style.opacity = '';
-        loadBtn.style.cursor = '';
-    }
+const parts = lotInput.split('-');
+if(parts.length !== 2){
+    alert("Format invalide : utilisez par exemple MO-3");
+    return;
 }
+const csvFile = parts[0];       // MO-3 -> nom du fichier CSV
+
+// Afficher loader
+const loader = document.getElementById('loader');
+loader.style.display = "flex";
+loader.setAttribute('aria-hidden', 'false');
+loadBtn.disabled = true;
+loadBtn.style.opacity = 0.6;
+loadBtn.style.cursor = 'not-allowed';
+
+await new Promise(resolve => setTimeout(resolve, 1000));
+
+const csvPath = `https://raw.githubusercontent.com/themaltinitiative-ops/Malt-Initiative/master/data/${csvFile}.csv`;
+
+try {
+    const response = await fetch(csvPath);
+    if(!response.ok) throw new Error("Fichier CSV introuvable (404)");
+
+    const csvText = await response.text();
+    const data = parseCSV(csvText);
+
+    // Récupérer la 6ème ligne du CSV
+    if(data.length < 6) throw new Error("Le CSV ne contient pas 6 lignes");
+    const line = data[5];  // 6ème ligne, index 5
+
+    updatePageWithLine(line);
+
+} catch(err){
+    alert("Erreur : " + err.message);
+} finally {
+    loader.style.display = "none";
+    loadBtn.disabled = false;
+    loadBtn.style.opacity = '';
+    loadBtn.style.cursor = '';
+}
+
 
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
