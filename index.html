@@ -192,6 +192,13 @@ footer .footer-text {
             <li id="liMalterie">Malterie : <span id="Malterie">—</span></li>
             <li id="liTotal"><strong>Total : <span id="Total">—</span></strong></li>
         </ul>
+
+        <!-- RÉGLETTE CARBONE -->
+        <div class="carbon-rule">
+            <div class="seg agri" style="width:0%"></div>
+            <div class="seg transp" style="width:0%"></div>
+            <div class="seg malt" style="width:0%"></div>
+        </div>
     </div>
 </div>
 
@@ -441,7 +448,7 @@ function setTextSafe(id, value) {
     if(el) el.textContent = value || '—';
 }
 
-// Mettre à jour l’empreinte carbone
+// Mettre à jour la réglette carbone
 function updateCarbon(line) {
     const map = {
         "Agriculture :": "Agriculture",
@@ -451,18 +458,39 @@ function updateCarbon(line) {
         "Total :": "Total"
     };
 
-    for(const [csvKey, id] of Object.entries(map)){
-        const value = line[csvKey] || '';
+    let total = 0;
+    const values = {};
+
+    for (const [csvKey, id] of Object.entries(map)) {
+        const value = parseFloat((line[csvKey] || '0').replace(',', '.')) || 0;
+        values[id] = value;
+        total += value;
+
         const span = document.getElementById(id);
-        const li = document.getElementById('li'+id);
+        const li = document.getElementById('li' + id);
         if(span && li){
-            if(value.trim() === "" || value.trim() === "—" || value.toLowerCase() === "null"){
+            if(value === 0){
                 li.style.display = "none";
             } else {
                 span.textContent = value;
                 li.style.display = "list-item";
             }
         }
+    }
+
+    // Mise à jour des segments de la réglette
+    const segAgriculture = document.getElementById('segAgriculture');
+    const segTransport = document.getElementById('segTransport');
+    const segMalterie = document.getElementById('segMalterie');
+
+    if(total > 0){
+        if(segAgriculture) segAgriculture.style.width = (values["Agriculture"]/total*100) + '%';
+        if(segTransport) segTransport.style.width = (values["Transport"]/total*100) + '%';
+        if(segMalterie) segMalterie.style.width = (values["Malterie"]/total*100) + '%';
+    } else {
+        if(segAgriculture) segAgriculture.style.width = '0';
+        if(segTransport) segTransport.style.width = '0';
+        if(segMalterie) segMalterie.style.width = '0';
     }
 }
 
