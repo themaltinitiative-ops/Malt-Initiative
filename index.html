@@ -92,9 +92,7 @@ h1 { text-align: center; margin: 20px 0; }
 }
 
 .seg {
-    height: 100%;
-    display: inline-block;
-    transition: width 0.3s ease;
+    min-width: 1px;   /* empêche width=0 */
 }
 
 .seg.agri { background: #15803d; }
@@ -456,14 +454,11 @@ function setTextSafe(id, value) {
 // Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
 
-    const agri = parseFloat(line["Agriculture :"] || 0);
-    const transp = parseFloat(line["Transport :"] || 0);
-    const malt = parseFloat(line["Malterie :"] || 0);
-    const coop = parseFloat(line["Coopérative :"] || 0);
+    const agri = Number((line["Agriculture :"] || "0").replace(',', '.')) || 0;
+    const transp = Number((line["Transport :"] || "0").replace(',', '.')) || 0;
+    const malt = Number((line["Malterie :"] || "0").replace(',', '.')) || 0;
 
-    const total = agri + transp + malt + coop;
-    if (total === 0) return;
-
+    const total = agri + transp + malt || 1;
     // Mise à jour texte (liste)
     setTextSafe("Agriculture", agri);
     setTextSafe("Transport", transp);
@@ -477,9 +472,9 @@ function updateCarbon(line) {
     const pMalt = (malt / total) * 100;
 
     // Réglette
-    document.getElementById("segAgriculture").style.width = pAgri + "%";
-    document.getElementById("segTransport").style.width = pTransp + "%";
-    document.getElementById("segMalterie").style.width = pMalt + "%";
+    document.getElementById("segAgriculture").style.width = (agri / total * 100) + "%";
+    document.getElementById("segTransport").style.width = (transp / total * 100) + "%";
+    document.getElementById("segMalterie").style.width = (malt / total * 100) + "%";
 
     // Cartes chiffres
     document.getElementById("statAgriculture").textContent = agri + " kg CO₂";
