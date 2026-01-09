@@ -402,15 +402,14 @@ function masquerChampsVides() {
 function updatePageWithLine(line){
     if(!line) return;
     // Empreinte carbone
-    document.getElementById('dateSoumission').textContent = line["Date de soumission"] || '—';
-    document.getElementById('dernierePage').textContent = line["Dernière page"] || '—';
-    document.getElementById('langue').textContent = line["Langue de départ"] || '—';
-    document.getElementById('teteSerie').textContent = line["Tête de série"] || '—';
-    document.getElementById('dateLancement').textContent = line["Date de lancement"] || '—';
-    document.getElementById('dateDerniereAction').textContent = line["Date de la dernière action"] || '—';
+    document.getElementById('Agriculture').textContent = line["Agriculture :"] || '—';
+    document.getElementById('Coopérative').textContent = line["Coopérative :"] || '—';
+    document.getElementById('Transport').textContent = line["Transport :"] || '—';
+    document.getElementById('Malterie').textContent = line["Malterie :"] || '—';
+    document.getElementById('Total').textContent = line["Total :"] || '—';
+
 
     // --- Agriculture / Exploitant ---
-    document.getElementById('maillonChaine').textContent = line["Quel maillon de la chaîne êtes-vous ?"] || '—';
     document.getElementById('nomExploitation').textContent = line["Nom de l'exploitation agricole :"] || '—';
     document.getElementById('telephone').textContent = line["Téléphone :"] || '—';
     document.getElementById('commune').textContent = line["Commune :"] || '—';
