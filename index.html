@@ -177,23 +177,33 @@ footer .footer-text {
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
-<!-- ACCORDÉON EMPREINTE CARBONE -->
-<div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)"
-         style="background-image:url('vue-des-arbres-de-la-foret-verte-avec-co2 (2).jpg');">
-        <div class="accordion-title">Empreinte carbone du lot</div>
+<div class="accordion-content">
+
+    <!-- RÉGLETTE CARBONE -->
+    <div class="carbon-rule">
+        <div class="seg agri" id="segAgriculture"></div>
+        <div class="seg transp" id="segTransport"></div>
+        <div class="seg malt" id="segMalterie"></div>
     </div>
-    <div class="accordion-content">
-        
-        <ul>
-            <li id="liAgriculture">Agriculture : <span id="Agriculture">—</span></li>
-            <li id="liCooperative">Coopérative : <span id="Coopérative">—</span></li>
-            <li id="liTransport">Transport : <span id="Transport">—</span></li>
-            <li id="liMalterie">Malterie : <span id="Malterie">—</span></li>
-            <li id="liTotal"><strong>Total : <span id="Total">—</span></strong></li>
-        </ul>
+
+    <!-- VALEURS -->
+    <div class="numbers">
+        <div class="stat agri">Agriculture <strong id="statAgriculture">—</strong></div>
+        <div class="stat transp">Transport <strong id="statTransport">—</strong></div>
+        <div class="stat malt">Malterie <strong id="statMalterie">—</strong></div>
+        <div class="stat total">Total <strong id="statTotal">—</strong></div>
     </div>
+
+    <ul>
+        <li id="liAgriculture">Agriculture : <span id="Agriculture">—</span></li>
+        <li id="liCooperative">Coopérative : <span id="Coopérative">—</span></li>
+        <li id="liTransport">Transport : <span id="Transport">—</span></li>
+        <li id="liMalterie">Malterie : <span id="Malterie">—</span></li>
+        <li id="liTotal"><strong>Total : <span id="Total">—</span></strong></li>
+    </ul>
+
 </div>
+
 
 
     
@@ -445,28 +455,39 @@ function setTextSafe(id, value) {
 
 // Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
-    const map = {
-        "Agriculture :": "Agriculture",
-        "Coopérative :": "Coopérative",
-        "Transport :": "Transport",
-        "Malterie :": "Malterie",
-        "Total :": "Total"
-    };
 
-    for(const [csvKey, id] of Object.entries(map)){
-        const value = line[csvKey] || '';
-        const span = document.getElementById(id);
-        const li = document.getElementById('li'+id);
-        if(span && li){
-            if(value.trim() === "" || value.trim() === "—" || value.toLowerCase() === "null"){
-                li.style.display = "none";
-            } else {
-                span.textContent = value;
-                li.style.display = "list-item";
-            }
-        }
-    }
+    const agri = parseFloat(line["Agriculture :"] || 0);
+    const transp = parseFloat(line["Transport :"] || 0);
+    const malt = parseFloat(line["Malterie :"] || 0);
+    const coop = parseFloat(line["Coopérative :"] || 0);
+
+    const total = agri + transp + malt + coop;
+    if (total === 0) return;
+
+    // Mise à jour texte (liste)
+    setTextSafe("Agriculture", agri);
+    setTextSafe("Transport", transp);
+    setTextSafe("Malterie", malt);
+    setTextSafe("Coopérative", coop);
+    setTextSafe("Total", total);
+
+    // Pourcentages
+    const pAgri = (agri / total) * 100;
+    const pTransp = (transp / total) * 100;
+    const pMalt = (malt / total) * 100;
+
+    // Réglette
+    document.getElementById("segAgriculture").style.width = pAgri + "%";
+    document.getElementById("segTransport").style.width = pTransp + "%";
+    document.getElementById("segMalterie").style.width = pMalt + "%";
+
+    // Cartes chiffres
+    document.getElementById("statAgriculture").textContent = agri + " kg CO₂";
+    document.getElementById("statTransport").textContent = transp + " kg CO₂";
+    document.getElementById("statMalterie").textContent = malt + " kg CO₂";
+    document.getElementById("statTotal").textContent = total + " kg CO₂";
 }
+
 
 // Mettre à jour la page avec la ligne sélectionnée
 function updatePageWithLine(line){
