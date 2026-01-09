@@ -133,6 +133,23 @@ footer .footer-text {
     <button id="loadBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: rgb(21, 128, 61); color: white;">Charger le lot</button>
 </div>
 
+<!-- ACCORDÉON EMPREINTE CARBONE -->
+<div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)"
+         style="background-image:url('vue-des-arbres-de-la-foret-verte-avec-co2 (2).jpg');">
+        <div class="accordion-title">Empreinte carbone du lot</div>
+    </div>
+    <div class="accordion-content">
+        <h3>Émissions (kg CO₂e)</h3>
+        <ul>
+            <li>Agriculture : <span id="Agriculture">—</span></li>
+            <li>Coopérative : <span id="Coopérative">—</span></li>
+            <li>Transport : <span id="Transport">—</span></li>
+            <li>Malterie : <span id="Malterie">—</span></li>
+            <li><strong>Total : <span id="Total">—</span></strong></li>
+        </ul>
+    </div>
+</div>
 
 
     
