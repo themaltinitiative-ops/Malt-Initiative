@@ -192,16 +192,8 @@ footer .footer-text {
             <li id="liMalterie">Malterie : <span id="Malterie">—</span></li>
             <li id="liTotal"><strong>Total : <span id="Total">—</span></strong></li>
         </ul>
-
-        <!-- RÉGLETTE CARBONE -->
-        <div class="carbon-rule">
-            <div id="segAgriculture" class="seg agri" style="width:0%"></div>
-            <div id="segTransport" class="seg transp" style="width:0%"></div>
-            <div id="segMalterie" class="seg malt" style="width:0%"></div>
-        </div>
     </div>
 </div>
-
 
 
     
@@ -449,7 +441,7 @@ function setTextSafe(id, value) {
     if(el) el.textContent = value || '—';
 }
 
-// Mettre à jour la réglette carbone
+// Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
     const map = {
         "Agriculture :": "Agriculture",
@@ -459,35 +451,18 @@ function updateCarbon(line) {
         "Total :": "Total"
     };
 
-    let total = 0;
-    const values = {};
-
-    for (const [csvKey, id] of Object.entries(map)) {
-        const value = parseFloat((line[csvKey] || '0').replace(',', '.')) || 0;
-        values[id] = value;
-        total += value;
-
+    for(const [csvKey, id] of Object.entries(map)){
+        const value = line[csvKey] || '';
         const span = document.getElementById(id);
-        const li = document.getElementById('li' + id);
+        const li = document.getElementById('li'+id);
         if(span && li){
-            if(value === 0){
+            if(value.trim() === "" || value.trim() === "—" || value.toLowerCase() === "null"){
                 li.style.display = "none";
             } else {
                 span.textContent = value;
                 li.style.display = "list-item";
             }
         }
-    }
-
-    // Mise à jour des segments de la réglette
-    if(total > 0){
-        document.getElementById('segAgriculture').style.width = (values["Agriculture"]/total*100) + '%';
-        document.getElementById('segTransport').style.width = (values["Transport"]/total*100) + '%';
-        document.getElementById('segMalterie').style.width = (values["Malterie"]/total*100) + '%';
-    } else {
-        document.getElementById('segAgriculture').style.width = '0';
-        document.getElementById('segTransport').style.width = '0';
-        document.getElementById('segMalterie').style.width = '0';
     }
 }
 
@@ -621,5 +596,3 @@ async function loadLot() {
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
-
-
