@@ -477,16 +477,13 @@ function parseCSVTabulaire(csvText) {
     const lines = csvText.trim().split(/\r?\n/);
     if(lines.length < 2) return [];
 
-    // En-têtes
-    const headers = lines[0].split(',').map(h => h.trim());
+    // Nettoyer les en-têtes
+    const headers = lines[0].split(',').map(h => h.replace(/\u00A0/g,' ').trim());
 
-    // Données
     const data = lines.slice(1).map(line => {
         const values = line.split(',').map(v => v.trim());
         const obj = {};
-        headers.forEach((h,i) => {
-            obj[h] = values[i] || '';
-        });
+        headers.forEach((h,i) => obj[h] = values[i] || '');
         return obj;
     });
 
@@ -637,12 +634,9 @@ const fields = {
 
 
     // Boucle sur les champs
-     for(const [csvKey, id] of Object.entries(fields)){
-        const el = document.getElementById(id);
-        if(el){
-            const value = line[csvKey] || '—';
-            // si c'est un nombre, nettoyer
-            el.textContent = cleanNumber(value) || value;
+    for(const [csvKey, id] of Object.entries(fields)){
+        const key = cleanKey(csvKey);
+        setTextSafe(id, line[key]);
         }
     }
 
