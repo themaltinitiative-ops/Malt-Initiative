@@ -562,9 +562,9 @@ function updateCarbon(line) {
 function updatePageWithLine(line){
     if(!line) return;
 
-   // ===== Mapping CSV -> ID HTML =====
-const fields = {
-    // === Agriculture / Exploitant ===
+   // Mapping CSV -> ID HTML
+const fieldsMapping = {
+    // AGRICULTURE / Exploitant
     "Nom de l'exploitation agricole :": "agri_nomExploitation",
     "Téléphone :": "agri_telephone",
     "Commune :": "agri_commune",
@@ -577,10 +577,10 @@ const fields = {
     "Coordonnées GPS de la parcelle (Longitude) :": "agri_gpsLongitude",
     "Type de céréale cultivée :": "agri_typeCerealeCultivee",
     "Variété de céréale :": "agri_varieteCereale",
-    "Y a-t-il eu un travail du sol ?": "agri_travailSol",
+    "Y'a-t-il eu un travail du sol ?": "agri_travailSol",
     "Et un désherbage mécanique ?": "agri_desherbageMecanique",
     "Si oui combien de passages ?": "agri_nombrePassages",
-    "Y a-t-il une présence de fertilisation organique ?": "agri_fertilisationOrganique",
+    "Y'a-t-il une présence de fertilisation organique ?": "agri_fertilisationOrganique",
     "Type de fertilisation :": "agri_typeFertilisation",
     "Quantité (t/ha) :": "agri_quantiteFertilisation",
     "Utilisation de l'irrigation :": "agri_utilisationIrrigation",
@@ -589,17 +589,17 @@ const fields = {
     "Date de la récolte :": "agri_dateRecolte",
     "Tonnage récolté :": "agri_tonnageRecolte",
     "Stockage à la ferme :": "agri_stockageFerme",
-    "Date de livraison à la Malterie Occitane :": "agri_dateLivraisonMalterie",
+    "Date de livraison à la Malterie Occitane (Agriculteur) :": "agri_dateLivraisonMalterie",
     "Poids net livré Malterie :": "agri_poidsNetLivreMalterie",
     "Distance du site de stockage à la Malterie (en km) :": "agri_distanceStockageMalterie",
     "Livraison à une coopérative :": "agri_livraisonCooperative",
     "Date de livraison à la coopérative :": "agri_dateLivraisonCoop",
-    "Poids net livré (Agriculteur) :": "agri_poidsNetLivreAgriculteur",
+    "Poids net livré Agriculteur :": "agri_poidsNetLivreAgriculteur",
     "Humidité de la récolte (en %) (Agriculteur) :": "agri_humiditeRecolte",
     "Taux de protéines à la récolte (en %) (Agriculteur):": "agri_proteinesRecolte",
-    "Teneur en impuretés (en %) (Agriculteur):": "agri_impuretesRecolte",
+    "Teneur en impuretés (en %) (Agriculteur): ": "agri_impuretesRecolte",
 
-    // === Malterie ===
+    // MALTERIE
     "N° du lot de céréales :": "malterie_numeroLot",
     "Date de réception du lot :": "malterie_dateReceptionLot",
     "Type de céréale :": "malterie_typeCereale",
@@ -616,7 +616,7 @@ const fields = {
     "Nombre de trempes :": "malterie_nombreTrempes",
     "Temps de trempage :": "malterie_tempsTrempage",
     "Volume d'eau total utilisé :": "malterie_volumeEau",
-    "Masse du lot :": "malterie_masseLot",
+    "Masse du lot : ": "malterie_masseLot",
     "Masse de grains germés :": "malterie_masseGrainsGermes",
     "Hauteur de la couche (en cm) :": "malterie_hauteurCouche",
     "Température du lit (en °C) :": "malterie_temperatureLit",
@@ -643,10 +643,19 @@ const fields = {
     "Teneur en Beta-Glucanes au début de la production :": "malterie_betaGlucanesDebut",
     "Teneur en Beta-Glucanes à la fin de la production :": "malterie_betaGlucanesFin",
     "Teneur en impuretés au début de la production :": "malterie_impuretesDebut",
-    "Teneur en impuretés à la fin de la production :": "malterie_impuretesFin"
+    "Teneur en impuretés à la fin de la production :": "malterie_impuretesFin",
 };
 
 
+    
+    function fillDataFromCSV(csvRow) {
+    for (let col in fieldsMapping) {
+        const spanId = fieldsMapping[col];
+        const value = csvRow[col] || '—';
+        const span = document.getElementById(spanId);
+        if (span) span.textContent = value;
+    }
+}
 
     // Boucle sur les champs
     for(const [csvKey, id] of Object.entries(fields)){
