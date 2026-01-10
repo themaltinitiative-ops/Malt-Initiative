@@ -703,7 +703,7 @@ async function loadLot() {
         const lotData = parseCSV(csvText);
 
 
-        const line = data.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
+        const line = lotdata.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
         if(!line) throw new Error("ID non trouvé dans le CSV");
 
         updatePageWithLine(line);
