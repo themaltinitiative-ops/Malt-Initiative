@@ -456,11 +456,15 @@ function toggleAccordion(header) {
     }
 }
 
-// utilitaire pour nettoyer/changer string -> nombre
-function cleanNumber(str) {
-    if (!str && str !== 0) return 0;
-    const num = parseFloat(String(str).replace(/[^\d.-]/g,''));
-    return isNaN(num) ? 0 : num;
+// Nettoyage des nombres (virgules françaises, chaînes vides, etc.)
+function cleanNumber(val){
+    if(val === undefined || val === null) return 0;
+    if(typeof val === "number") return val;
+    return parseFloat(
+        String(val)
+            .replace(/\s/g, "")
+            .replace(",", ".")
+    ) || 0;
 }
 
 // Set text sécurisé
@@ -473,18 +477,31 @@ function setTextSafe(id, value){
 }
     
 // Parser CSV avec en-tête
-function parseLotCSV(csv){
-    if (!csv) return null;
+function parseCSV(csv) {
     const lines = csv.trim().split(/\r?\n/);
-    const obj = {};
-    lines.forEach(line => {
-        const idx = line.indexOf(',');
-        if (idx === -1) return;
-        const key = line.slice(0, idx).trim();
-        const value = line.slice(idx + 1).trim();
-        if (key) obj[key] = value;
+    if(lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+
+    return lines.slice(1).map(line => {
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') inQuotes = !inQuotes;
+            else if (char === ',' && !inQuotes) {
+                values.push(current.trim().replace(/^"|"$/g, ''));
+                current = '';
+            } else current += char;
+        }
+        values.push(current.trim().replace(/^"|"$/g, ''));
+
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = values[i] || '');
+        return obj;
     });
-    return obj;
 }
 
 // Masquer automatiquement les champs vides
@@ -629,30 +646,11 @@ const fields = {
     "Teneur en impuretés à la fin de la production :": "malterie_impuretesFin"
 };
 
-// Fonction utilitaire pour nettoyer les clés CSV
-function cleanKey(key) {
-    return key.trim().replace(/\u00A0/g, '');
-}
 
-  function updatePageWithLot(lot){
-    if (!lot) {
-        alert("Données du lot invalides.");
-        return;
+    // Boucle sur les champs
+    for(const [csvKey, id] of Object.entries(fields)){
+        setTextSafe(id, line[csvKey]);
     }
-
-    for (const key in fields) {
-        const id = fields[key];
-        const value = lot[cleanKey(key)] || '—';
-        const el = document.getElementById(id);
-        if (el) {
-            // Si la valeur est un nombre, nettoyer
-            const numVal = cleanNumber(value);
-            el.textContent = !isNaN(numVal) && numVal !== 0 ? numVal : value;
-        }
-    }
-}
-  
-
 
     // Mettre à jour l'empreinte carbone
     updateCarbon(line);
