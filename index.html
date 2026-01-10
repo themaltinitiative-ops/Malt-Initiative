@@ -471,6 +471,26 @@ function toggleAccordion(header) {
     }
 }
 
+// Nettoyage des nombres (virgules françaises, chaînes vides, etc.)
+function cleanNumber(val){
+    if(val === undefined || val === null) return 0;
+    if(typeof val === "number") return val;
+    return parseFloat(
+        String(val)
+            .replace(/\s/g, "")
+            .replace(",", ".")
+    ) || 0;
+}
+
+// Set text sécurisé
+function setTextSafe(id, value){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = (value !== undefined && value !== null && value !== "")
+        ? value
+        : "—";
+}
+    
 // Parser CSV avec en-tête
 function parseCSV(csv) {
     const lines = csv.trim().split(/\r?\n/);
