@@ -648,14 +648,7 @@ const fieldsMapping = {
 
 
     
-    function fillDataFromCSV(csvRow) {
-    for (let col in fieldsMapping) {
-        const spanId = fieldsMapping[col];
-        const value = csvRow[col] || '—';
-        const span = document.getElementById(spanId);
-        if (span) span.textContent = value;
-    }
-}
+    
 
     // Boucle sur les champs
     for(const [csvKey, id] of Object.entries(fields)){
@@ -669,6 +662,16 @@ const fieldsMapping = {
     masquerChampsVides();
 }
 
+function fillDataFromCSV(csvRow) {
+    for (let col in fieldsMapping) {
+        const spanId = fieldsMapping[col];
+        const value = csvRow[col] || '—';
+        const span = document.getElementById(spanId);
+        if (span) span.textContent = value;
+    }
+}
+
+    
 // --- CHARGEMENT DU LOT ---
 async function loadLot() {
     const loadBtn = document.getElementById('loadBtn');
