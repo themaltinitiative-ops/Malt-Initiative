@@ -683,7 +683,7 @@ async function loadLot() {
         if(!response.ok) throw new Error("Fichier CSV introuvable");
 
         const csvText = await response.text();
-        const data = parseCSV(csvText);
+        const data = parseCSVTabulaire(csvText);
 
         const line = data.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
         if(!line) throw new Error("ID non trouvé dans le CSV");
