@@ -646,7 +646,28 @@ const fieldsMapping = {
     "Teneur en impuretés à la fin de la production :": "malterie_impuretesFin",
 };
 
+//  Fonction pour remplir les spans
+function fillDataFromCSVRow(csvRow) {
+    for (const col in fieldsMapping) {
+        const spanId = fieldsMapping[col];
+        const value = csvRow[col] || "—"; // si la valeur est vide
+        const span = document.getElementById(spanId);
+        if (span) {
+            span.textContent = value;
+        }
+    }
+}
 
+//  Exemple avec PapaParse
+Papa.parse("tonfichier.csv", {
+    header: true, // pour que chaque ligne soit un objet { "Nom de l'exploitation agricole :" : "EARL Prudhomme", ... }
+    download: true,
+    complete: function(results) {
+        results.data.forEach(row => {
+            fillDataFromCSVRow(row);
+        });
+    }
+});
     
     
 
