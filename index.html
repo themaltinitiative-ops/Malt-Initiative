@@ -477,13 +477,16 @@ function parseCSVTabulaire(csvText) {
     const lines = csvText.trim().split(/\r?\n/);
     if(lines.length < 2) return [];
 
-    // Nettoyer les en-têtes
-    const headers = lines[0].split(',').map(h => h.replace(/\u00A0/g,' ').trim());
+    // En-têtes
+    const headers = lines[0].split(',').map(h => h.trim());
 
+    // Données
     const data = lines.slice(1).map(line => {
         const values = line.split(',').map(v => v.trim());
         const obj = {};
-        headers.forEach((h,i) => obj[h] = values[i] || '');
+        headers.forEach((h,i) => {
+            obj[h] = values[i] || '';
+        });
         return obj;
     });
 
@@ -634,9 +637,12 @@ const fields = {
 
 
     // Boucle sur les champs
-    for(const [csvKey, id] of Object.entries(fields)){
-        const key = cleanKey(csvKey);
-        setTextSafe(id, line[key]);
+     for(const [csvKey, id] of Object.entries(fields)){
+        const el = document.getElementById(id);
+        if(el){
+            const value = line[csvKey] || '—';
+            // si c'est un nombre, nettoyer
+            el.textContent = cleanNumber(value) || value;
         }
     }
 
@@ -677,7 +683,7 @@ async function loadLot() {
         if(!response.ok) throw new Error("Fichier CSV introuvable");
 
         const csvText = await response.text();
-        const data = parseCSVTabulaire(csvText);
+        const data = parseCSV(csvText);
 
         const line = data.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
         if(!line) throw new Error("ID non trouvé dans le CSV");
