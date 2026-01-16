@@ -382,40 +382,48 @@ footer .footer-text {
     </div>
     <div class="accordion-content">
         <ul>
-            <li>Identification du lot (Brasserie): <span id="brasserie_identificationLot">—</span></li>
-            <li>Nom de la distillerie : <span id="brasserie_nomDistillerie">—</span></li>
+            <li>Identification du lot : <span id="brasserie_identificationLot">—</span></li>
+            <li>Nom de la brasserie : <span id="brasserie_nomBrasserie">—</span></li>
             <li>Code postal : <span id="brasserie_codePostal">—</span></li>
-            <li>Type d'alambic (post still, colonne, hybride) : <span id="brasserie_typeAlambic">—</span></li>
             <li>Date du brassage : <span id="brasserie_dateBrassage">—</span></li>
-            <li>Date de la distillation : <span id="brasserie_dateDistillation">—</span></li>
-            <li>Volume du wash (fini) : <span id="brasserie_volumeWash">—</span></li>
-            <li>Volume du distillat : <span id="brasserie_volumeDistillat">—</span></li>
-            <li>Volume alcool pur (LAP) : <span id="brasserie_volumeLAP">—</span></li>
+            <li>Volume du brassin : <span id="brasserie_volumeBrassin">—</span></li>
+            <li>Style de bière : <span id="brasserie_styleBiere">—</span></li>
+        
             <li>Type de malt utilisé (Type 1) : <span id="brasserie_typeMalt1">—</span></li>
             <li>Type de malt utilisé (Type 2) : <span id="brasserie_typeMalt2">—</span></li>
             <li>Type de malt utilisé (Type 3) : <span id="brasserie_typeMalt3">—</span></li>
-            <li>Quantité (en kg) : <span id="brasserie_quantiteMalt">—</span></li>
-            <li>Ratio (en kg ou % du versement total) : <span id="brasserie_ratioMalt">—</span></li>
-            <li>Origine / Fournisseur : <span id="brasserie_origineMalt">—</span></li>
+            <li>Quantité de malt utilisée (kg) : <span id="brasserie_quantiteMalt">—</span></li>
+            <li>Ratio du malt : <span id="brasserie_ratioMalt">—</span></li>
+            <li>Origine / Fournisseur du malt : <span id="brasserie_origineMalt">—</span></li>
             <li>N° de lot du malt : <span id="brasserie_numLotMalt">—</span></li>
-            <li>Souche / type de levure : <span id="brasserie_levureSouche">—</span></li>
-            <li>Origine : <span id="brasserie_levureOrigine">—</span></li>
-            <li>Fournisseur : <span id="brasserie_levureFournisseur">—</span></li>
+        
+            <li>Variété(s) de houblon utilisée(s) : <span id="brasserie_varieteHoublon">—</span></li>
+            <li>Ratio houblon : <span id="brasserie_ratioHoublon">—</span></li>
+            <li>Origine / Fournisseur du houblon : <span id="brasserie_origineHoublon">—</span></li>
+        
+            <li>Souche / type de levure utilisée : <span id="brasserie_levureSouche">—</span></li>
+            <li>Origine de la levure : <span id="brasserie_levureOrigine">—</span></li>
+        
             <li>Correction apportée à l'eau : <span id="brasserie_correctionEau">—</span></li>
-            <li>pH corrigé au départ : <span id="brasserie_phDepart">—</span></li>
+            <li>pH corrigé de départ : <span id="brasserie_phDepart">—</span></li>
             <li>pH corrigé en fin de brassage : <span id="brasserie_phFin">—</span></li>
-            <li>Dureté : <span id="brasserie_dureteEau">—</span></li>
+            <li>Dureté de l'eau : <span id="brasserie_dureteEau">—</span></li>
+        
             <li>Additifs / ingrédients spéciaux : <span id="brasserie_additifs">—</span></li>
-            <li>Consommation d'eau pour ce brassin : <span id="brasserie_consoEauBrassin">—</span></li>
+        
+            <li>Consommation d'eau pour ce brassin : <span id="brasserie_consoEauBrassin">—</span></li>
             <li>Consommation d'eau pour le nettoyage : <span id="brasserie_consoEauNettoyage">—</span></li>
             <li>Consommation d'énergie estimée : <span id="brasserie_consoEnergie">—</span></li>
+        
             <li>Valorisation des drêches : <span id="brasserie_valorisationDreches">—</span></li>
-            <li>Comment ? <span id="brasserie_commentDreches">—</span></li>
+            <li>Comment (drêches) : <span id="brasserie_commentDreches">—</span></li>
+        
             <li>Gestion des déchets / recyclage : <span id="brasserie_gestionDechets">—</span></li>
-            <li>Comment ? <span id="brasserie_commentDechets">—</span></li>
-            <li>Mode de conditionnement du produit fini : <span id="brasserie_modeConditionnement">—</span></li>
-
+            <li>Comment (déchets) : <span id="brasserie_commentDechets">—</span></li>
+        
+            <li>Mode de conditionnement de la bière : <span id="brasserie_modeConditionnement">—</span></li>
         </ul>
+
     </div>
 </div>
 
@@ -663,37 +671,44 @@ const fields = {
 
     // === Brasserie ===
     "Identification du lot :": "brasserie_identificationLot",
-    "Nom de la distillerie :": "brasserie_nomDistillerie",
+    "Nom de la brasserie :": "brasserie_nomBrasserie",
     "Code postal :": "brasserie_codePostal",
-    "Type d'alambic :": "brasserie_typeAlambic",
-    "Date du brassage :": "brasserie_dateBrassage",
-    "Date de la distillation :": "brasserie_dateDistillation",
-    "Volume du wash (fini) :": "brasserie_volumeWash",
-    "Volume du distillat :": "brasserie_volumeDistillat",
-    "Volume alcool pur (LAP) :": "brasserie_volumeLAP",
-    "Type de malt utilisé (1) :": "brasserie_typeMalt1",
-    "Type de malt utilisé (2) :": "brasserie_typeMalt2",
-    "Type de malt utilisé (3) :": "brasserie_typeMalt3",
-    "Quantité de malt :": "brasserie_quantiteMalt",
-    "Ratio du malt :": "brasserie_ratioMalt",
-    "Origine / Fournisseur du malt :": "brasserie_origineMalt",
+    "Date du brassage ": "brasserie_dateBrassage",
+    "Volume du brassin :": "brasserie_volumeBrassin",
+    "Style de bière :": "brasserie_styleBiere",
+
+    "Type de malt utilisé (Type 1):": "brasserie_typeMalt1",
+    "Type de malt utilisé (Type 2):": "brasserie_typeMalt2",
+    "Type de malt utilisé (Type 3):": "brasserie_typeMalt3",
+    "Quantité de malt utilisé (en kg) :": "brasserie_quantiteMalt",
+    "Ratio (en kg ou % du versement total) :": "brasserie_ratioMalt",
+    "Origine / Fournisseur :": "brasserie_origineMalt",
     "N° de lot du malt :": "brasserie_numLotMalt",
-    "Souche / type de levure :": "brasserie_levureSouche",
-    "Origine de la levure :": "brasserie_levureOrigine",
-    "Fournisseur de la levure :": "brasserie_levureFournisseur",
+
+    "Variété(s) de houblon utilisée(s) : ": "brasserie_varieteHoublon",
+    "Ratio (en kg ou % du versement total) : ": "brasserie_ratioHoublon",
+    "Origine / Fournisseur : ": "brasserie_origineHoublon",
+
+    "Souche / type de levure utilisé :": "brasserie_levureSouche",
+    "Origine :": "brasserie_levureOrigine",
+
     "Correction apportée à l'eau :": "brasserie_correctionEau",
-    "pH corrigé au départ :": "brasserie_phDepart",
+    "pH corrigé de départ :": "brasserie_phDepart",
     "pH corrigé en fin de brassage :": "brasserie_phFin",
     "Dureté de l'eau :": "brasserie_dureteEau",
-    "Additifs / ingrédients spéciaux :": "brasserie_additifs",
-    "Consommation d'eau pour ce brassin :": "brasserie_consoEauBrassin",
-    "Consommation d'eau pour le nettoyage :": "brasserie_consoEauNettoyage",
-    "Consommation d'énergie estimée :": "brasserie_consoEnergie",
-    "Valorisation des drêches :": "brasserie_valorisationDreches",
-    "Comment (valorisation) :": "brasserie_commentDreches",
-    "Gestion des déchets / recyclage :": "brasserie_gestionDechets",
-    "Comment (gestion des déchets) :": "brasserie_commentDechets",
-    "Mode de conditionnement du produit fini :": "brasserie_modeConditionnement"
+
+    "Additifs / Ingrédients spéciaux :": "brasserie_additifs",
+
+    "Consommation d'eau pour ce brassin :": "brasserie_consoEauBrassin",
+    "Consommation d'eau pour le nettoyage  :": "brasserie_consoEauNettoyage",
+    "Consommation d'énergie estimée :": "brasserie_consoEnergie",
+
+    "Valorisation des drêches :": "brasserie_valorisationDreches",
+    "Comment ?": "brasserie_commentDreches",
+    "Gestion des déchets/recyclage :": "brasserie_gestionDechets",
+    "Comment ?": "brasserie_commentDechets",
+
+    "Mode de conditionnement de la bière :": "brasserie_modeConditionnement"
 };
 
 
