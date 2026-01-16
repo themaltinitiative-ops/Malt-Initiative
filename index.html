@@ -471,6 +471,14 @@ function toggleAccordion(header) {
     }
 }
 
+function getCSVValue(line, key) {
+    return (
+        line[key] ??
+        line[key + ":"] ??
+        line[key.replace(":", "")] ??
+        ""
+    );
+}    
 // Nettoyage des nombres (virgules françaises, chaînes vides, etc.)
 function cleanNumber(val){
     if(val === undefined || val === null) return 0;
@@ -719,10 +727,9 @@ const fields = {
 
 
     // Boucle sur les champs
-    for(const [csvKey, id] of Object.entries(fields)){
-    setTextSafe(id, line[csvKey] || ''); // ajouter un fallback pour éviter undefined
+    for (const [csvKey, id] of Object.entries(fields)) {
+    setTextSafe(id, getCSVValue(line, csvKey));
     }
-
     // Mettre à jour l'empreinte carbone
     updateCarbon(line);
 
