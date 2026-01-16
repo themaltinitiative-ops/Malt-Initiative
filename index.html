@@ -480,15 +480,6 @@ function setTextSafe(id, value){
         : "—";
 }
 
-function normalizeKey(str) {
-    return str
-        .toLowerCase()
-        .replace(/\(a\)|\(b\)|\(m\)/gi, '')
-        .replace(/:/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-}
-
     
 function parseCSV(csvText) {
     const lines = csvText.trim().split(/\r?\n/);
@@ -544,7 +535,13 @@ function masquerChampsVides() {
     });
 }
 
+// Fonction sécurisée pour mettre à jour un span
+function setTextSafe(id, value) {
+    const el = document.getElementById(id);
+    if(el) el.textContent = value || '—';
+}
 
+    
 // Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
 
