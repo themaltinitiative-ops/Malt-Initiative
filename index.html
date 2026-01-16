@@ -708,8 +708,8 @@ const fields = {
 
     // Boucle sur les champs
     for (const [csvKey, id] of Object.entries(fields)) {
-    // Utiliser la clé CSV telle quelle, sans normalizeKey
-    setTextSafe(id, line[csvKey] || '');
+    const normKey = normalizeKey(csvKey);
+    setTextSafe(id, line[normKey] || '');
 }
 
     // Mettre à jour l'empreinte carbone
@@ -751,11 +751,14 @@ async function loadLot() {
         const csvText = await response.text();
         const lotData = parseCSV(csvText);
 
+        console.log("lotData", lotData);
 
         const idKey = normalizeKey("ID de la réponse");
         const line = lotData.find(d =>
             (d[idKey] || '').replace(/\s/g,'').toLowerCase() === idRecherche.replace(/\s/g,'').toLowerCase()
         );
+
+        console.log("line recherchée", line);
 
         updatePageWithLine(line);
 
@@ -768,6 +771,7 @@ async function loadLot() {
         loadBtn.style.cursor = '';
     }
 }
+
 
 document.getElementById('loadBtn').addEventListener('click', loadLot);
 </script>
