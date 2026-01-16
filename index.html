@@ -543,35 +543,31 @@ function masquerChampsVides() {
     
 // Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
+    if (!line) return;
 
-    const agri = Number((line["Agriculture :"] || "0").replace(',', '.')) || 0;
-    const transp = Number((line["Transport :"] || "0").replace(',', '.')) || 0;
-    const malt = Number((line["Malterie :"] || "0").replace(',', '.')) || 0;
+    // Normalisation des clés CSV
+    const agri = Number((line[normalizeKey("Agriculture :")] || "0").replace(',', '.')) || 0;
+    const transp = Number((line[normalizeKey("Transport :")] || "0").replace(',', '.')) || 0;
+    const malt = Number((line[normalizeKey("Malterie :")] || "0").replace(',', '.')) || 0;
 
     const total = agri + transp + malt;
 
-    // Texte
+    // Mise à jour texte
     setTextSafe("statAgriculture", agri + " t CO₂ / t de malt");
     setTextSafe("statTransport", transp + " t CO₂ / t de malt");
     setTextSafe("statMalterie", malt + " t CO₂ / t de malt");
     setTextSafe("statTotal", total + " t CO₂ / t de malt");
 
-    if (total > 0) {
-        document.getElementById("segAgriculture").style.width = (agri / total * 100) + "%";
-        document.getElementById("segTransport").style.width = (transp / total * 100) + "%";
-        document.getElementById("segMalterie").style.width = (malt / total * 100) + "%";
-    } else {
-        document.getElementById("segAgriculture").style.width = "0%";
-        document.getElementById("segTransport").style.width = "0%";
-        document.getElementById("segMalterie").style.width = "0%";
-    }
+    // Mise à jour des barres
+    const widthAgri = total > 0 ? (agri / total * 100) + "%" : "0%";
+    const widthTransp = total > 0 ? (transp / total * 100) + "%" : "0%";
+    const widthMalt = total > 0 ? (malt / total * 100) + "%" : "0%";
 
-    // Cartes
-    document.getElementById("statAgriculture").textContent = agri + " t CO₂ / t de malt";
-    document.getElementById("statTransport").textContent = transp + " t CO₂ / t de malt";
-    document.getElementById("statMalterie").textContent = malt + " t CO₂ / t de malt";
-    document.getElementById("statTotal").textContent = total + " t CO₂ / t de malt";
+    document.getElementById("segAgriculture").style.width = widthAgri;
+    document.getElementById("segTransport").style.width = widthTransp;
+    document.getElementById("segMalterie").style.width = widthMalt;
 }
+
 
 
 
