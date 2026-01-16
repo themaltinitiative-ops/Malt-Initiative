@@ -708,9 +708,10 @@ const fields = {
 
 
     // Boucle sur les champs
-    for(const [csvKey, id] of Object.entries(fields)){
-    setTextSafe(id, line[normalizeKey(csvKey)] || ''); // ajouter un fallback pour éviter undefined
-    }
+    for (const [csvKey, id] of Object.entries(fields)) {
+    // Utiliser la clé CSV telle quelle, sans normalizeKey
+    setTextSafe(id, line[csvKey] || '');
+}
 
     // Mettre à jour l'empreinte carbone
     updateCarbon(line);
