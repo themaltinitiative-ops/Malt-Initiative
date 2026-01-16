@@ -555,10 +555,10 @@ function updateCarbon(line) {
     const total = agri + transp + malt;
 
     // Texte
-    setTextSafe("Agriculture", agri + " kg CO₂");
-    setTextSafe("Transport", transp + " kg CO₂");
-    setTextSafe("Malterie", malt + " kg CO₂");
-    setTextSafe("Total", total + " kg CO₂");
+    setTextSafe("statAgriculture", agri + " t CO₂ / t de malt");
+    setTextSafe("statTransport", transp + " t CO₂ / t de malt");
+    setTextSafe("statMalterie", malt + " t CO₂ / t de malt");
+    setTextSafe("statTotal", total + " t CO₂ / t de malt");
 
     if (total > 0) {
         document.getElementById("segAgriculture").style.width = (agri / total * 100) + "%";
