@@ -464,6 +464,13 @@ function toggleAccordion(header) {
     }
 }
 
+
+function cleanLabel(label) {
+    // Supprime les lettres entre parenthèses et les espaces avant les ":"
+    return label.replace(/\([A-Z]\)/g, '').replace(/\s*:\s*$/, '');
+}
+    
+
 // Nettoyage des nombres (virgules françaises, chaînes vides, etc.)
 function cleanNumber(val){
     if(val === undefined || val === null) return 0;
@@ -694,10 +701,23 @@ const fields = {
 };
 
 
-    // Boucle sur les champs
-    for (const [csvKey, id] of Object.entries(fields)) {
+for (const [csvKey, id] of Object.entries(fields)) {
     const normKey = normalizeKey(csvKey);
-    setTextSafe(id, line[normKey] || '');
+    const value = line[normKey] || '';
+
+    // Récupérer l'élément HTML
+    const el = document.getElementById(id);
+    if(!el) continue;
+
+    // Mettre à jour la valeur
+    el.textContent = value;
+
+    // Optionnel : mettre à jour le label si tu l'affiches dans le DOM
+    const parentLi = el.closest('li');
+    if(parentLi){
+        const originalText = parentLi.firstChild.textContent || '';
+        parentLi.firstChild.textContent = cleanLabel(originalText) + ': ';
+    }
 }
 
     // Mettre à jour l'empreinte carbone
