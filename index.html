@@ -389,9 +389,9 @@ footer .footer-text {
             <li>Date du brassage(B): <span id="brasserie_dateBrassage">—</span></li>
             <li>Volume du brassin(B): <span id="brasserie_volumeBrassin">—</span></li>
             <li>Style de bière(B): <span id="brasserie_styleBiere">—</span></li>
-            <li>Type de malt utilisé (Type 1)(B): <span id="brasserie_typeMalt">—</span></li>
-            <li>Type de malt utilisé (Type 2)(B): <span id="brasserie_typeMalt">—</span></li>
-            <li>Type de malt utilisé (Type 3)(B): <span id="brasserie_typeMalt">—</span></li>
+            <li>Type de malt utilisé (Type 1)(B): <span id="brasserie_typeMalt1">—</span></li>
+            <li>Type de malt utilisé (Type 2)(B): <span id="brasserie_typeMalt2">—</span></li>
+            <li>Type de malt utilisé (Type 3)(B): <span id="brasserie_typeMalt3">—</span></li>
             <li>Quantité de malt utilisé (en kg)(B): <span id="brasserie_quantiteMalt">—</span></li>
             <li>Ratio (en kg ou % du versement total)(B): <span id="brasserie_ratioMalt">—</span></li>
             <li>Origine / Fournisseur(B): <span id="brasserie_origineMalt">—</span></li>
@@ -479,13 +479,24 @@ function setTextSafe(id, value){
         ? value
         : "—";
 }
+
+function normalizeKey(str) {
+    return str
+        .toLowerCase()
+        .replace(/\(a\)|\(b\)|\(m\)/gi, '')
+        .replace(/:/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
     
 function parseCSV(csvText) {
     const lines = csvText.trim().split(/\r?\n/);
     if(lines.length < 2) return [];
 
     // Récupérer les en-têtes
-    const headers = parseCSVLine(lines[0]);
+    const headers = parseCSVLine(lines[0]).map(h => normalizeKey(h));
+
 
     const data = lines.slice(1).map(line => {
         const values = parseCSVLine(line);
@@ -706,7 +717,7 @@ const fields = {
 
     // Boucle sur les champs
     for(const [csvKey, id] of Object.entries(fields)){
-    setTextSafe(id, line[csvKey] || ''); // ajouter un fallback pour éviter undefined
+    setTextSafe(id, line[normalizeKey(csvKey)] || ''); // ajouter un fallback pour éviter undefined
     }
 
     // Mettre à jour l'empreinte carbone
