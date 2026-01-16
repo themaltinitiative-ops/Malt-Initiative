@@ -471,14 +471,7 @@ function toggleAccordion(header) {
     }
 }
 
-function getCSVValue(line, key) {
-    return (
-        line[key] ??
-        line[key + ":"] ??
-        line[key.replace(":", "")] ??
-        ""
-    );
-}    
+
 // Nettoyage des nombres (virgules françaises, chaînes vides, etc.)
 function cleanNumber(val){
     if(val === undefined || val === null) return 0;
