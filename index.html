@@ -544,11 +544,6 @@ function masquerChampsVides() {
     });
 }
 
-// Fonction sécurisée pour mettre à jour un span
-function setTextSafe(id, value) {
-    const el = document.getElementById(id);
-    if(el) el.textContent = value || '—';
-}
 
 // Mettre à jour l’empreinte carbone
 function updateCarbon(line) {
@@ -760,8 +755,10 @@ async function loadLot() {
         const lotData = parseCSV(csvText);
 
 
-        const line = lotData.find(d => (d["ID de la réponse"] || '').trim() === idRecherche.trim());
-        if(!line) throw new Error("ID non trouvé dans le CSV");
+        const idKey = normalizeKey("ID de la réponse");
+        const line = lotData.find(d =>
+            (d[idKey] || '').replace(/\s/g,'').toLowerCase() === idRecherche.replace(/\s/g,'').toLowerCase()
+        );
 
         updatePageWithLine(line);
 
